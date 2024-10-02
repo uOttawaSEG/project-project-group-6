@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Event Attendance Management System</string>
+    <string name="email_field_hint">Enter Email</string>
+    <string name="password_field_hint">Enter Password</string>
+    <string name="login_button">Login</string>
+
+</resources>
