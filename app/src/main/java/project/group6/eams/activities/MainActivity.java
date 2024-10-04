@@ -23,6 +23,7 @@ import project.group6.eams.utils.*;
 public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
+    private Button signUpButton;
     private EditText editTextTextEmailAddress;
     private EditText editTextTextPassword;
     private String inputEmailAddress;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         editTextTextPassword = findViewById(R.id.editTextTextPassword);
+        signUpButton = findViewById(R.id.signUpButton);
 
         //Assigning UI elements to listeners
         editTextTextEmailAddress.addTextChangedListener(textWatcher);
@@ -58,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Invalid Login", Toast.LENGTH_LONG).show();
                 }
 
+            }
+        });
+        signUpButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this,SignUpPage.class);
+                startActivity(intent);
             }
         });
 
