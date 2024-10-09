@@ -40,13 +40,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //Binding UI Elements
+        initViews();
+        setEventListeners();
+    }
+
+    //Binding UI Elements
+    private void initViews() {
         loginButton = findViewById(R.id.loginButton);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         editTextTextPassword = findViewById(R.id.editTextTextPassword);
         signUpButton = findViewById(R.id.signUpButton);
+    }
 
-        //Assigning UI elements to listeners
+    //Assigning UI elements to listeners
+    private void setEventListeners() {
         editTextTextEmailAddress.addTextChangedListener(textWatcher);
         editTextTextPassword.addTextChangedListener(textWatcher);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     //Waiting for editText fields to change and updating variables
