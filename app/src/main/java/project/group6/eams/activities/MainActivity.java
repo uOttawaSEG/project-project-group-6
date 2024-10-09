@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import project.group6.eams.R;
 import project.group6.eams.utils.*;
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextTextPassword;
     private String inputEmailAddress;
     private String inputPassword;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
         initViews();
         setEventListeners();
