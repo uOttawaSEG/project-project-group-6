@@ -21,7 +21,7 @@ public class InputUtils {
      * @param password string to check
      * @return true if password is valid, false otherwise
      */
-    public static String isValidPassword(String password){
+    public static String passwordChecker(String password){
         if (!TextUtils.isEmpty(password)){
             int numOfCapitals = 0;
             int numOfLowerCase = 0;
@@ -59,7 +59,7 @@ public class InputUtils {
                 message = message + "\nAt least 8 characters";
             }
             if(message.equals("Password must contain: ")) {
-                message = "Valid Password";
+                message = "";
             }
             return message;
         }
