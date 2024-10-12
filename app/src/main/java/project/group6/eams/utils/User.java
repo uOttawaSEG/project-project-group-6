@@ -7,13 +7,15 @@ public abstract class User {
     private String email;
     private String phoneNumber;
     private String address;
+    private String password;
 
-    public User(String firstname, String lastname, String email, String phoneNumber, String address){
+    public User(String firstname, String lastname, String email, String phoneNumber, String address, String password){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.password = password;
         this.loginStatus = false;
     }
 

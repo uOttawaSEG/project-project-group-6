@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextTextPassword;
     private String inputEmailAddress;
     private String inputPassword;
-    private String signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
