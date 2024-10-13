@@ -17,9 +17,30 @@ public class InputUtils {
     }
 
     /**
+     * Checks if a string matches an phone number pattern and isn't empty
+     * Pattern code found at:
+     * <a href="https://stackoverflow.com/questions/6358380/phone-number-validation-android">...</a>
+     * @param phoneNumber string to check
+     * @return true if phone number is valid, false otherwise
+     */
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        return (!TextUtils.isEmpty(phoneNumber) && Patterns.PHONE.matcher(phoneNumber).matches());
+    }
+
+    /**
+     * Checks to see if chosen password and reentered password are the same
+     * @param passwordEntry1 initial password
+     * @param passwordEntry2 second entry of password
+     * @return true if the two passwords are the same, false otherwise.
+     */
+    public static boolean verifyPassword(String passwordEntry1, String passwordEntry2) {
+        return passwordEntry2.equals(passwordEntry1);
+    }
+    
+    /**
      * Checks if a string matches the password pattern and isn't empty
      * @param password string to check
-     * @return true if password is valid, false otherwise
+     * @return empty string if password is valid, string with length >0 otherwise
      */
     public static String passwordChecker(String password){
         if (!TextUtils.isEmpty(password)){
