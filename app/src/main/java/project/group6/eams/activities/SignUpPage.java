@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import java.util.Arrays;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.CheckBox;
 
 import project.group6.eams.R;
+import project.group6.eams.utils.*;
 
 public class SignUpPage extends AppCompatActivity {
     private Button backButton;
@@ -30,6 +32,15 @@ public class SignUpPage extends AppCompatActivity {
     private EditText organization;
     private EditText password;
     private EditText password2;
+
+    private String inputFirstName;
+    private String inputLastName;
+    private String inputEmail;
+    private String inputPhoneNumber;
+    private String inputAddress;
+    private String inputOrganization;
+    private String inputPassword;
+    private String inputPasswordAgain;
 
 
     @Override
@@ -46,6 +57,7 @@ public class SignUpPage extends AppCompatActivity {
             return insets;
         });
 
+        //Binding UI Elements
         CheckBox organizerCheckbox = findViewById(R.id.organizerCheckBox);
 
         firstName = findViewById(R.id.enterFirstName);
@@ -60,6 +72,17 @@ public class SignUpPage extends AppCompatActivity {
         backButton =  findViewById(R.id.backButton);
         submitButton = findViewById(R.id.submitButton);
 
+        // assigning textListener for EditTexts
+        firstName.addTextChangedListener(textWatcher);
+        lastName.addTextChangedListener(textWatcher);
+        email.addTextChangedListener(textWatcher);
+        phoneNumber.addTextChangedListener(textWatcher);
+        address.addTextChangedListener(textWatcher);
+        organization.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        password2.addTextChangedListener(textWatcher);
+
+
         organizerCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +95,7 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
 
-
+        // Back button pressed, return to login page.
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // returns to LogIn page
@@ -81,15 +104,47 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
 
+        // Submit button pressed
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText[] editTexts = {firstName,lastName,email,phoneNumber,address,organization, password, password2};
+                clearErrors(editTexts);
 
-                // VALID INPUT CHECKING NEEDS TO BE IMPLEMENTED HERE
-
-                // this is temporary
                 boolean allValidInputs = true;
-                if (allValidInputs) { // as of rn, it takes u back to login regardless of validity
+                if (!InputUtils.isValidName(inputFirstName)) {
+                    allValidInputs = false;
+                    firstName.setError("First Name must be alphabetic characters only.");
+                }
+                if (!InputUtils.isValidName(inputLastName)) {
+                    allValidInputs = false;
+                    lastName.setError("Last Name must be alphabetic characters only.");
+                }
+                if (!InputUtils.isValidEmail(inputEmail)) {
+                    allValidInputs = false;
+                    email.setError("Invalid email format.");
+                }
+                if (!InputUtils.isValidPhoneNumber(inputPhoneNumber)) {
+                    allValidInputs = false;
+                    phoneNumber.setError("Invalid phone number.");
+                }
+                /*if (!InputUtils.isValidAddress(inputAddress)) {
+                    allValidInputs = false;
+                    address.setError("Invalid address.");
+                }
+                remove comment once method is implemented
+                */
+                String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
+                if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with the password
+                    allValidInputs = false;
+                    password.setError(passwordInvalidReason);
+                } else if (!InputUtils.verifyPassword(inputPassword,inputPasswordAgain)){
+                    allValidInputs = false;
+                    password2.setError("Password must match previous input.");
+                }
+
+                // only runs once all inputs are valid
+                if (allValidInputs) {
                     Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(SignUpPage.this,MainActivity.class);
                     startActivity(intent);
@@ -100,21 +155,31 @@ public class SignUpPage extends AppCompatActivity {
 
     }
 
-    //Waiting for editText fields to change and updating variables
+    /**
+     * Resets setError to null so that the previous value does not repeat for next input.
+     *
+     * @param editTexts array of all editTexts that are used for signup info and checked for validity.
+     */
+    private void clearErrors(EditText[] editTexts) {
+        for (EditText editText : editTexts) {
+            editText.setError(null);
+        }
+    }
+    // Waiting for editText fields to change and updating variables
     private final TextWatcher textWatcher = new TextWatcher(){
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String inputFirstName = firstName.getText().toString();
-            String inputLastName = lastName.getText().toString();
-            String inputEmail = email.getText().toString();
-            String inputPhoneNumber = phoneNumber.getText().toString();
-            String inputAddress = address.getText().toString();
-            String inputOrganization =  organization.getText().toString();
-            String inputPassword = password.getText().toString();
-            String inputPasswordAgain = password2.getText().toString();
+            inputFirstName = firstName.getText().toString();
+            inputLastName = lastName.getText().toString();
+            inputEmail = email.getText().toString();
+            inputPhoneNumber = phoneNumber.getText().toString();
+            inputAddress = address.getText().toString();
+            inputOrganization =  organization.getText().toString();
+            inputPassword = password.getText().toString();
+            inputPasswordAgain = password2.getText().toString();
         }
         @Override
         public void afterTextChanged(Editable s) {}

@@ -44,12 +44,12 @@ public class InputUtils {
      * @return true if it is a valid name with alphabetic characters, false otherwise.
      */
     public static boolean isValidName(String name ) {
-        if (name == null) {
+        if (name == null || name.length() == 1) {
             return false;
         }
 
         for (int i = 0; i<name.length(); i++) {
-            if (!Character.isAlphabetic(name.charAt(i))){
+            if (!Character.isLetter(name.charAt(i))){
                 return false;
             }
         }
