@@ -36,7 +36,26 @@ public class InputUtils {
     public static boolean verifyPassword(String passwordEntry1, String passwordEntry2) {
         return passwordEntry2.equals(passwordEntry1);
     }
-    
+
+    /**
+     * Checks to see if name inputs are alphabetic only.
+     *
+     * @param name inputted name
+     * @return true if it is a valid name with alphabetic characters, false otherwise.
+     */
+    public static boolean isValidName(String name ) {
+        if (name == null) {
+            return false;
+        }
+
+        for (int i = 0; i<name.length(); i++) {
+            if (!Character.isAlphabetic(name.charAt(i))){
+                return false;
+            }
+        }
+
+        return true;
+    }
     /**
      * Checks if a string matches the password pattern and isn't empty
      * @param password string to check

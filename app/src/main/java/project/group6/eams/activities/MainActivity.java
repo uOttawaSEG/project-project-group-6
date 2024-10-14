@@ -52,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // needs to be changed to check database for email and respective password
+                // different errors for different cases: a) email not in database and b) email doesn't match password
                 if (InputUtils.isValidEmail(inputEmailAddress)){
                     Intent intent = new Intent(MainActivity.this,AttendeePage.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Invalid Login", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Invalid Login", Toast.LENGTH_LONG).show();
+                    editTextTextEmailAddress.setError("Invalid email");
                 }
 
             }
