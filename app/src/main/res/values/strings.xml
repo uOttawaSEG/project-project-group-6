@@ -15,4 +15,9 @@
 
     <string name="back_button">Back</string>
     <string name="submit_button">Submit</string>
+
+    <string name="welcome_message_attendee">Welcome! You are logged in as an Attendee</string>
+    <string name="welcome_message_administrator">Welcome! You are logged in as an Administrator</string>
+    <string name="welcome_message_organizer">Welcome! You are logged in as an Organizer</string>
+
 </resources>

@@ -5,15 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AttendeePage">
+    tools:context=".activities.AdministratorPage">
 
     <TextView
-        android:id="@+id/welcomeText"
+        android:id="@+id/welcomeText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="79dp"
         android:layout_marginTop="251dp"
-        android:text="@string/welcome_message_attendee"
+        android:text="@string/welcome_message_administrator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
