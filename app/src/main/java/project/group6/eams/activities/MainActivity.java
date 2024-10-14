@@ -13,12 +13,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import android.widget.EditText;
 
 import project.group6.eams.R;
 import project.group6.eams.utils.*;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,13 +38,26 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //Binding UI Elements
+        //Binding UI Elements & Assigning to listeners
+        initViews();
+        initListeners();
+
+    }
+
+    /**
+     * Initializes the views for the Login page
+     */
+    private void initViews(){
         loginButton = findViewById(R.id.loginButton);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         editTextTextPassword = findViewById(R.id.editTextTextPassword);
         signUpButton = findViewById(R.id.signUpButton);
+    }
 
-        //Assigning UI elements to listeners
+    /**
+     * Initializes & defines logic for listeners
+     */
+    private void initListeners(){
         editTextTextEmailAddress.addTextChangedListener(textWatcher);
         editTextTextPassword.addTextChangedListener(textWatcher);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -71,15 +82,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
-    //Waiting for editText fields to change and updating variables
+    /**
+     * Waiting for editText fields to change and updating variables
+     */
     private final TextWatcher textWatcher = new TextWatcher(){
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             inputEmailAddress = editTextTextEmailAddress.getText().toString();

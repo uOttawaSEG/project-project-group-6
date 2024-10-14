@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <TextView
@@ -37,6 +37,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="44dp"
                 android:hint="@string/first_name_field_hint"
+                android:autofillHints="person_name"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.505"
@@ -49,6 +50,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/last_name_field_hint"
+                android:autofillHints="person_name_family"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +62,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/email_field_hint"
+                android:autofillHints="emailAddress"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +74,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/phone_number_field_hint"
+                android:autofillHints="phone_number"
                 android:inputType="phone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +86,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/address_field_hint"
+                android:autofillHints="address_street_address"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +98,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/password_field_hint"
+                android:autofillHints="password"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +111,7 @@
                 android:layout_marginTop="26dp"
                 android:hint="@string/reenter_password_field_hint"
                 android:inputType="textPassword"
+                android:importantForAutofill="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enterPassword" />
@@ -129,6 +136,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/organization_field_hint"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

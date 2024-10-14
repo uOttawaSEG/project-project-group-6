@@ -1,6 +1,5 @@
 package project.group6.eams.activities;
 
-import java.util.Arrays;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -62,13 +61,37 @@ public class SignUpPage extends AppCompatActivity {
             return insets;
         });
 
-        //Binding UI Elements and initializing firebase
-        initViews();
+        //Initializing firebase
         FirebaseApp.initializeApp(this);
         databaseManager = new DatabaseManager<>("users");
 
+        //Binding UI Elements & Assigning to listeners
+        initViews();
+        initListeners();
 
-        // assigning textListener for EditTexts
+    }
+
+    /**
+     * Initializes views for the sign up page
+     */
+    private void initViews(){
+        organizerCheckbox = findViewById(R.id.organizerCheckBox);
+        firstName = findViewById(R.id.enterFirstName);
+        lastName = findViewById(R.id.enterLastName);
+        email = findViewById(R.id.enterEmail);
+        phoneNumber = findViewById(R.id.enterPhoneNumber);
+        address = findViewById(R.id.enterAddress);
+        organization = findViewById(R.id.enterOrganization);
+        password = findViewById(R.id.enterPassword);
+        password2 = findViewById(R.id.reenterPassword);
+        backButton =  findViewById(R.id.backButton);
+        submitButton = findViewById(R.id.submitButton);
+    }
+
+    /**
+     * Initializes & defines logic for listeners
+     */
+    private void initListeners(){
         firstName.addTextChangedListener(textWatcher);
         lastName.addTextChangedListener(textWatcher);
         email.addTextChangedListener(textWatcher);
@@ -78,7 +101,7 @@ public class SignUpPage extends AppCompatActivity {
         password.addTextChangedListener(textWatcher);
         password2.addTextChangedListener(textWatcher);
 
-
+        //Checkbox that toggles Organizer input
         organizerCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +123,7 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
 
-        // Submit button pressed
+        // Submit button pressed, validates all inputs and then adds user to the database
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +148,7 @@ public class SignUpPage extends AppCompatActivity {
                     phoneNumber.setError("Invalid phone number.");
                 }
 
-                if (inputOrganization.length()==0 && organization.getVisibility()==View.VISIBLE) {
+                if (inputOrganization.isEmpty() && organization.getVisibility()==View.VISIBLE) {
                     allValidInputs = false;
                     organization.setError("Must include organization name.");
                 }
@@ -164,24 +187,6 @@ public class SignUpPage extends AppCompatActivity {
             }
 
         });
-
-    }
-
-    /**
-     * Initializes views for the sign up page
-     */
-    private void initViews(){
-        organizerCheckbox = findViewById(R.id.organizerCheckBox);
-        firstName = findViewById(R.id.enterFirstName);
-        lastName = findViewById(R.id.enterLastName);
-        email = findViewById(R.id.enterEmail);
-        phoneNumber = findViewById(R.id.enterPhoneNumber);
-        address = findViewById(R.id.enterAddress);
-        organization = findViewById(R.id.enterOrganization);
-        password = findViewById(R.id.enterPassword);
-        password2 = findViewById(R.id.reenterPassword);
-        backButton =  findViewById(R.id.backButton);
-        submitButton = findViewById(R.id.submitButton);
     }
 
     /**
@@ -194,7 +199,10 @@ public class SignUpPage extends AppCompatActivity {
             editText.setError(null);
         }
     }
-    // Waiting for editText fields to change and updating variables
+
+    /**
+     * Waiting for editText fields to change and updating variables
+     */
     private final TextWatcher textWatcher = new TextWatcher(){
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
