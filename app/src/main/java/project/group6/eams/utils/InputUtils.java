@@ -13,7 +13,7 @@ public class InputUtils {
      * @return true if email is valid, false otherwise
      */
     public static boolean isValidEmail(String email){
-        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        return (email.length()>0 && !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     /**
@@ -44,7 +44,7 @@ public class InputUtils {
      * @return true if it is a valid name with alphabetic characters, false otherwise.
      */
     public static boolean isValidName(String name ) {
-        if (name == null || name.length() == 1) {
+        if (name == null || name.length() <= 1) {
             return false;
         }
 
