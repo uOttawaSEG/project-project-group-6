@@ -18,6 +18,8 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.CheckBox;
 
+import com.google.firebase.FirebaseApp;
+
 import project.group6.eams.R;
 import project.group6.eams.utils.*;
 
@@ -32,6 +34,7 @@ public class SignUpPage extends AppCompatActivity {
     private EditText organization;
     private EditText password;
     private EditText password2;
+    private CheckBox organizerCheckbox;
 
     private String inputFirstName;
     private String inputLastName;
@@ -42,12 +45,14 @@ public class SignUpPage extends AppCompatActivity {
     private String inputPassword;
     private String inputPasswordAgain;
 
+    private DatabaseManager<User> databaseManager;
+    private User toAdd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         // figure out how to hide organization thing till checkbox is clicked
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page);
@@ -57,20 +62,11 @@ public class SignUpPage extends AppCompatActivity {
             return insets;
         });
 
-        //Binding UI Elements
-        CheckBox organizerCheckbox = findViewById(R.id.organizerCheckBox);
+        //Binding UI Elements and initializing firebase
+        initViews();
+        FirebaseApp.initializeApp(this);
+        databaseManager = new DatabaseManager<>("users");
 
-        firstName = findViewById(R.id.enterFirstName);
-        lastName = findViewById(R.id.enterLastName);
-        email = findViewById(R.id.enterEmail);
-        phoneNumber = findViewById(R.id.enterPhoneNumber);
-        address = findViewById(R.id.enterAddress);
-        organization = findViewById(R.id.enterOrganization);
-        password = findViewById(R.id.enterPassword);
-        password2 = findViewById(R.id.reenterPassword);
-
-        backButton =  findViewById(R.id.backButton);
-        submitButton = findViewById(R.id.submitButton);
 
         // assigning textListener for EditTexts
         firstName.addTextChangedListener(textWatcher);
@@ -146,6 +142,17 @@ public class SignUpPage extends AppCompatActivity {
                 // only runs once all inputs are valid
                 if (allValidInputs) {
                     Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
+
+                    // Submit data to database
+                    if (!(inputOrganization == null)){
+                        toAdd = new Organizer(inputFirstName,inputLastName,inputEmail,inputPhoneNumber,inputAddress,inputPassword,inputOrganization);
+                    }
+                    else{
+                        toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
+                    }
+                    String id = DatabaseManager.formatEmailAsId(inputEmail);
+                    databaseManager.sendToReference(id,toAdd);
+
                     Intent intent = new Intent(SignUpPage.this,MainActivity.class);
                     startActivity(intent);
                 }
@@ -153,6 +160,23 @@ public class SignUpPage extends AppCompatActivity {
 
         });
 
+    }
+
+    /**
+     * Initializes views for the sign up page
+     */
+    private void initViews(){
+        organizerCheckbox = findViewById(R.id.organizerCheckBox);
+        firstName = findViewById(R.id.enterFirstName);
+        lastName = findViewById(R.id.enterLastName);
+        email = findViewById(R.id.enterEmail);
+        phoneNumber = findViewById(R.id.enterPhoneNumber);
+        address = findViewById(R.id.enterAddress);
+        organization = findViewById(R.id.enterOrganization);
+        password = findViewById(R.id.enterPassword);
+        password2 = findViewById(R.id.reenterPassword);
+        backButton =  findViewById(R.id.backButton);
+        submitButton = findViewById(R.id.submitButton);
     }
 
     /**
