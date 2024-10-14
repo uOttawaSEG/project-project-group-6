@@ -128,6 +128,11 @@ public class SignUpPage extends AppCompatActivity {
                     allValidInputs = false;
                     phoneNumber.setError("Invalid phone number.");
                 }
+
+                if (inputOrganization.length()==0 && organization.getVisibility()==View.VISIBLE) {
+                    allValidInputs = false;
+                    organization.setError("Must include organization name.");
+                }
                 /*if (!InputUtils.isValidAddress(inputAddress)) {
                     allValidInputs = false;
                     address.setError("Invalid address.");
