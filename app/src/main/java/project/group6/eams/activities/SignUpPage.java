@@ -157,7 +157,7 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 if (!InputUtils.isValidAddress(inputAddress)) {
                     allValidInputs = false;
-                    address.setError("Must be input: StreetNumber and StreetName, City, Province (two capital letters), PostalCode(Canadian)");
+                    address.setError("Must be input: StreetNumber and StreetName, City, Province");
                 }
                 String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
                 if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with the password
