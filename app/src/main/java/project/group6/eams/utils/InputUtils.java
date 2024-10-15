@@ -66,8 +66,23 @@ public class InputUtils {
     public static boolean isValidAddress(String address){
 
         if (!TextUtils.isEmpty(address)){
+            int commas = 0;
+            for(int q = 0; q<address.length(); q++){
+                if (address.charAt(q)==','){
+                    commas++;
+                }
+            }
+            if(commas == 0){
+                return false;
+            }
             String components[] = address.split(",");
+            if (components.length != 4){
+                return false;
+            }
             String street[] = components[0].split(" ");
+            if (street.length != 2){
+                return false;
+            }
             int iterate = 0;
             if(components[3].length() != 8) {
                 return false;
