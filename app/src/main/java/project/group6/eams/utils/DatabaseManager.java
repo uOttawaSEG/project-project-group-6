@@ -20,7 +20,6 @@ public class DatabaseManager<E> {
     public interface DatabaseCallback<E>{
         void onCallback(E value);
     }
-
     //Stored reference to a path in the database
     private final DatabaseReference databaseReference;
 
@@ -87,15 +86,16 @@ public class DatabaseManager<E> {
 
     /**
      * Replaces all "." with "," in an email so that it can be stored as a key in
-     * the database. Will also check if the email is valid before formatting
+     * the database. Removes whitespace and changes to lowercase.
+     * Will also check if the email is valid before formatting
      *
      * @param email must conform to @InputUtils.isValidEmail()
-     * @return email with all "." replaced with "," or null if Invalid email
+     * @return converted email or null if Invalid email
      */
     public static String formatEmailAsId(String email){
         if (!InputUtils.isValidEmail(email)){
             return null;
         }
-        return email.replace(".",",");
+        return email.replace(".",",").replace(" ","").toLowerCase();
     }
 }

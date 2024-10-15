@@ -170,24 +170,33 @@ public class SignUpPage extends AppCompatActivity {
 
                 // only runs once all inputs are valid
                 if (allValidInputs) {
-                    Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
-
-                    // Submit data to database
-                    String type;
-                    if (!(inputOrganization.isEmpty())){
-                        type = "organizers";
-                        toAdd = new Organizer(inputFirstName,inputLastName,inputEmail,inputPhoneNumber,inputAddress,inputPassword,inputOrganization);
-                    }
-                    else{
-                        type = "attendees";
-                        toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
-                    }
                     String id = DatabaseManager.formatEmailAsId(inputEmail);
-                    databaseManager.writeToReference(type+"/"+id,toAdd);
-                    databaseTypeReference.writeToReference(id,type);
+                    databaseTypeReference.readFromReference(id, String.class, value -> {
+                        if (value == null){
+                            Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(SignUpPage.this,MainActivity.class);
-                    startActivity(intent);
+                            // Submit data to database
+                            String type;
+                            if (!(inputOrganization.isEmpty())){
+                                type = "organizers";
+                                toAdd = new Organizer(inputFirstName,inputLastName,inputEmail,inputPhoneNumber,inputAddress,inputPassword,inputOrganization);
+                            }
+                            else{
+                                type = "attendees";
+                                toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
+                            }
+                            databaseManager.writeToReference(type+"/"+id,toAdd);
+                            databaseTypeReference.writeToReference(id,type);
+
+                            Intent intent = new Intent(SignUpPage.this,MainActivity.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            email.setError("Email already in use.");
+                        }
+                    });
+
                 }
             }
 
