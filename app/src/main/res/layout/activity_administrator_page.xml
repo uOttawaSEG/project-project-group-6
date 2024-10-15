@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.AdministratorPage">
 
+    <Button
+        android:id="@+id/logOffButton3"
+        android:layout_width="224dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/welcomeText3"
         android:layout_width="wrap_content"
