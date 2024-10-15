@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.FirebaseApp;
+
 import project.group6.eams.R;
 import project.group6.eams.utils.*;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextTextPassword;
     private String inputEmailAddress;
     private String inputPassword;
+    private DatabaseManager<User> databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        FirebaseApp.initializeApp(this);
+        databaseManager = new DatabaseManager<>("users");
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -65,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // needs to be changed to check database for email and respective password
                 // different errors for different cases: a) email not in database and b) email doesn't match password
+
+                databaseManager.readFromReference(inputEmailAddress, value ->  {
+
+                });
                 if (InputUtils.isValidEmail(inputEmailAddress)){
                     Intent intent = new Intent(MainActivity.this,AttendeePage.class);
                     startActivity(intent);

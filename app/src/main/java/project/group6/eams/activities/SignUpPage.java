@@ -179,7 +179,7 @@ public class SignUpPage extends AppCompatActivity {
                         toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
                     }
                     String id = DatabaseManager.formatEmailAsId(inputEmail);
-                    databaseManager.sendToReference(id,toAdd);
+                    databaseManager.writeToReference(id,toAdd);
 
                     Intent intent = new Intent(SignUpPage.this,MainActivity.class);
                     startActivity(intent);
