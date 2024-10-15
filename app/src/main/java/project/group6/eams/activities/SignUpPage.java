@@ -153,7 +153,7 @@ public class SignUpPage extends AppCompatActivity {
                     phoneNumber.setError("Invalid phone number.");
                 }
 
-                if (!TextUtils.isEmpty(inputOrganization) && organization.getVisibility()==View.VISIBLE) {
+                if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility()==View.VISIBLE) {
                     allValidInputs = false;
                     organization.setError("Must include organization name.");
                 }
