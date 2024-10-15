@@ -36,6 +36,8 @@ public class SignUpPage extends AppCompatActivity {
     private EditText password2;
     private CheckBox organizerCheckbox;
 
+    private boolean checkboxIsChecked;
+
     private String inputFirstName;
     private String inputLastName;
     private String inputEmail;
@@ -108,8 +110,8 @@ public class SignUpPage extends AppCompatActivity {
         organizerCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checked = ( (CheckBox)v).isChecked();
-                if (checked) {
+                checkboxIsChecked = ( (CheckBox)v).isChecked();
+                if (checkboxIsChecked) {
                     organization.setVisibility(EditText.VISIBLE);
                 } else {
                     organization.setVisibility(EditText.GONE);
@@ -174,7 +176,7 @@ public class SignUpPage extends AppCompatActivity {
 
                     // Submit data to database
                     String type;
-                    if (!(inputOrganization.isEmpty())){
+                    if (checkboxIsChecked){
                         type = "organizers";
                         toAdd = new Organizer(inputFirstName,inputLastName,inputEmail,inputPhoneNumber,inputAddress,inputPassword,inputOrganization);
                     }
