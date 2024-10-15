@@ -13,7 +13,7 @@ public class InputUtils {
      * @return true if email is valid, false otherwise
      */
     public static boolean isValidEmail(String email){
-        return (email.length()>0 && !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        return ( !TextUtils.isEmpty(email) && email.length()>0 && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     /**
@@ -34,7 +34,7 @@ public class InputUtils {
      * @return true if the two passwords are the same, false otherwise.
      */
     public static boolean verifyPassword(String passwordEntry1, String passwordEntry2) {
-        return passwordEntry2.equals(passwordEntry1);
+        return (!TextUtils.isEmpty(passwordEntry1) && !TextUtils.isEmpty(passwordEntry2) && passwordEntry2.equals(passwordEntry1));
     }
 
     /**

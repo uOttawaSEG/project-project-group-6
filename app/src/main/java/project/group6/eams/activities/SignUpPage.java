@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -150,16 +151,14 @@ public class SignUpPage extends AppCompatActivity {
                     phoneNumber.setError("Invalid phone number.");
                 }
 
-                if (inputOrganization.isEmpty() && organization.getVisibility()==View.VISIBLE) {
+                if (!TextUtils.isEmpty(inputOrganization) && organization.getVisibility()==View.VISIBLE) {
                     allValidInputs = false;
                     organization.setError("Must include organization name.");
                 }
-                /*if (!InputUtils.isValidAddress(inputAddress)) {
+                if (!InputUtils.isValidAddress(inputAddress)) {
                     allValidInputs = false;
-                    address.setError("Invalid address.");
+                    address.setError("Must be input: StreetNumber and StreetName, City, Province (two capital letters), PostalCode(Canadian)");
                 }
-                remove comment once method is implemented
-                */
                 String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
                 if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with the password
                     allValidInputs = false;
