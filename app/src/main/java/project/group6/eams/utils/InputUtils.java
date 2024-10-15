@@ -59,7 +59,7 @@ public class InputUtils {
 
     /**
      * Checks if a string matches the address pattern and isn't empty
-     * @param address must be input: StreetNumber and StreetName, City, Province (two capital letters), PostalCode(Canadian)
+     * @param address must be input: StreetNumber and StreetName, City, Province
      * @param address string to check
      * @return true if address is valid, false otherwise
      */
@@ -76,15 +76,11 @@ public class InputUtils {
                 return false;
             }
             String components[] = address.split(",");
-            if (components.length != 4){
+            if (components.length != 3){
                 return false;
             }
             String street[] = components[0].split(" ");
-            if (street.length != 2){
-                return false;
-            }
-            int iterate = 0;
-            if(components[3].length() != 8) {
+            if (street.length != 3){
                 return false;
             }
 
@@ -107,30 +103,9 @@ public class InputUtils {
                 }
             }
             for (int l = 0; l<components[2].length(); l++){
-                if(!Character.isLetter(components[2].charAt(l)) && !Character.isUpperCase(components[2].charAt(l)) && components[2].charAt(l)!= ' '){
+                if(!Character.isLetter(components[2].charAt(l))&& components[2].charAt(l)!= ' '){
                     return false;
                 }
-            }
-            if(components[3].charAt(0)==' ') {
-                iterate = 1;
-            }
-            if(!Character.isUpperCase(components[3].charAt(iterate))){
-                return false;
-            }
-            if(!Character.isDigit(components[3].charAt(iterate+1))){
-                return false;
-            }
-            if(!Character.isUpperCase(components[3].charAt(iterate+2))){
-                return false;
-            }
-            if(!Character.isDigit(components[3].charAt(iterate+4))){
-                return false;
-            }
-            if(!Character.isUpperCase(components[3].charAt(iterate+5))){
-                return false;
-            }
-            if(!Character.isDigit(components[3].charAt(iterate+6))){
-                return false;
             }
             return true;
         }
