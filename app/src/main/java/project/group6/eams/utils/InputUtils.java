@@ -56,6 +56,72 @@ public class InputUtils {
 
         return true;
     }
+
+    /**
+     * Checks if a string matches the address pattern and isn't empty
+     * @param address must be input: StreetNumber and StreetName, City, Province (two capital letters), PostalCode(Canadian)
+     * @param address string to check
+     * @return true if address is valid, false otherwise
+     */
+    public static boolean isValidAddress(String address){
+
+        if (!TextUtils.isEmpty(address)){
+            String components[] = address.split(",");
+            String street[] = components[0].split(" ");
+            int iterate = 0;
+            if(components[3].length() != 8) {
+                return false;
+            }
+
+
+            for(int n =1; n<street.length; n++){
+                for (int i = 0; i<street[0].length(); i++){
+                    if(!Character.isDigit(street[0].charAt(i))){
+                        return false;
+                    }
+                }
+                for (int j = 0; j< street[n].length(); j++){
+                    if(!Character.isLetterOrDigit(street[n].charAt(j))){
+                        return false;
+                    }
+                }
+            }
+            for (int k = 0; k<components[1].length(); k++){
+                if(!Character.isLetter(components[1].charAt(k))&& components[1].charAt(k)!= ' '){
+                    return false;
+                }
+            }
+            for (int l = 0; l<components[2].length(); l++){
+                if(!Character.isLetter(components[2].charAt(l)) && !Character.isUpperCase(components[2].charAt(l)) && components[2].charAt(l)!= ' '){
+                    return false;
+                }
+            }
+            if(components[3].charAt(0)==' ') {
+                iterate = 1;
+            }
+            if(!Character.isUpperCase(components[3].charAt(iterate))){
+                return false;
+            }
+            if(!Character.isDigit(components[3].charAt(iterate+1))){
+                return false;
+            }
+            if(!Character.isUpperCase(components[3].charAt(iterate+2))){
+                return false;
+            }
+            if(!Character.isDigit(components[3].charAt(iterate+4))){
+                return false;
+            }
+            if(!Character.isUpperCase(components[3].charAt(iterate+5))){
+                return false;
+            }
+            if(!Character.isDigit(components[3].charAt(iterate+6))){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Checks if a string matches the password pattern and isn't empty
      * @param password string to check
