@@ -5,6 +5,9 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+
+import java.util.Map;
 
 /**
  * Generic class for handling calls to the Firebase Database
@@ -57,14 +60,23 @@ public class DatabaseManager<E> {
      * - <a href="https://firebase.google.com/docs/database/android/read-and-write">...</a>
      *
      * @param id key to look for in database
+     * @param type class type expected from the reference
      * @param callback used to handle the value once retrieved
      */
-    public void readFromReference(String id, DatabaseCallback<E> callback){
+    public void readFromReference(String id, Class<E> type, DatabaseCallback<E> callback){
         databaseReference.child(id).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DataSnapshot data = task.getResult();
                 if (data.exists()){
-                    callback.onCallback((E) data.getValue());
+                    Log.d("Database","Retrieved data: " + data.getValue());
+                    E object = data.getValue(type);
+                    if (object != null){
+                        callback.onCallback(object);
+                    }
+                    else{
+                        Log.e("Database", "Failed to convert data to object");
+                        callback.onCallback(null);
+                    }
                 }
                 else{
                     Log.e("Database","No such id exists");
@@ -91,4 +103,3 @@ public class DatabaseManager<E> {
         return email.replace(".",",");
     }
 }
-

@@ -11,11 +11,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.FirebaseApp;
+
+import java.util.Map;
+import java.util.Objects;
 
 import project.group6.eams.R;
 import project.group6.eams.utils.*;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextTextPassword;
     private String inputEmailAddress;
     private String inputPassword;
-    private DatabaseManager<User> databaseManager;
+    private DatabaseManager<String> databaseTypeCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FirebaseApp.initializeApp(this);
-        databaseManager = new DatabaseManager<>("users");
+        databaseTypeCheck = new DatabaseManager<>("users");
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -71,18 +75,55 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // needs to be changed to check database for email and respective password
                 // different errors for different cases: a) email not in database and b) email doesn't match password
+                String id = DatabaseManager.formatEmailAsId(inputEmailAddress);
+                databaseTypeCheck.readFromReference(id, String.class, userType ->  {
+                    if (userType == null){
+                        Log.e("Database", "Email not in the database");
 
-                databaseManager.readFromReference(inputEmailAddress, value ->  {
+                    } else {
+                        String subfolder = "users/"+userType;
+                        switch (userType){
+                            case "attendees":
+                                new DatabaseManager<Attendee>(subfolder).readFromReference(id, Attendee.class, value -> {
+                                    if (Objects.equals(value.getPassword(), inputPassword)){
+                                        Intent intent = new Intent(MainActivity.this, AttendeePage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Log.e("Input", "Email doesn't match password");
+                                    }
+                                });
+                                break;
+                            case "organizers":
+                                new DatabaseManager<Organizer>(subfolder).readFromReference(id, Organizer.class, value -> {
+                                    if (Objects.equals(value.getPassword(), inputPassword)){
+                                        Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Log.e("Input", "Email doesn't match password");
+                                    }
+                                });
+                                break;
+                            case "administrators":
+                                new DatabaseManager<Administrator>(subfolder).readFromReference(id, Administrator.class, value -> {
+                                    if (Objects.equals(value.getPassword(), inputPassword)){
+                                        Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Log.e("Input", "Email doesn't match password");
+                                    }
+                                });
+                                break;
+                            default:
+                                Log.e("Database","User type not recognized");
+                                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                                startActivity(intent);
+                        }
+                    }
 
                 });
-                if (InputUtils.isValidEmail(inputEmailAddress)){
-                    Intent intent = new Intent(MainActivity.this,AttendeePage.class);
-                    startActivity(intent);
-                } else {
-                    //Toast.makeText(getApplicationContext(), "Invalid Login", Toast.LENGTH_LONG).show();
-                    editTextTextEmailAddress.setError("Invalid email");
-                }
-
             }
         });
         signUpButton.setOnClickListener(new View.OnClickListener(){

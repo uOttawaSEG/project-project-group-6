@@ -45,6 +45,7 @@ public class SignUpPage extends AppCompatActivity {
     private String inputPasswordAgain;
 
     private DatabaseManager<User> databaseManager;
+    private DatabaseManager<String> databaseTypeReference;
     private User toAdd;
 
 
@@ -64,6 +65,7 @@ public class SignUpPage extends AppCompatActivity {
         //Initializing firebase
         FirebaseApp.initializeApp(this);
         databaseManager = new DatabaseManager<>("users");
+        databaseTypeReference = new DatabaseManager<>("users");
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -172,14 +174,18 @@ public class SignUpPage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
 
                     // Submit data to database
-                    if (!(inputOrganization == null)){
+                    String type;
+                    if (!(inputOrganization.isEmpty())){
+                        type = "organizers";
                         toAdd = new Organizer(inputFirstName,inputLastName,inputEmail,inputPhoneNumber,inputAddress,inputPassword,inputOrganization);
                     }
                     else{
+                        type = "attendees";
                         toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
                     }
                     String id = DatabaseManager.formatEmailAsId(inputEmail);
-                    databaseManager.writeToReference(id,toAdd);
+                    databaseManager.writeToReference(type+"/"+id,toAdd);
+                    databaseTypeReference.writeToReference(id,type);
 
                     Intent intent = new Intent(SignUpPage.this,MainActivity.class);
                     startActivity(intent);
