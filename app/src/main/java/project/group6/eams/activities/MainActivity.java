@@ -18,7 +18,6 @@ import android.widget.EditText;
 
 import com.google.firebase.FirebaseApp;
 
-import java.util.Map;
 import java.util.Objects;
 
 import project.group6.eams.R;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FirebaseApp.initializeApp(this);
-        databaseTypeCheck = new DatabaseManager<>("users");
+        databaseTypeCheck = new DatabaseManager<>("users/main");
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -73,57 +72,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // needs to be changed to check database for email and respective password
-                // different errors for different cases: a) email not in database and b) email doesn't match password
-                String id = DatabaseManager.formatEmailAsId(inputEmailAddress);
-                databaseTypeCheck.readFromReference(id, String.class, userType ->  {
-                    if (userType == null){
-                        Log.e("Database", "Email not in the database");
-
-                    } else {
-                        String subfolder = "users/"+userType;
-                        switch (userType){
-                            case "attendees":
-                                new DatabaseManager<Attendee>(subfolder).readFromReference(id, Attendee.class, value -> {
-                                    if (Objects.equals(value.getPassword(), inputPassword)){
-                                        Intent intent = new Intent(MainActivity.this, AttendeePage.class);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        Log.e("Input", "Email doesn't match password");
-                                    }
-                                });
-                                break;
-                            case "organizers":
-                                new DatabaseManager<Organizer>(subfolder).readFromReference(id, Organizer.class, value -> {
-                                    if (Objects.equals(value.getPassword(), inputPassword)){
-                                        Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        Log.e("Input", "Email doesn't match password");
-                                    }
-                                });
-                                break;
-                            case "administrators":
-                                new DatabaseManager<Administrator>(subfolder).readFromReference(id, Administrator.class, value -> {
-                                    if (Objects.equals(value.getPassword(), inputPassword)){
-                                        Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        Log.e("Input", "Email doesn't match password");
-                                    }
-                                });
-                                break;
-                            default:
-                                Log.e("Database","User type not recognized");
-                                Intent intent = new Intent(MainActivity.this,MainActivity.class);
-                                startActivity(intent);
-                        }
-                    }
-
-                });
+                handleLogin();
             }
         });
         signUpButton.setOnClickListener(new View.OnClickListener(){
@@ -131,6 +80,63 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(MainActivity.this,SignUpPage.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Determines what type of user the email address belongs to, then finds the user data associated with the email address
+     * and compares input password to email's password, if the two match, switches to the appropriate welcome page.
+     */
+    private void handleLogin(){
+        String id = DatabaseManager.formatEmailAsId(inputEmailAddress);
+        if (id == null){
+            Log.e("Input","Invalid Email");
+            return;
+        }
+        databaseTypeCheck.readFromReference(id, String.class, userType ->  { //Checks what type is associated with the email in the database
+            if (userType == null){
+                Log.e("Database", "Email not in the database");
+
+            } else {
+                String subfolder = "users/"+userType;
+                switch (userType){ //Depending on the associated type, finds the object in that type's subfolder. Can then cast to the proper type.
+                    case "attendees":
+                        new DatabaseManager<Attendee>(subfolder).readFromReference(id, Attendee.class, value -> {
+                            if (Objects.equals(value.getPassword(), inputPassword)){ //Checking that passwords match
+                                Intent intent = new Intent(MainActivity.this, AttendeePage.class);
+                                startActivity(intent); //Switching to the type's activity
+                            }
+                            else{
+                                Log.e("Input", "Email doesn't match password");
+                            }
+                        });
+                        break;
+                    case "organizers":
+                        new DatabaseManager<Organizer>(subfolder).readFromReference(id, Organizer.class, value -> {
+                            if (Objects.equals(value.getPassword(), inputPassword)){
+                                Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Log.e("Input", "Email doesn't match password");
+                            }
+                        });
+                        break;
+                    case "administrators":
+                        new DatabaseManager<Administrator>(subfolder).readFromReference(id, Administrator.class, value -> {
+                            if (Objects.equals(value.getPassword(), inputPassword)){
+                                Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Log.e("Input", "Email doesn't match password");
+                            }
+                        });
+                        break;
+                    default:
+                        Log.e("Database","User type not recognized");
+                }
             }
         });
     }

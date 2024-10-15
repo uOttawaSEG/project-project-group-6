@@ -65,7 +65,7 @@ public class SignUpPage extends AppCompatActivity {
         //Initializing firebase
         FirebaseApp.initializeApp(this);
         databaseManager = new DatabaseManager<>("users");
-        databaseTypeReference = new DatabaseManager<>("users");
+        databaseTypeReference = new DatabaseManager<>("users/main");
 
         //Binding UI Elements & Assigning to listeners
         initViews();

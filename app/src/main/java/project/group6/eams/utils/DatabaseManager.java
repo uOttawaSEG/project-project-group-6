@@ -5,9 +5,6 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-
-import java.util.Map;
 
 /**
  * Generic class for handling calls to the Firebase Database
@@ -60,7 +57,7 @@ public class DatabaseManager<E> {
      * - <a href="https://firebase.google.com/docs/database/android/read-and-write">...</a>
      *
      * @param id key to look for in database
-     * @param type class type expected from the reference
+     * @param type class type expected from the value associated with key
      * @param callback used to handle the value once retrieved
      */
     public void readFromReference(String id, Class<E> type, DatabaseCallback<E> callback){
@@ -93,12 +90,11 @@ public class DatabaseManager<E> {
      * the database. Will also check if the email is valid before formatting
      *
      * @param email must conform to @InputUtils.isValidEmail()
-     * @return email with all "." replaced with ","
-     * @throws IllegalArgumentException if email does not conform to @InputUtils.isValidEmail()
+     * @return email with all "." replaced with "," or null if Invalid email
      */
-    public static String formatEmailAsId(String email) throws IllegalArgumentException{
+    public static String formatEmailAsId(String email){
         if (!InputUtils.isValidEmail(email)){
-            throw new IllegalArgumentException("Cannot format as not valid email");
+            return null;
         }
         return email.replace(".",",");
     }
