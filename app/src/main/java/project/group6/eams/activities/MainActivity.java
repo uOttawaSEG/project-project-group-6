@@ -90,12 +90,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private void handleLogin(){
         String id = DatabaseManager.formatEmailAsId(inputEmailAddress);
+        editTextTextEmailAddress.setError(null);
+        editTextTextPassword.setError(null);
+
         if (id == null){
+            editTextTextEmailAddress.setError("Invalid Email.");
             Log.e("Input","Invalid Email");
             return;
         }
         databaseTypeCheck.readFromReference(id, String.class, userType ->  { //Checks what type is associated with the email in the database
             if (userType == null){
+                editTextTextEmailAddress.setError("Email not in the database");
                 Log.e("Database", "Email not in the database");
 
             } else {
@@ -108,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent); //Switching to the type's activity
                             }
                             else{
+                                editTextTextPassword.setError("Password doesn't match email.");
                                 Log.e("Input", "Email doesn't match password");
                             }
                         });
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else{
+                                editTextTextPassword.setError("Password doesn't match email.");
                                 Log.e("Input", "Email doesn't match password");
                             }
                         });
@@ -130,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else{
+                                editTextTextPassword.setError("Password doesn't match email.");
                                 Log.e("Input", "Email doesn't match password");
                             }
                         });

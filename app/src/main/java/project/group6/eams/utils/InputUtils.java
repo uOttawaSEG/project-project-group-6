@@ -24,7 +24,7 @@ public class InputUtils {
      * @return true if phone number is valid, false otherwise
      */
     public static boolean isValidPhoneNumber(String phoneNumber) {
-        return (!TextUtils.isEmpty(phoneNumber) && Patterns.PHONE.matcher(phoneNumber).matches());
+        return (!TextUtils.isEmpty(phoneNumber) && phoneNumber.length()>=7 && Patterns.PHONE.matcher(phoneNumber).matches());
     }
 
     /**
