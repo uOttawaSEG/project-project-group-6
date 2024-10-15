@@ -49,5 +49,8 @@ proguard-rules.pro
 ndkBuild/
 local.properties
 
+# UML File
+ProjectUML.pdf
+
 #Firebase
 #google-services.json (Apparently prof wants it included to run properly, its prolly fineee)
