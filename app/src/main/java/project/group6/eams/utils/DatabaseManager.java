@@ -23,6 +23,8 @@ public class DatabaseManager<E> {
     //Stored reference to a path in the database
     private final DatabaseReference databaseReference;
 
+    public static final String INVALID_ID_CHARS = "[\\.\\$#\\[\\]/]";
+
     /**
      * Initializes the reference path
      * @param reference reference path
@@ -36,11 +38,14 @@ public class DatabaseManager<E> {
      * of the reference path
      * @param id key
      * @param data value assigned to key
-     * @throws IllegalArgumentException when either id or data is null
+     * @throws IllegalArgumentException when either id or data is null or when the given ID is not a valid Database Key
      */
     public void writeToReference (String id, E data) throws IllegalArgumentException {
         if (id == null || data == null){
             throw new IllegalArgumentException("Data or ID given is null");
+        }
+        if (id.matches(INVALID_ID_CHARS)){
+            throw new IllegalArgumentException("Invalid ID: " + id);
         }
         this.databaseReference.child(id).setValue(data)
             .addOnSuccessListener(s -> Log.i("Database","Write to Database success"))
@@ -58,8 +63,15 @@ public class DatabaseManager<E> {
      * @param id key to look for in database
      * @param type class type expected from the value associated with key
      * @param callback used to handle the value once retrieved
+     * @throws IllegalArgumentException when either id or data is null or when the given ID is not a valid Database Key
      */
-    public void readFromReference(String id, Class<E> type, DatabaseCallback<E> callback){
+    public void readFromReference(String id, Class<E> type, DatabaseCallback<E> callback) throws IllegalArgumentException{
+        if (id == null || type == null || callback == null){
+            throw new IllegalArgumentException("Data or ID given is null");
+        }
+        if (id.matches(INVALID_ID_CHARS)){
+            throw new IllegalArgumentException("Invalid ID: " + id);
+        }
         databaseReference.child(id).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DataSnapshot data = task.getResult();
@@ -85,7 +97,7 @@ public class DatabaseManager<E> {
     }
 
     /**
-     * Replaces all "." with "," in an email so that it can be stored as a key in
+     * Replaces all invalid characters with "," in an email so that it can be stored as a key in
      * the database. Removes whitespace and changes to lowercase.
      * Will also check if the email is valid before formatting
      *
@@ -96,6 +108,6 @@ public class DatabaseManager<E> {
         if (!InputUtils.isValidEmail(email)){
             return null;
         }
-        return email.replace(".",",").replace(" ","").toLowerCase();
+        return email.replaceAll(INVALID_ID_CHARS,",");
     }
 }
