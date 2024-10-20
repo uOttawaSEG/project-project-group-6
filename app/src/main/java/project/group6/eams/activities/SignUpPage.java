@@ -47,8 +47,6 @@ public class SignUpPage extends AppCompatActivity {
     private String inputPassword;
     private String inputPasswordAgain;
 
-    private DatabaseManager<User> databaseManager;
-    private DatabaseManager<String> databaseTypeReference;
     private User toAdd;
 
 
@@ -67,8 +65,6 @@ public class SignUpPage extends AppCompatActivity {
 
         //Initializing firebase
         FirebaseApp.initializeApp(this);
-        databaseManager = new DatabaseManager<>("users");
-        databaseTypeReference = new DatabaseManager<>("users/main");
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -173,7 +169,8 @@ public class SignUpPage extends AppCompatActivity {
                 // only runs once all inputs are valid
                 if (allValidInputs) {
                     String id = DatabaseManager.formatEmailAsId(inputEmail);
-                    databaseTypeReference.readFromReference(id, String.class, value -> {
+                    DatabaseManager <String> databaseMasterList = new DatabaseManager<>("MasterList");
+                    databaseMasterList.readFromReference(id, String.class, value -> {
                         if (value == null){
                             Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
 
@@ -187,14 +184,21 @@ public class SignUpPage extends AppCompatActivity {
                                 type = "attendees";
                                 toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
                             }
-                            databaseManager.writeToReference(type+"/"+id,toAdd);
-                            databaseTypeReference.writeToReference(id,type);
+                            new DatabaseManager<User>("Requests").writeToReference(type+"/"+id,toAdd);
+                            new DatabaseManager<String>("RequestsList").writeToReference(id,type);
+                            databaseMasterList.writeToReference(id,"requested");
 
                             Intent intent = new Intent(SignUpPage.this,MainActivity.class);
                             startActivity(intent);
                         }
-                        else{
+                        else if(value.equals("user")){
                             email.setError("Email already in use.");
+                        }
+                        else if(value.equals("requested")){
+                            email.setError("Email is currently waiting to be processed by the Admin");
+                        }
+                        else if(value.equals("rejected")){
+                            email.setError("Email has been rejected by Admin");
                         }
                     });
 
