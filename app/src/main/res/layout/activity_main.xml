@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/back2"
+    style="@style/Theme.App.Base"
     tools:context=".activities.MainActivity">
 
     <TextView
@@ -29,10 +31,11 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="124dp"
         android:layout_marginEnd="101dp"
+        android:autofillHints="emailAddress"
         android:ems="10"
         android:hint="@string/email_field_hint"
-        android:autofillHints="emailAddress"
         android:inputType="textEmailAddress"
+        style="@style/EditText.Style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +49,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/password_field_hint"
+        style="@style/EditText.Style"
         android:autofillHints="password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
         android:layout_marginTop="12dp"
+        android:backgroundTint="@color/colour1"
         android:text="@string/login_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
@@ -65,6 +70,7 @@
         android:id="@+id/signUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colour1"
         android:layout_marginStart="160dp"
         android:layout_marginTop="12dp"
         android:text="@string/sign_up_text"

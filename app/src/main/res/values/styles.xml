@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/colour1</item>
+        <item name="colorControlActivated">@color/colour2</item>
+        <item name="colorControlHighlight">@color/colour2</item>
+    </style>
+    <style name="EditText.Style" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/edittextborder</item>
+    </style>
+</resources>
