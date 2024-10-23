@@ -42,7 +42,7 @@
 
             <EditText
                 android:id="@+id/enterFirstName"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="26dp"
                 android:autofillHints="person_name"
@@ -56,7 +56,7 @@
 
             <EditText
                 android:id="@+id/enterLastName"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="person_name_family"
@@ -69,7 +69,7 @@
 
             <EditText
                 android:id="@+id/enterEmail"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="emailAddress"
@@ -82,7 +82,7 @@
 
             <EditText
                 android:id="@+id/enterPhoneNumber"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="phone_number"
@@ -95,7 +95,7 @@
 
             <EditText
                 android:id="@+id/enterAddress"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="address_street_address"
@@ -108,7 +108,7 @@
 
             <EditText
                 android:id="@+id/enterPassword"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="password"
@@ -121,7 +121,7 @@
 
             <EditText
                 android:id="@+id/reenterPassword"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:hint="@string/reenter_password_field_hint"
@@ -150,7 +150,7 @@
             <EditText
                 android:id="@+id/enterOrganization"
                 style="@style/EditText.Style"
-                android:layout_width="210dp"
+                android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/organization_field_hint"

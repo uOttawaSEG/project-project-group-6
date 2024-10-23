@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">Event Attendance Management System</string>
-    <string name="email_field_hint">Enter Email</string>
-    <string name="password_field_hint">Enter Password</string>
+    <string name="email_field_hint">✉ Enter Email</string>
+    <string name="password_field_hint">🗝 Enter Password</string>
     <string name="login_button">Login</string>
 
     <string name="sign_up_text">Sign Up</string>
-    <string name="first_name_field_hint">Enter First Name</string>
-    <string name="last_name_field_hint">Enter Last Name</string>
-    <string name="phone_number_field_hint">Enter Phone Number</string>
-    <string name="address_field_hint">Enter Address </string>
+    <string name="first_name_field_hint">✎ Enter First Name</string>
+    <string name="last_name_field_hint">✎ Enter Last Name</string>
+    <string name="phone_number_field_hint">✆ Enter Phone Number</string>
+    <string name="address_field_hint">⌂ Enter Address </string>
     <string name="organizer_checkbox">I am an Organizer </string>
-    <string name="organization_field_hint">Enter Organization</string>
-    <string name="reenter_password_field_hint">Re-enter Password</string>
+    <string name="organization_field_hint">✎ Enter Organization</string>
+    <string name="reenter_password_field_hint">🗝 Re-enter Password</string>
 
     <string name="back_button">Back</string>
     <string name="submit_button">Submit</string>
