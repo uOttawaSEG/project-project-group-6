@@ -11,6 +11,7 @@
     <TextView
         android:id="@+id/signUpText"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/amarante_regular"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
@@ -25,6 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:background="@color/back1"
         app:layout_constraintTop_toBottomOf="@+id/signUpText"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +51,7 @@
                 android:inputType="text"
                 app:layout_constraintBottom_toTopOf="@+id/enterLastName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
@@ -133,9 +136,10 @@
                 android:id="@+id/organizerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/organizer_checkbox"
-                android:backgroundTint="@color/colour1"
+                android:fontFamily="@font/capriola_regular"
+                android:buttonTint="@color/colour1"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -145,12 +149,12 @@
 
             <EditText
                 android:id="@+id/enterOrganization"
+                style="@style/EditText.Style"
                 android:layout_width="210dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="5dp"
                 android:hint="@string/organization_field_hint"
                 android:importantForAutofill="no"
-                style="@style/EditText.Style"
                 android:inputType="text"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -158,47 +162,50 @@
                 app:layout_constraintTop_toBottomOf="@+id/organizerCheckBox" />
 
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <LinearLayout
         android:id="@+id/buttonContainer"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <Button
             android:id="@+id/backButton"
+            style="@style/button.Style"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:height="50dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:text="@string/back_button"
-            android:backgroundTint="@color/colour1"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/submitButton"
-            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/submitButton"
+            style="@style/button.Style"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             android:text="@string/submit_button"
-            android:backgroundTint="@color/colour1"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/backButton"
             app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
             app:layout_constraintVertical_bias="0.0" />
