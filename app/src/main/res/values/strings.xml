@@ -8,7 +8,10 @@
     <string name="first_name_field_hint">✎ Enter First Name</string>
     <string name="last_name_field_hint">✎ Enter Last Name</string>
     <string name="phone_number_field_hint">✆ Enter Phone Number</string>
-    <string name="address_field_hint">⌂ Enter Address </string>
+    <string name="street_field_hint">⌂ Enter Building Number and Street Name </string>
+    <string name="postalCode_field_hint">⌂ Enter Postal Code </string>
+    <string name="city_field_hint">⌂ Enter City </string>
+    <string name="province_field_hint">⌂ Enter Province </string>
     <string name="organizer_checkbox">I am an Organizer </string>
     <string name="organization_field_hint">✎ Enter Organization</string>
     <string name="reenter_password_field_hint">🗝 Re-enter Password</string>

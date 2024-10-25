@@ -58,6 +58,73 @@ public class InputUtils {
     }
 
     /**
+     * Concatenates street, city, province, and postalCode for easy storage
+     * @param street, city, province, postalCode
+     * @return String address
+     */
+    public static String addressCreator(String street, String city, String province, String postalCode){
+        return street+", "+city+", "+province+", "+postalCode;
+    }
+
+    /**
+     * Checks if a string matches the street pattern and isn't empty
+     * @param street must be input: StreetNumber and StreetName
+     * @param street string to check
+     * @return true if address is valid, false otherwise
+     */
+    public static boolean isValidStreet(String street){
+        if (!TextUtils.isEmpty(street)){
+            String components[] = street.split(" ");
+            if (components.length!= 3){
+                return false;
+            }
+            for (int j = 0; j<components.length; j++){
+                components[j] = components[j].replaceAll("\\s", "");
+            }
+            for (int i = 0; i<components[0].length(); i++){
+                if(!Character.isDigit(components[0].charAt(i))){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a string matches the postal code pattern and isn't empty
+     * @param postalCode must be input: PostalCode(canadian)
+     * @param postalCode string to check
+     * @return true if address is valid, false otherwise
+     */
+    public static boolean isValidPostalCode(String postalCode){
+        if (!TextUtils.isEmpty(postalCode)){
+            postalCode = postalCode.replaceAll("\\s", "");
+
+            if(postalCode.length() != 6){
+                return false;
+            }
+
+            for(int i = 0; i<postalCode.length(); i++){
+                if(!Character.isUpperCase(postalCode.charAt(i))){
+                    return false;
+                }
+                i++;
+            }
+
+            for(int j = 0; j<postalCode.length(); j++) {
+                if (!Character.isDigit(postalCode.charAt(j + 1))) {
+                    return false;
+                }
+                j++;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if a string matches the address pattern and isn't empty
      * @param address must be input: StreetNumber and StreetName, City, Province
      * @param address string to check

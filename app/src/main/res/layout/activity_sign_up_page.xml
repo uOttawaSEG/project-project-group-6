@@ -94,17 +94,58 @@
                 app:layout_constraintTop_toBottomOf="@+id/enterEmail" />
 
             <EditText
-                android:id="@+id/enterAddress"
+                android:id="@+id/enterStreet"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
                 android:autofillHints="address_street_address"
-                android:hint="@string/address_field_hint"
+                android:hint="@string/street_field_hint"
                 style="@style/EditText.Style"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enterPhoneNumber" />
+
+            <EditText
+                android:id="@+id/enterCity"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="26dp"
+                android:autofillHints="person_name_family"
+                android:hint="@string/city_field_hint"
+                style="@style/EditText.Style"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enterStreet" />
+
+            <EditText
+                android:id="@+id/enterProvince"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="26dp"
+                android:autofillHints="person_name_family"
+                android:hint="@string/province_field_hint"
+                style="@style/EditText.Style"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enterCity" />
+
+
+
+            <EditText
+                android:id="@+id/enterPostalCode"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="26dp"
+                android:autofillHints="address_street_address"
+                android:hint="@string/postalCode_field_hint"
+                style="@style/EditText.Style"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enterProvince" />
 
             <EditText
                 android:id="@+id/enterPassword"
@@ -117,7 +158,7 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/enterPostalCode" />
 
             <EditText
                 android:id="@+id/reenterPassword"

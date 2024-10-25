@@ -38,7 +38,7 @@ public abstract class User {
     public void setLastname(String lastname) {this.lastname = lastname;}
     public void setEmail(String email) {this.email = email;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
-    public void setAddress(String address) {this.address = address;}
+    public void setAddress(String address) {this.address = this.address;}
     public void setPassword(String password) {this.password = password;}
 
     public void login(){

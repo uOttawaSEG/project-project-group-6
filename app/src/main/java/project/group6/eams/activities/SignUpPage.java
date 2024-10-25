@@ -30,7 +30,11 @@ public class SignUpPage extends AppCompatActivity {
     private EditText lastName;
     private EditText email;
     private EditText phoneNumber;
-    private EditText address;
+    private String address;
+    private EditText street;
+    private EditText city;
+    private EditText province;
+    private EditText postalCode;
     private EditText organization;
     private EditText password;
     private EditText password2;
@@ -42,7 +46,10 @@ public class SignUpPage extends AppCompatActivity {
     private String inputLastName;
     private String inputEmail;
     private String inputPhoneNumber;
-    private String inputAddress;
+    private String inputStreet;
+    private String inputCity;
+    private String inputProvince;
+    private String inputPostalCode;
     private String inputOrganization;
     private String inputPassword;
     private String inputPasswordAgain;
@@ -81,7 +88,10 @@ public class SignUpPage extends AppCompatActivity {
         lastName = findViewById(R.id.enterLastName);
         email = findViewById(R.id.enterEmail);
         phoneNumber = findViewById(R.id.enterPhoneNumber);
-        address = findViewById(R.id.enterAddress);
+        street = findViewById(R.id.enterStreet);
+        city = findViewById(R.id.enterCity);
+        province = findViewById(R.id.enterProvince);
+        postalCode = findViewById(R.id.enterPostalCode);
         organization = findViewById(R.id.enterOrganization);
         password = findViewById(R.id.enterPassword);
         password2 = findViewById(R.id.reenterPassword);
@@ -97,7 +107,10 @@ public class SignUpPage extends AppCompatActivity {
         lastName.addTextChangedListener(textWatcher);
         email.addTextChangedListener(textWatcher);
         phoneNumber.addTextChangedListener(textWatcher);
-        address.addTextChangedListener(textWatcher);
+        street.addTextChangedListener(textWatcher);
+        city.addTextChangedListener(textWatcher);
+        province.addTextChangedListener(textWatcher);
+        postalCode.addTextChangedListener(textWatcher);
         organization.addTextChangedListener(textWatcher);
         password.addTextChangedListener(textWatcher);
         password2.addTextChangedListener(textWatcher);
@@ -128,7 +141,7 @@ public class SignUpPage extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText[] editTexts = {firstName,lastName,email,phoneNumber,address,organization, password, password2};
+                EditText[] editTexts = {firstName,lastName,email,phoneNumber,street,city, province, postalCode, organization, password, password2};
                 clearErrors(editTexts);
 
                 boolean allValidInputs = true;
@@ -153,10 +166,23 @@ public class SignUpPage extends AppCompatActivity {
                     allValidInputs = false;
                     organization.setError("Must include organization name.");
                 }
-                if (!InputUtils.isValidAddress(inputAddress)) {
+                if (!InputUtils.isValidStreet(inputStreet)) {
                     allValidInputs = false;
-                    address.setError("Must be input: StreetNumber and StreetName, City, Province");
+                    street.setError("Must be input: Building Number, Street Name, and Street Suffix");
                 }
+                if (!InputUtils.isValidName(inputCity)) {
+                    allValidInputs = false;
+                    city.setError("Invalid City Name");
+                }
+                if (!InputUtils.isValidName(inputProvince)) {
+                    allValidInputs = false;
+                    province.setError("Invalid Province Name");
+                }
+                if (!InputUtils.isValidPostalCode(inputPostalCode)) {
+                    allValidInputs = false;
+                    postalCode.setError("Must be a Canadian postal code.");
+                }
+                address = InputUtils.addressCreator(inputStreet,inputCity,inputProvince,inputPostalCode);
                 String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
                 if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with the password
                     allValidInputs = false;
@@ -178,11 +204,11 @@ public class SignUpPage extends AppCompatActivity {
                             String type;
                             if (checkboxIsChecked) {
                                 type = "organizers";
-                                toAdd = new Organizer(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword, inputOrganization);
+                                toAdd = new Organizer(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, address, inputPassword, inputOrganization);
                             }
                             else{
                                 type = "attendees";
-                                toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, inputAddress, inputPassword);
+                                toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, address, inputPassword);
                             }
                             new DatabaseManager<User>("Requests").writeToReference(type+"/"+id,toAdd);
                             new DatabaseManager<String>("RequestsList").writeToReference(id,type);
@@ -232,7 +258,10 @@ public class SignUpPage extends AppCompatActivity {
             inputLastName = lastName.getText().toString();
             inputEmail = email.getText().toString();
             inputPhoneNumber = phoneNumber.getText().toString();
-            inputAddress = address.getText().toString();
+            inputStreet = street.getText().toString();
+            inputCity = city.getText().toString();
+            inputProvince = province.getText().toString();
+            inputPostalCode = postalCode.getText().toString();
             inputOrganization =  organization.getText().toString();
             inputPassword = password.getText().toString();
             inputPasswordAgain = password2.getText().toString();
