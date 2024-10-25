@@ -4,7 +4,7 @@ public class Attendee extends RegisterableUser{
 
     public Attendee(){
         super();
-        userType = "Attendee";
+        this.userType = "Attendee";
     }
     /**
      * @param email
@@ -16,5 +16,6 @@ public class Attendee extends RegisterableUser{
      */
     public Attendee(String email,String password, String firstname, String lastname, String phoneNumber, String address){
         super(email,password,firstname,lastname,phoneNumber,address);
+        this.userType = "Attendee";
     }
 }

@@ -103,18 +103,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User user) {
                 if (Objects.equals(user.getPassword(), inputPassword)){
-                    if (user.getUserType().equals("Attendee")){
-                        Intent intent = new Intent(MainActivity.this, AttendeePage.class);
-                        startActivity(intent); //Switching to the type's activity
-                    } else if (user.getUserType().equals("Organizer")) {
-                        Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
-                        startActivity(intent);
-                    } else if (user.getUserType().equals("Administrator")) {
-                        Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
-                        startActivity(intent);
-                    } else {
-                        editTextTextPassword.setError("Failed");
-                        Log.e("Database", "Failed");
+                    switch (user.getUserType()) {
+                        case "Attendee": {
+                            Intent intent = new Intent(MainActivity.this, AttendeePage.class);
+                            startActivity(intent); //Switching to the type's activity
+                            break;
+                        }
+                        case "Organizer": {
+                            Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
+                            startActivity(intent);
+                            break;
+                        }
+                        case "Administrator": {
+                            Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
+                            startActivity(intent);
+                            break;
+                        }
+                        default:
+                            editTextTextPassword.setError("Failed");
+                            Log.e("Database", "Failed");
+                            break;
                     }
                 }
                 else{
@@ -131,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (e instanceof ExistingUserException) {
                     editTextTextEmailAddress.setError("Email does not exist");
                 } else {
-                    Toast.makeText(getApplicationContext(), "DATABASE ERROR.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

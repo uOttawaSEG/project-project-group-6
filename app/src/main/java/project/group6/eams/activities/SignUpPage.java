@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.CheckBox;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.Timestamp;
 
 import project.group6.eams.R;
 import project.group6.eams.execptions.ExistingUserException;
@@ -203,6 +204,7 @@ public class SignUpPage extends AppCompatActivity {
                         type = "attendees";
                         toAdd = new Attendee(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address);
                     }
+                    toAdd.setRequestTime(Timestamp.now());
                     RegistrationManager registrationManager = new RegistrationManager("Users");
                     registrationManager.addUser(toAdd, new RegistrationManager.RegistrationCallback() {
                         public void onSuccess(User user){}

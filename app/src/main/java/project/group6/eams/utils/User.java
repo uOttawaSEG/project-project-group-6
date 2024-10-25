@@ -23,8 +23,6 @@ public abstract class User {
     public boolean getLoginStatus() {return loginStatus;}
     public String getEmail() {return email;}
     public String getPassword(){return password;}
-    public abstract boolean getApprovalStatus();
-    public abstract boolean getRejectionStatus();
     public String getUserType() {return userType;}
 
     //Setters

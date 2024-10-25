@@ -5,7 +5,7 @@ public class Organizer extends RegisterableUser{
 
     public Organizer(){
         super();
-        userType = "Organizer";
+        this.userType = "Organizer";
     }
     /**
      * @param email
@@ -19,6 +19,7 @@ public class Organizer extends RegisterableUser{
     public Organizer(String email, String password,String firstname, String lastname, String phoneNumber, String address, String organizationName){
         super(email,password,firstname,lastname,phoneNumber,address);
         this.organizationName = organizationName;
+        this.userType = "Organizer";
     }
 
     public String getOrganizationName() {return organizationName;}

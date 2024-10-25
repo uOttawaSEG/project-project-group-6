@@ -1,6 +1,7 @@
 package project.group6.eams.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
@@ -49,22 +50,23 @@ public class RegistrationManager {
                 else{
                     callback.onSuccess(existingUser);
                 }
-
             } catch (Exception e) {
+                Log.e("Database",e.getMessage());
                 callback.onError(e);
             }
         });
     }
 
-    public static User convertToType(RegisterableUser user){
-        if (user.userType.equals("Attendee")){
-            return ((Attendee)user);
-        } else if (user.userType.equals("Organizer")){
-            return ((Organizer)user);
-        } else if (user.userType.equals("Administrator")){
-            return ((Administrator)user);
-        } else {
-            return null;
+    public static User convertToType(User user){
+        switch (user.userType) {
+            case "Attendee":
+                return ((Attendee) user);
+            case "Organizer":
+                return ((Organizer) user);
+            case "Administrator":
+                return ((Administrator) user);
+            default:
+                return null;
         }
     }
 

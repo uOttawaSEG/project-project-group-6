@@ -1,11 +1,13 @@
 package project.group6.eams.utils;
 
+import com.google.firebase.Timestamp;
+
 public class RegisterableUser extends User{
     private String firstname;
     private String lastname;
     private String phoneNumber;
     private String address;
-    private String requestTime;
+    private Timestamp requestTime;
     private boolean approvalStatus;
     private boolean rejectionStatus;
 
@@ -39,7 +41,7 @@ public class RegisterableUser extends User{
     public String getAddress() {return address;}
     public boolean getApprovalStatus() {return approvalStatus;}
     public boolean getRejectionStatus() {return rejectionStatus;}
-    public String getRequestTime() {return requestTime;}
+    public Timestamp getRequestTime() {return requestTime;}
 
     //Setters
     public void setFirstname(String firstname) {this.firstname = firstname;}
@@ -48,6 +50,6 @@ public class RegisterableUser extends User{
     public void setAddress(String address) {this.address = address;}
     public void setApprovalStatus(boolean approvalStatus){this.approvalStatus = approvalStatus;}
     public void setRejectionStatus(boolean rejectionStatus) {this.rejectionStatus = rejectionStatus;}
-    public void setRequestTime(String requestTime) {this.requestTime = requestTime;}
+    public void setRequestTime(Timestamp requestTime) {this.requestTime = requestTime;}
 }
 
