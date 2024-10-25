@@ -21,6 +21,9 @@ import android.widget.CheckBox;
 import com.google.firebase.FirebaseApp;
 
 import project.group6.eams.R;
+import project.group6.eams.execptions.ExistingUserException;
+import project.group6.eams.execptions.PendingUserException;
+import project.group6.eams.execptions.RejectedUserException;
 import project.group6.eams.utils.*;
 
 public class SignUpPage extends AppCompatActivity {
@@ -54,7 +57,7 @@ public class SignUpPage extends AppCompatActivity {
     private String inputPassword;
     private String inputPasswordAgain;
 
-    private User toAdd;
+    private RegisterableUser toAdd;
 
 
     @Override
@@ -69,9 +72,6 @@ public class SignUpPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        //Initializing firebase
-        FirebaseApp.initializeApp(this);
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -194,46 +194,43 @@ public class SignUpPage extends AppCompatActivity {
 
                 // only runs once all inputs are valid
                 if (allValidInputs) {
-                    String id = DatabaseManager.formatEmailAsId(inputEmail);
-                    DatabaseManager <String> databaseMasterList = new DatabaseManager<>("MasterList");
-                    databaseMasterList.readFromReference(id, String.class, value -> {
-                        if (value == null){
+                    String type;
+                    if (checkboxIsChecked) {
+                        type = "organizers";
+                        toAdd = new Organizer(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address,inputOrganization);
+                    }
+                    else{
+                        type = "attendees";
+                        toAdd = new Attendee(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address);
+                    }
+                    RegistrationManager registrationManager = new RegistrationManager("Users");
+                    registrationManager.addUser(toAdd, new RegistrationManager.RegistrationCallback() {
+                        public void onSuccess(User user){}
+                        @Override
+                        public void onSuccess() {
                             Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
-
-                            // Submit data to database
-                            String type;
-                            if (checkboxIsChecked) {
-                                type = "organizers";
-                                toAdd = new Organizer(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, address, inputPassword, inputOrganization);
-                            }
-                            else{
-                                type = "attendees";
-                                toAdd = new Attendee(inputFirstName, inputLastName, inputEmail, inputPhoneNumber, address, inputPassword);
-                            }
-                            new DatabaseManager<User>("Requests").writeToReference(type+"/"+id,toAdd);
-                            new DatabaseManager<String>("RequestsList").writeToReference(id,type);
-                            databaseMasterList.writeToReference(id,"requested");
-
-                            Intent intent = new Intent(SignUpPage.this,MainActivity.class);
+                            Intent intent = new Intent(SignUpPage.this, MainActivity.class);
                             startActivity(intent);
                         }
-                        else if(value.equals("user")){
-                            email.setError("Email already in use.");
-                        }
-                        else if(value.equals("requested")){
-                            email.setError("Email is currently waiting to be processed by the Admin");
-                        }
-                        else if(value.equals("rejected")){
-                            email.setError("Email has been rejected by Admin");
+                        @Override
+                        public void onError(Exception e) {
+                            if (e instanceof RejectedUserException) {
+                                email.setError("Email has been rejected by Admin");
+                            } else if (e instanceof PendingUserException) {
+                                email.setError("Email is currently waiting to be processed by the Admin");
+                            } else if (e instanceof ExistingUserException) {
+                                email.setError("Email already in use.");
+                            } else {
+                                Toast.makeText(getApplicationContext(), "DATABASE ERROR.", Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
-
                 }
             }
 
         });
-    }
 
+    }
     /**
      * Resets setError to null so that the previous value does not repeat for next input.
      *

@@ -15,12 +15,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.execptions.ExistingUserException;
+import project.group6.eams.execptions.PendingUserException;
+import project.group6.eams.execptions.RejectedUserException;
 import project.group6.eams.utils.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        FirebaseApp.initializeApp(this);
 
         //Binding UI Elements & Assigning to listeners
         initViews();
@@ -87,73 +89,50 @@ public class MainActivity extends AppCompatActivity {
      * and compares input password to email's password, if the two match, switches to the appropriate welcome page.
      */
     private void handleLogin(){
-        String id = DatabaseManager.formatEmailAsId(inputEmailAddress);
         editTextTextEmailAddress.setError(null);
         editTextTextPassword.setError(null);
 
-        if (id == null){
+        if (inputEmailAddress == null){
             editTextTextEmailAddress.setError("Invalid Email.");
             Log.e("Input","Invalid Email");
             return;
         }
-
-        new DatabaseManager<String>("MasterList").readFromReference(id, String.class, userStatus ->  { //Checks Status of Associated Email
-            if (userStatus == null){
-                editTextTextEmailAddress.setError("Email not in the database");
-                Log.e("Database", "Email not in the database");
-
-            }
-            else if (userStatus.equals("requested")){
-                editTextTextEmailAddress.setError("Email is currently waiting to be processed by the Admin");
-                Log.e("Database", "Email is currently waiting to be processed by the Admin");
-            }
-            else if (userStatus.equals("rejected")){
-                editTextTextEmailAddress.setError("Email has been rejected by Admin");
-                Log.e("Database", "Email has been rejected by Admin");
-            }
-            else if (userStatus.equals("user")){
-                new DatabaseManager<String>("UsersList").readFromReference(id,String.class,userType -> {
-                    switch (userType){ //Depending on the associated type, finds the object in that type's subfolder. Can then cast to the proper type.
-                        case "attendees":
-                            new DatabaseManager<Attendee>("Users/attendees").readFromReference(id, Attendee.class, value -> {
-                                if (Objects.equals(value.getPassword(), inputPassword)){ //Checking that passwords match
-                                    Intent intent = new Intent(MainActivity.this, AttendeePage.class);
-                                    startActivity(intent); //Switching to the type's activity
-                                }
-                                else{
-                                    editTextTextPassword.setError("Password doesn't match email.");
-                                    Log.e("Input", "Email doesn't match password");
-                                }
-                            });
-                            break;
-                        case "organizers":
-                            new DatabaseManager<Organizer>("Users/organizers").readFromReference(id, Organizer.class, value -> {
-                                if (Objects.equals(value.getPassword(), inputPassword)){
-                                    Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
-                                    startActivity(intent);
-                                }
-                                else{
-                                    editTextTextPassword.setError("Password doesn't match email.");
-                                    Log.e("Input", "Email doesn't match password");
-                                }
-                            });
-                            break;
-                        case "administrators":
-                            new DatabaseManager<Administrator>("Users/administrators").readFromReference(id, Administrator.class, value -> {
-                                if (Objects.equals(value.getPassword(), inputPassword)){
-                                    Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
-                                    startActivity(intent);
-                                }
-                                else{
-                                    editTextTextPassword.setError("Password doesn't match email.");
-                                    Log.e("Input", "Email doesn't match password");
-                                }
-                            });
-                            break;
-                        default:
-                            Log.e("Database","User type not recognized");
+        RegistrationManager registrationManager = new RegistrationManager("Users");
+        registrationManager.checkForUser(inputEmailAddress, new RegistrationManager.RegistrationCallback() {
+            public void onSuccess(){}
+            @Override
+            public void onSuccess(User user) {
+                if (Objects.equals(user.getPassword(), inputPassword)){
+                    if (user.getUserType().equals("Attendee")){
+                        Intent intent = new Intent(MainActivity.this, AttendeePage.class);
+                        startActivity(intent); //Switching to the type's activity
+                    } else if (user.getUserType().equals("Organizer")) {
+                        Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
+                        startActivity(intent);
+                    } else if (user.getUserType().equals("Administrator")) {
+                        Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
+                        startActivity(intent);
+                    } else {
+                        editTextTextPassword.setError("Failed");
+                        Log.e("Database", "Failed");
                     }
-                });
+                }
+                else{
+                    editTextTextPassword.setError("Password doesn't match email.");
+                    Log.e("Input", "Email doesn't match password");
+                }
+            }
+            @Override
+            public void onError(Exception e) {
+                if (e instanceof RejectedUserException) {
+                    editTextTextEmailAddress.setError("Email has been rejected by Admin");
+                } else if (e instanceof PendingUserException) {
+                    editTextTextEmailAddress.setError("Email is currently waiting to be processed by the Admin");
+                } else if (e instanceof ExistingUserException) {
+                    editTextTextEmailAddress.setError("Email does not exist");
+                } else {
+                    Toast.makeText(getApplicationContext(), "DATABASE ERROR.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
