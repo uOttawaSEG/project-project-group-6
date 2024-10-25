@@ -125,61 +125,6 @@ public class InputUtils {
     }
 
     /**
-     * Checks if a string matches the address pattern and isn't empty
-     * @param address must be input: StreetNumber and StreetName, City, Province
-     * @param address string to check
-     * @return true if address is valid, false otherwise
-     */
-    public static boolean isValidAddress(String address){
-
-        if (!TextUtils.isEmpty(address)){
-            int commas = 0;
-            for(int q = 0; q<address.length(); q++){
-                if (address.charAt(q)==','){
-                    commas++;
-                }
-            }
-            if(commas == 0){
-                return false;
-            }
-            String components[] = address.split(",");
-            if (components.length != 3){
-                return false;
-            }
-            String street[] = components[0].split(" ");
-            if (street.length != 3){
-                return false;
-            }
-
-
-            for(int n =1; n<street.length; n++){
-                for (int i = 0; i<street[0].length(); i++){
-                    if(!Character.isDigit(street[0].charAt(i))){
-                        return false;
-                    }
-                }
-                for (int j = 0; j< street[n].length(); j++){
-                    if(!Character.isLetterOrDigit(street[n].charAt(j))){
-                        return false;
-                    }
-                }
-            }
-            for (int k = 0; k<components[1].length(); k++){
-                if(!Character.isLetter(components[1].charAt(k))&& components[1].charAt(k)!= ' '){
-                    return false;
-                }
-            }
-            for (int l = 0; l<components[2].length(); l++){
-                if(!Character.isLetter(components[2].charAt(l))&& components[2].charAt(l)!= ' '){
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Checks if a string matches the password pattern and isn't empty
      * @param password string to check
      * @return empty string if password is valid, string with length >0 otherwise
