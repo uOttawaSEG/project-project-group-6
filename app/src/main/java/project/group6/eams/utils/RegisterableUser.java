@@ -2,7 +2,7 @@ package project.group6.eams.utils;
 
 import com.google.firebase.Timestamp;
 
-public class RegisterableUser extends User{
+abstract public class RegisterableUser extends User{
     private String firstname;
     private String lastname;
     private String phoneNumber;

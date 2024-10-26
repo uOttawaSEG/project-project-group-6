@@ -3,6 +3,8 @@ package project.group6.eams.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.Objects;
+
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
@@ -51,23 +53,10 @@ public class RegistrationManager {
                     callback.onSuccess(existingUser);
                 }
             } catch (Exception e) {
-                Log.e("Database",e.getMessage());
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
                 callback.onError(e);
             }
         });
-    }
-
-    public static User convertToType(User user){
-        switch (user.userType) {
-            case "Attendee":
-                return ((Attendee) user);
-            case "Organizer":
-                return ((Organizer) user);
-            case "Administrator":
-                return ((Administrator) user);
-            default:
-                return null;
-        }
     }
 
     public interface RegistrationCallback{
