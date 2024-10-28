@@ -11,11 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import project.group6.eams.R;
 
 public class AdministratorPage extends AppCompatActivity {
     private Button logOffButton3;
+    private Button rejected_button;
+    private Button requested_button;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,10 @@ public class AdministratorPage extends AppCompatActivity {
 
     private void initViews() {
         logOffButton3 = findViewById(R.id.logOffButton3);
+        rejected_button = findViewById(R.id.rejected_button);
+        requested_button = findViewById(R.id.requested_button);
+        recyclerView = findViewById(R.id.recycler_view);
+
 
     }
     private void initListeners(){
@@ -45,5 +53,7 @@ public class AdministratorPage extends AppCompatActivity {
 
             }
         });
+
+        recyclerView.
     }
 }

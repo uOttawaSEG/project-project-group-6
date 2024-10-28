@@ -3,6 +3,9 @@ package project.group6.eams.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.firestore.CollectionReference;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.execptions.ExistingUserException;
@@ -59,9 +62,37 @@ public class RegistrationManager {
         });
     }
 
+    public void getAllRequestedUsers(RegistrationCallbackList callback){
+        ArrayList<User> requestedUsers = new ArrayList<>();
+        users.readAllFromReference(RegisterableUser.class, usersList -> {
+            for (RegisterableUser user : usersList){
+                if (!user.getApprovalStatus() && !user.getRejectionStatus()){
+                    requestedUsers.add(user);
+                }
+            }
+            callback.onSuccess(requestedUsers);
+        });
+    }
+
+    public void getAllRejectedUsers(RegistrationCallbackList callback){
+        ArrayList<User> rejectedUsers = new ArrayList<>();
+        users.readAllFromReference(RegisterableUser.class, usersList -> {
+            for (RegisterableUser user : usersList){
+                if (!user.getApprovalStatus() && user.getRejectionStatus()){
+                    rejectedUsers.add(user);
+                }
+            }
+            callback.onSuccess(rejectedUsers);
+        });
+    }
+
+
     public interface RegistrationCallback{
         void onSuccess();
         void onSuccess(User type);
         void onError(Exception e);
+    }
+    public interface RegistrationCallbackList{
+        void onSuccess(ArrayList<User> users);
     }
 }

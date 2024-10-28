@@ -7,6 +7,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 /**
  * Generic class for handling calls to the Firebase Database
  * @param <E>
@@ -20,6 +22,9 @@ public class DatabaseManager<E> {
      */
     public interface DatabaseCallback<E>{
         void onCallback(E value);
+    }
+    public interface DatabaseCallbackList<E>{
+        void onCallback(ArrayList<E> value);
     }
 
     //Stored reference to a path in the database
@@ -89,5 +94,30 @@ public class DatabaseManager<E> {
                 Log.e("Database","Failed to retrieve from reference");
                 throw new RuntimeException("Failed to retrieve from reference");
             }});
+    }
+
+    public void readAllFromReference(Class<E> type, DatabaseCallbackList<E> callback){
+        ArrayList<E> objects = new ArrayList<>();
+        databaseReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot data : task.getResult()) {
+                    if (data.exists()) {
+                        Log.d("Database", "Retrieved data: " + data.getData());
+                        E object = data.toObject(type);
+                        if (object != null) {
+                            objects.add(object);
+                        } else {
+                            Log.e("Database", "Failed to convert data to object");
+                            throw new RuntimeException("Failed to convert data to object");
+                        }
+                    }
+                    callback.onCallback(objects);
+                }
+
+            } else {
+                    Log.e("Database", "Failed to retrieve from reference");
+                    throw new RuntimeException("Failed to retrieve from reference");
+            }
+        });
     }
 }
