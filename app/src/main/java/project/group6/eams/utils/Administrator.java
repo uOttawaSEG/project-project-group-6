@@ -7,4 +7,13 @@ public class Administrator extends User{
         this.userType = "Administrator";
 
     }
+
+    /**
+     * Allows administrator to reject a RegisterableUser (Organizer or Attendee) following their sign up attempt.
+     *
+     * @param user of type RegisterableUser
+     */
+    /**public void rejectRequest (RegisterableUser user ) {
+
+    }**/
 }
