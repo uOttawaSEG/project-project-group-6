@@ -49,8 +49,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.userEmail.setText(user.getEmail());
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
-        holder.userTime.setText(user.getRequestTime().toString());
-
+        holder.userTime.setText(user.getRequestTime().toDate().toString());
+        holder.userOrganization.setText("");
     }
 
     @Override
