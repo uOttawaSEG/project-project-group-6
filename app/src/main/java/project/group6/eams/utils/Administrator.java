@@ -29,11 +29,8 @@ public class Administrator extends User{
             }
 
             @Override
-            public void onSuccess(User type) {
-                Log.d("Users", user.toString() + "rejected");
-            }
-
-
+            public void onSuccess(User type) {}
+            
             @Override
             public void onError(Exception e) {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
