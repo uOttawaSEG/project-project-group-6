@@ -92,6 +92,29 @@ public class RegistrationManager {
         });
     }
 
+    /**
+     * Checks the database for the user's id (email), then updates the approval status or rejection status of that user
+     * to the boolean parameter value.
+     *
+     * @param email is the User's ID
+     * @param accepted boolean value that is true if their signup is approved, false if they have been rejected
+     * @param callback allows for exception handling.
+     */
+    public void changeUserStatus(String email, boolean accepted, RegistrationCallback callback) {
+        users.readFromReference(email.toLowerCase().replaceAll(" ",""),RegisterableUser.class, user -> {
+            try{
+                if (accepted) {
+                    user.setApprovalStatus(true);
+                } else {
+                    user.setRejectionStatus(true);
+                }
+            } catch (Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                callback.onError(e);
+            }
+        });
+    }
+
 
     public interface RegistrationCallback{
         void onSuccess();
