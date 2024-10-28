@@ -16,6 +16,8 @@
     <string name="organization_field_hint">✎ Enter Organization</string>
     <string name="reenter_password_field_hint">🗝 Re-enter Password</string>
 
+    <string name ="rejected_email">Error. Your email was rejected. Please contact the administrator at 647-777-8199 to resolve the issue.</string>
+
     <string name="back_button">Back</string>
     <string name="submit_button">Submit</string>
 

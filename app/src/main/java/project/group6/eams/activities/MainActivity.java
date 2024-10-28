@@ -12,9 +12,13 @@ import androidx.core.view.WindowInsetsCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
@@ -133,18 +137,46 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(Exception e) {
                 if (e instanceof RejectedUserException) {
-                    editTextTextEmailAddress.setError("Email has been rejected by Admin");
+                    showToast(e);
                 } else if (e instanceof PendingUserException) {
-                    editTextTextEmailAddress.setError("Email is currently waiting to be processed by the Admin");
+                    showToast(e);
+                    //editTextTextEmailAddress.setError("Email is currently waiting to be processed by the Admin");
                 } else if (e instanceof ExistingUserException) {
-                    editTextTextEmailAddress.setError("Email does not exist");
+                    showToast(e);
                 } else {
                     Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
 
+    /**
+     * Shows toast that appears for different User related Exceptions
+     *
+     * Resource used to help learn how to make custom toasts:
+     * <a href="https://additionalsheet.com/android-studio-custom-toast>...</a>
+     * 
+     * @param e is the Exception type that determines the message shown.
+     */
+    private void showToast(Exception e) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.customizedToastLayout));
+
+        TextView text = (TextView) layout.findViewById(R.id.customEmailToastText);
+
+        if (e instanceof PendingUserException) {
+            text.setText("Your registration has not been approved yet by the administrator. Please try again another time.");
+        } else if ( e instanceof ExistingUserException) {
+            text.setText("Email does not exist. Please sign up.");
+        }
+        Toast emailToast = new Toast(getApplicationContext());
+        emailToast.setGravity(Gravity.CENTER_VERTICAL, 0, -600);
+        emailToast.setDuration(Toast.LENGTH_LONG);
+        emailToast.setView(layout);
+        emailToast.show();
+
+    }
     /**
      * Waiting for editText fields to change and updating variables
      */
