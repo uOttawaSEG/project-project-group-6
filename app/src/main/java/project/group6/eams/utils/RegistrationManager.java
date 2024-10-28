@@ -65,12 +65,18 @@ public class RegistrationManager {
     public void getAllRequestedUsers(RegistrationCallbackList callback){
         ArrayList<User> requestedUsers = new ArrayList<>();
         users.readAllFromReference(RegisterableUser.class, usersList -> {
-            for (RegisterableUser user : usersList){
-                if (!user.getApprovalStatus() && !user.getRejectionStatus()){
-                    requestedUsers.add(user);
+            try{
+                Log.d("thingy1", usersList.toString());
+                for (RegisterableUser user : usersList){
+                    if (!user.getApprovalStatus() && !user.getRejectionStatus()){
+                        requestedUsers.add(user);
+                    }
                 }
+                callback.onSuccess(requestedUsers);
+            } catch (Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                callback.onError(e);
             }
-            callback.onSuccess(requestedUsers);
         });
     }
 
@@ -94,5 +100,6 @@ public class RegistrationManager {
     }
     public interface RegistrationCallbackList{
         void onSuccess(ArrayList<User> users);
+        void onError(Exception e);
     }
 }

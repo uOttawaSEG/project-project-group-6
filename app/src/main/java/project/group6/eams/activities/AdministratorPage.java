@@ -2,6 +2,7 @@ package project.group6.eams.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -11,9 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 import project.group6.eams.R;
+import project.group6.eams.utils.RegistrationManager;
+import project.group6.eams.utils.User;
+import project.group6.eams.utils.UserAdapter;
 
 public class AdministratorPage extends AppCompatActivity {
     private Button logOffButton3;
@@ -40,6 +48,7 @@ public class AdministratorPage extends AppCompatActivity {
         rejected_button = findViewById(R.id.rejected_button);
         requested_button = findViewById(R.id.requested_button);
         recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
@@ -53,7 +62,23 @@ public class AdministratorPage extends AppCompatActivity {
 
             }
         });
+        RegistrationManager registrationManager = new RegistrationManager("Users");
+        registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
+            @Override
+            public void onSuccess(ArrayList<User> usersList) {
+                Log.d("thingy", usersList.toString());
+                UserAdapter adapter = new UserAdapter(usersList);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onError(Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
 
-        recyclerView.
+
+
+        });
+
     }
 }

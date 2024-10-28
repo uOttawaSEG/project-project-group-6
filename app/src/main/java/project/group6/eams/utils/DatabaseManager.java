@@ -99,24 +99,21 @@ public class DatabaseManager<E> {
     public void readAllFromReference(Class<E> type, DatabaseCallbackList<E> callback){
         ArrayList<E> objects = new ArrayList<>();
         databaseReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful() && task.getResult() != null) {
                 for (DocumentSnapshot data : task.getResult()) {
-                    if (data.exists()) {
-                        Log.d("Database", "Retrieved data: " + data.getData());
-                        E object = data.toObject(type);
-                        if (object != null) {
-                            objects.add(object);
-                        } else {
-                            Log.e("Database", "Failed to convert data to object");
-                            throw new RuntimeException("Failed to convert data to object");
-                        }
+                    Log.d("Database", "Retrieved data: " + data.getData());
+                    E object = data.toObject(type);
+                    if (object != null) {
+                        objects.add(object);
+                    } else {
+                        Log.e("Database", "Failed to convert data to object");
+                        throw new RuntimeException("Failed to convert data to object");
                     }
-                    callback.onCallback(objects);
                 }
-
+                callback.onCallback(objects);
             } else {
-                    Log.e("Database", "Failed to retrieve from reference");
-                    throw new RuntimeException("Failed to retrieve from reference");
+                Log.e("Database", "Failed to retrieve from reference");
+                throw new RuntimeException("Failed to retrieve from reference");
             }
         });
     }
