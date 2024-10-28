@@ -66,7 +66,7 @@ public class RegistrationManager {
         ArrayList<User> requestedUsers = new ArrayList<>();
         users.readAllFromReference(RegisterableUser.class, usersList -> {
             try{
-                Log.d("thingy1", usersList.toString());
+                Log.d("Database", usersList.toString());
                 for (RegisterableUser user : usersList){
                     if (!user.getApprovalStatus() && !user.getRejectionStatus()){
                         requestedUsers.add(user);
@@ -81,14 +81,20 @@ public class RegistrationManager {
     }
 
     public void getAllRejectedUsers(RegistrationCallbackList callback){
-        ArrayList<User> rejectedUsers = new ArrayList<>();
+        ArrayList<User> requestedUsers = new ArrayList<>();
         users.readAllFromReference(RegisterableUser.class, usersList -> {
-            for (RegisterableUser user : usersList){
-                if (!user.getApprovalStatus() && user.getRejectionStatus()){
-                    rejectedUsers.add(user);
+            try{
+                Log.d("Database", usersList.toString());
+                for (RegisterableUser user : usersList){
+                    if (!user.getApprovalStatus() && user.getRejectionStatus()){
+                        requestedUsers.add(user);
+                    }
                 }
+                callback.onSuccess(requestedUsers);
+            } catch (Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                callback.onError(e);
             }
-            callback.onSuccess(rejectedUsers);
         });
     }
 
