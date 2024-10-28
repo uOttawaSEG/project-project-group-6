@@ -20,11 +20,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemTitle;
+        public TextView userEmail;
+        public TextView userName;
+        public TextView userPhone;
+        public TextView userOrganization;
+        public TextView userTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemTitle = itemView.findViewById(R.id.itemTitle);
+            userEmail = itemView.findViewById(R.id.userEmail);
+            userName = itemView.findViewById(R.id.userName);
+            userPhone = itemView.findViewById(R.id.userPhone);
+            userOrganization = itemView.findViewById(R.id.userOrganization);
+            userTime = itemView.findViewById(R.id.userTime);
         }
     }
 
@@ -37,8 +45,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
-        User user = users.get(position);
-        holder.itemTitle.setText(user.getEmail());
+        RegisterableUser user = (RegisterableUser) users.get(position);
+        holder.userEmail.setText(user.getEmail());
+        holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
+        holder.userPhone.setText(user.getPhoneNumber());
+        holder.userTime.setText(user.getRequestTime().toString());
+
     }
 
     @Override

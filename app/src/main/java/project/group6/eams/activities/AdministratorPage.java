@@ -62,6 +62,7 @@ public class AdministratorPage extends AppCompatActivity {
 
             }
         });
+
         RegistrationManager registrationManager = new RegistrationManager("Users");
         registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
             @Override
