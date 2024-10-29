@@ -44,4 +44,27 @@ public class Administrator extends User{
             }
         });
     }
+
+    /**
+     * Allows administrator to approve request from a RegisterableUser
+     *
+     * @param emailID of type String
+     */
+    public void approveRequest(String emailID){
+        registrationManager.changeUserStatus(emailID,true, new RegistrationManager.RegistrationCallback(){
+
+            @Override
+            public void onSuccess() {
+                Log.d("Users", emailID + "accepted");
+            }
+            @Override
+            public void onSuccess(User type) {}
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+        });
+
+    }
 }
