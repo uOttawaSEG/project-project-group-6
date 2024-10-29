@@ -26,12 +26,14 @@ public class RegistrationManager {
     public void addUser(RegisterableUser user, RegistrationCallback callback){
         String userEmail = user.getEmail().toLowerCase().replaceAll(" ","");
             users.readFromReference(userEmail, existingUserDoc -> {
+                if (!existingUserDoc.exists()) {
+                    users.writeToReference(userEmail, user);
+                    callback.onSuccess();
+                }
                 try {
                     User existingUser = userMapper(existingUserDoc);
-                    if (existingUser == null) {
-                        users.writeToReference(userEmail, user);
-                        callback.onSuccess();
-                    } else if (existingUser.userType.equals("Administrator")) {
+
+                    if (existingUser.userType.equals("Administrator")) {
                         callback.onError(new ExistingUserException("User already in database"));
                     } else if (((RegisterableUser)existingUser).getRejectionStatus()) {
                         callback.onError(new RejectedUserException("User has been rejected by Admin"));

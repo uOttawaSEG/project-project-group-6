@@ -72,13 +72,8 @@ public class DatabaseManager{
         databaseReference.document(id).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot data = task.getResult();
-                if (data.exists()){
-                    Log.d("Database","Retrieved data: " + data.getData());
-                    callback.onCallback(data);
-                } else {
-                    Log.e("Database","No such id exists");
-                    callback.onCallback(null);
-                }
+                Log.d("Database","Retrieved data: " + data.getData());
+                callback.onCallback(data);
             } else {
                 Log.e("Database","Failed to retrieve from reference");
                 throw new RuntimeException("Failed to retrieve from reference");
