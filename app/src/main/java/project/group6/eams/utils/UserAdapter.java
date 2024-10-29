@@ -25,6 +25,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView userPhone;
         public TextView userOrganization;
         public TextView userTime;
+        public TextView userAddress;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,6 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userPhone = itemView.findViewById(R.id.userPhone);
             userOrganization = itemView.findViewById(R.id.userOrganization);
             userTime = itemView.findViewById(R.id.userTime);
+            userAddress = itemView.findViewById(R.id.userAddress);
         }
     }
 
@@ -50,8 +52,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
         holder.userTime.setText(user.getRequestTime().toDate().toString());
+        holder.userAddress.setText(user.getAddress());
         if (user.userType.equals("Organizer")){
-            holder.userTime.setText(((Organizer) user).getOrganizationName());
+            holder.userOrganization.setText(((Organizer) user).getOrganizationName());
+        }
+        else{
+            holder.userOrganization.setText("Attendee");
         }
     }
 

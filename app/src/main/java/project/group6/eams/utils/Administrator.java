@@ -57,6 +57,7 @@ public class Administrator extends User{
             public void onSuccess() {
                 Log.d("Users", emailID + "accepted");
             }
+            
             @Override
             public void onSuccess(User type) {}
 
