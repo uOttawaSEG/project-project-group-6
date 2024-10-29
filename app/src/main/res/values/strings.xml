@@ -25,5 +25,7 @@
     <string name="welcome_message_administrator">Welcome! You are logged in as an Administrator</string>
     <string name="welcome_message_organizer">Welcome! You are logged in as an Organizer</string>
     <string name="logout">Logout</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
 
 </resources>

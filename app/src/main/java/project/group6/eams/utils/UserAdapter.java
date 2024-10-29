@@ -1,5 +1,6 @@
 package project.group6.eams.utils;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 Administrator.rejectRequest(user.getEmail());
             }
         });
+
     }
 
     @Override
