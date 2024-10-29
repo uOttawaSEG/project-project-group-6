@@ -133,7 +133,7 @@ public class RegistrationManager {
                     user.setRejectionStatus(true);
                 }
 
-                users.writeToReference(email.toLowerCase().replaceAll(" ",""),userDoc);
+                users.writeToReference(email.toLowerCase().replaceAll(" ",""),user);
             } catch (Exception e) {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
                 callback.onError(e);
