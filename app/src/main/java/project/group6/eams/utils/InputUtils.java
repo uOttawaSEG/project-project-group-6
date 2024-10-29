@@ -43,17 +43,20 @@ public class InputUtils {
      * @param name inputted name
      * @return true if it is a valid name with alphabetic characters, false otherwise.
      */
-    public static boolean isValidName(String name ) {
-        if (name == null || name.length() <= 1) {
+    public static boolean isValidName(String name) {
+        if (name == null) {
             return false;
+        } else {
+            String nameW = name.replaceAll(" ","");
+            if (nameW.length() <= 1){
+                return false;
+            }
         }
-
         for (int i = 0; i<name.length(); i++) {
             if (!Character.isLetter(name.charAt(i))){
                 return false;
             }
         }
-
         return true;
     }
 

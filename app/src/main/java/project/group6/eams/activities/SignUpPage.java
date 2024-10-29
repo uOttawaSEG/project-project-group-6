@@ -156,11 +156,11 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 if (!InputUtils.isValidEmail(inputEmail)) {
                     allValidInputs = false;
-                    email.setError("Invalid email format.");
+                    email.setError("Invalid email format. Correct Format: \n[Example@mail.com]");
                 }
                 if (!InputUtils.isValidPhoneNumber(inputPhoneNumber)) {
                     allValidInputs = false;
-                    phoneNumber.setError("Invalid phone number.");
+                    phoneNumber.setError("Invalid phone number. Format: \n[123-456-7890]");
                 }
 
                 if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility()==View.VISIBLE) {
@@ -169,19 +169,19 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 if (!InputUtils.isValidStreet(inputStreet)) {
                     allValidInputs = false;
-                    street.setError("Must be input: Building Number, Street Name, and Street Suffix");
+                    street.setError("Invalid Street Address. Format: \n[#### StreetName Suffix]");
                 }
                 if (!InputUtils.isValidName(inputCity)) {
                     allValidInputs = false;
-                    city.setError("Invalid City Name");
+                    city.setError("Invalid City Name.\nMust be alphabetic characters only.");
                 }
                 if (!InputUtils.isValidName(inputProvince)) {
                     allValidInputs = false;
-                    province.setError("Invalid Province Name");
+                    province.setError("Invalid Province Name.\nMust be alphabetic characters only.");
                 }
                 if (!InputUtils.isValidPostalCode(inputPostalCode)) {
                     allValidInputs = false;
-                    postalCode.setError("Must be a Canadian postal code.");
+                    postalCode.setError("Must be a Canadian postal code of format:\n[A1A 1A1]");
                 }
                 address = InputUtils.addressCreator(inputStreet,inputCity,inputProvince,inputPostalCode);
                 String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
@@ -195,13 +195,10 @@ public class SignUpPage extends AppCompatActivity {
 
                 // only runs once all inputs are valid
                 if (allValidInputs) {
-                    String type;
                     if (checkboxIsChecked) {
-                        type = "organizers";
                         toAdd = new Organizer(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address,inputOrganization);
                     }
                     else{
-                        type = "attendees";
                         toAdd = new Attendee(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address);
                     }
                     toAdd.setRequestTime(Timestamp.now());
