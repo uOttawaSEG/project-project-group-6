@@ -11,20 +11,17 @@ import java.util.ArrayList;
 
 /**
  * Generic class for handling calls to the Firebase Database
- * @param <E>
  */
-public class DatabaseManager<E> {
+public class DatabaseManager{
 
     /**
      * Interface with method onCallBack that will be called with a result
-     * and can be overridden to handle the result
-     * @param <E>
      */
-    public interface DatabaseCallback<E>{
-        void onCallback(E value);
+    public interface DatabaseCallback{
+        void onCallback(DocumentSnapshot value);
     }
-    public interface DatabaseCallbackList<E>{
-        void onCallback(ArrayList<E> value);
+    public interface DatabaseCallbackList{
+        void onCallback(ArrayList<DocumentSnapshot> value);
     }
 
     //Stored reference to a path in the database
@@ -47,7 +44,7 @@ public class DatabaseManager<E> {
      * @param data value assigned to key
      * @throws IllegalArgumentException when either id or data is null
      */
-    public void writeToReference (String id, E data) throws IllegalArgumentException {
+    public void writeToReference (String id, Object data) throws IllegalArgumentException {
         if (id == null || data == null){
             throw new IllegalArgumentException("Data or ID given is null");
         }
@@ -65,12 +62,11 @@ public class DatabaseManager<E> {
      * - <a href="https://firebase.google.com/docs/database/android/read-and-write">...</a>
      *
      * @param id key to look for in database
-     * @param type class type expected from the value associated with key
      * @param callback used to handle the value once retrieved
      * @throws IllegalArgumentException when either id or data is null or when the given ID is not a valid Database Key
      */
-    public void readFromReference(String id, Class<E> type, DatabaseCallback<E> callback) throws IllegalArgumentException{
-        if (id == null || type == null || callback == null){
+    public void readFromReference(String id, DatabaseCallback callback) throws IllegalArgumentException{
+        if (id == null|| callback == null){
             throw new IllegalArgumentException("Data or ID given is null");
         }
         databaseReference.document(id).get().addOnCompleteListener(task -> {
@@ -78,14 +74,7 @@ public class DatabaseManager<E> {
                 DocumentSnapshot data = task.getResult();
                 if (data.exists()){
                     Log.d("Database","Retrieved data: " + data.getData());
-                    E object = data.toObject(type);
-                    if (object != null){
-                        callback.onCallback(object);
-                    }
-                    else{
-                        Log.e("Database", "Failed to convert data to object");
-                        throw new RuntimeException("Failed to convert data to object");
-                    }
+                    callback.onCallback(data);
                 } else {
                     Log.e("Database","No such id exists");
                     callback.onCallback(null);
@@ -96,19 +85,13 @@ public class DatabaseManager<E> {
             }});
     }
 
-    public void readAllFromReference(Class<E> type, DatabaseCallbackList<E> callback){
-        ArrayList<E> objects = new ArrayList<>();
+    public void readAllFromReference(DatabaseCallbackList callback){
+        ArrayList<DocumentSnapshot> objects = new ArrayList<>();
         databaseReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 for (DocumentSnapshot data : task.getResult()) {
                     Log.d("Database", "Retrieved data: " + data.getData());
-                    E object = data.toObject(type);
-                    if (object != null) {
-                        objects.add(object);
-                    } else {
-                        Log.e("Database", "Failed to convert data to object");
-                        throw new RuntimeException("Failed to convert data to object");
-                    }
+                    objects.add(data);
                 }
                 callback.onCallback(objects);
             } else {

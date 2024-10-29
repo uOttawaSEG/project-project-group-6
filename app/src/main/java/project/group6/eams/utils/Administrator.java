@@ -9,6 +9,11 @@ public class Administrator extends User{
 
     private RegistrationManager registrationManager = new RegistrationManager("Users");
 
+    public Administrator(){
+        super();
+        this.userType = "Administrator";
+
+    }
     public Administrator(String email,String password){
         super(email, password);
         this.userType = "Administrator";
