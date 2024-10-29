@@ -8,7 +8,7 @@ import project.group6.eams.utils.RegistrationManager;
 
 public class Administrator extends User{
 
-    private RegistrationManager registrationManager = new RegistrationManager("Users");
+    private static RegistrationManager registrationManager = new RegistrationManager("Users");
 
     public Administrator(){
         super();
@@ -27,7 +27,7 @@ public class Administrator extends User{
      *
      * @param emailID of type String, user's ID
      */
-    public void rejectRequest (String emailID) { // i can change this if u send email instead of RegisterableUser
+    public static void rejectRequest(String emailID) { // i can change this if u send email instead of RegisterableUser
         registrationManager.changeUserStatus(emailID,false, new RegistrationManager.RegistrationCallback() {
 
             @Override
@@ -50,7 +50,7 @@ public class Administrator extends User{
      *
      * @param emailID of type String
      */
-    public void approveRequest(String emailID){
+    public static void approveRequest(String emailID){
         registrationManager.changeUserStatus(emailID,true, new RegistrationManager.RegistrationCallback(){
 
             @Override

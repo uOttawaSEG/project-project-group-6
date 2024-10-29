@@ -3,6 +3,7 @@ package project.group6.eams.utils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView userOrganization;
         public TextView userTime;
         public TextView userAddress;
+        public Button accept_button;
+        public Button reject_button;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -35,6 +38,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userOrganization = itemView.findViewById(R.id.userOrganization);
             userTime = itemView.findViewById(R.id.userTime);
             userAddress = itemView.findViewById(R.id.userAddress);
+            accept_button = itemView.findViewById(R.id.accept_button);
+            reject_button = itemView.findViewById(R.id.reject_button);
         }
     }
 
@@ -59,6 +64,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         else{
             holder.userOrganization.setText("Attendee");
         }
+
+        holder.accept_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Administrator.approveRequest(user.getEmail());
+            }
+        });
+        holder.reject_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Administrator.rejectRequest(user.getEmail());
+            }
+        });
     }
 
     @Override
