@@ -1,5 +1,6 @@
 package project.group6.eams.utils;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -21,21 +22,22 @@ public class Administrator extends User{
     }
 
     /**
-     * Allows administrator to reject a RegisterableUser (Organizer or Attendee) following their sign up attempt.
+     * Allows administrator to reject a RegisterableUser (Organizer or Attendee) following their sign up attempt
+     * by retrieving the user object using the email as the ID.
      *
-     * @param user of type RegisterableUser
+     * @param emailID of type String, user's ID
      */
-    public void rejectRequest (RegisterableUser user) { // i can change this if u send email instead of RegisterableUser
-        registrationManager.changeUserStatus(user.getEmail(),false, new RegistrationManager.RegistrationCallback() {
+    public void rejectRequest (String emailID) { // i can change this if u send email instead of RegisterableUser
+        registrationManager.changeUserStatus(emailID,false, new RegistrationManager.RegistrationCallback() {
 
             @Override
             public void onSuccess() {
-                Log.d("Users", user.toString() + "rejected");
+                Log.d("Users", emailID + " rejected");
             }
 
             @Override
             public void onSuccess(User type) {}
-            
+
             @Override
             public void onError(Exception e) {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
