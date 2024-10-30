@@ -130,6 +130,9 @@ public class RegistrationManager {
             try{
                 RegisterableUser user = (RegisterableUser) userMapper(userDoc);
                 if (accepted) {
+                    if (user.getRejectionStatus()) {
+                        user.setRejectionStatus(false);
+                    }
                     user.setApprovalStatus(true);
                 } else {
                     user.setRejectionStatus(true);
