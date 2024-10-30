@@ -144,7 +144,12 @@ public class MainActivity extends AppCompatActivity {
                 } else if (e instanceof ExistingUserException) {
                     showToast(e);
                 } else {
-                    Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (e.getMessage() != null){
+                        Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Failed", Toast.LENGTH_LONG).show();
+                    }
+
                 }
 
             }

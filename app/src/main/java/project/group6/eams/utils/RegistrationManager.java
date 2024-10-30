@@ -50,11 +50,12 @@ public class RegistrationManager {
         }
     public void checkForUser(String email, RegistrationCallback callback){
         users.readFromReference(email.toLowerCase().replaceAll(" ",""), existingUserDoc -> {
+            if (!existingUserDoc.exists()) {
+                callback.onError(new ExistingUserException("User not in database"));
+            }
             try{
                 User existingUser = userMapper(existingUserDoc);
-                if (existingUser == null) {
-                    callback.onError(new ExistingUserException("User not in database"));
-                } else if (existingUser.userType.equals("Administrator")){
+                if (existingUser.userType.equals("Administrator")){
                     callback.onSuccess(existingUser);
                 } else if (((RegisterableUser)existingUser).getRejectionStatus()){
                     callback.onError(new RejectedUserException("User has been rejected by Admin"));
@@ -65,7 +66,11 @@ public class RegistrationManager {
                     callback.onSuccess(existingUser);
                 }
             } catch (Exception e) {
-                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                if (e.getMessage() != null){
+                    Log.e("Database", e.getMessage());
+                }else {
+                    Log.e("Database", "emptyMessage");
+                }
                 callback.onError(e);
             }
         });
