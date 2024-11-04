@@ -19,7 +19,7 @@ public class AttendeePage extends AppCompatActivity {
     private Button logOffButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_attendee_page);
@@ -32,15 +32,16 @@ public class AttendeePage extends AppCompatActivity {
         initListeners();
     }
 
-    private void initViews() {
+    private void initViews () {
         logOffButton = findViewById(R.id.logOffButton);
 
     }
-    private void initListeners(){
-        logOffButton.setOnClickListener(new View.OnClickListener(){
+    private void initListeners () {
+        logOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login page.", Toast.LENGTH_LONG).show();
+            public void onClick (View v) {
+                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
+                        "page.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(AttendeePage.this, MainActivity.class);
                 startActivity(intent);
 

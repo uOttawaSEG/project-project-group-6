@@ -1,8 +1,8 @@
 package project.group6.eams.utils;
 
-public class Attendee extends RegisterableUser{
+public class Attendee extends RegisterableUser {
 
-    public Attendee(){
+    public Attendee () {
         super();
         this.userType = "Attendee";
     }
@@ -14,8 +14,9 @@ public class Attendee extends RegisterableUser{
      * @param phoneNumber
      * @param address
      */
-    public Attendee(String email,String password, String firstname, String lastname, String phoneNumber, String address){
-        super(email,password,firstname,lastname,phoneNumber,address);
+    public Attendee (String email, String password, String firstname, String lastname,
+                     String phoneNumber, String address) {
+        super(email, password, firstname, lastname, phoneNumber, address);
         this.userType = "Attendee";
     }
 }

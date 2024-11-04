@@ -11,13 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import project.group6.eams.R;
 import project.group6.eams.utils.Organizer;
 
 public class OrganizerPage extends AppCompatActivity {
     private Button logOffButton2;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_organizer_page);
@@ -30,15 +31,16 @@ public class OrganizerPage extends AppCompatActivity {
         initListeners();
     }
 
-    private void initViews() {
+    private void initViews () {
         logOffButton2 = findViewById(R.id.logOffButton2);
 
     }
-    private void initListeners(){
-        logOffButton2.setOnClickListener(new View.OnClickListener(){
+    private void initListeners () {
+        logOffButton2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login page.", Toast.LENGTH_LONG).show();
+            public void onClick (View v) {
+                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
+                        "page.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(OrganizerPage.this, MainActivity.class);
                 startActivity(intent);
 

@@ -30,7 +30,7 @@ public class AdministratorPage extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_administrator_page);
@@ -43,35 +43,37 @@ public class AdministratorPage extends AppCompatActivity {
         initListeners();
     }
 
-    private void initViews() {
+    private void initViews () {
         logOffButton3 = findViewById(R.id.logOffButton3);
         rejected_button = findViewById(R.id.rejected_button);
         requested_button = findViewById(R.id.requested_button);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
     }
-    private void initListeners(){
+
+    private void initListeners () {
         RegistrationManager registrationManager = new RegistrationManager("Users");
         registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
             @Override
-            public void onSuccess(ArrayList<User> usersList) {
+            public void onSuccess (ArrayList<User> usersList) {
                 Log.d("Users", usersList.toString());
                 UserAdapter adapter = new UserAdapter(usersList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onError(Exception e) {
+            public void onError (Exception e) {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
             }
 
         });
-        logOffButton3.setOnClickListener(new View.OnClickListener(){
+        logOffButton3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login page.", Toast.LENGTH_LONG).show();
+            public void onClick (View v) {
+                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
+                        "page.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(AdministratorPage.this, MainActivity.class);
                 startActivity(intent);
 
@@ -79,18 +81,19 @@ public class AdministratorPage extends AppCompatActivity {
         });
         requested_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 RegistrationManager registrationManager = new RegistrationManager("Users");
                 registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
                     @Override
-                    public void onSuccess(ArrayList<User> usersList) {
+                    public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
                         UserAdapter adapter = new UserAdapter(usersList);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
+
                     @Override
-                    public void onError(Exception e) {
+                    public void onError (Exception e) {
                         Log.e("Database", Objects.requireNonNull(e.getMessage()));
                     }
 
@@ -100,18 +103,19 @@ public class AdministratorPage extends AppCompatActivity {
 
         rejected_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 RegistrationManager registrationManager = new RegistrationManager("Users");
                 registrationManager.getAllRejectedUsers(new RegistrationManager.RegistrationCallbackList() {
                     @Override
-                    public void onSuccess(ArrayList<User> usersList) {
+                    public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
                         UserAdapter adapter = new UserAdapter(usersList);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
+
                     @Override
-                    public void onError(Exception e) {
+                    public void onError (Exception e) {
                         Log.e("Database", Objects.requireNonNull(e.getMessage()));
                     }
 

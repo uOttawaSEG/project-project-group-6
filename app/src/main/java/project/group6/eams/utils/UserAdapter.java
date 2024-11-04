@@ -17,11 +17,11 @@ import project.group6.eams.R;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> users;
 
-    public UserAdapter(ArrayList<User> users){
+    public UserAdapter (ArrayList<User> users) {
         this.users = users;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView userEmail;
         public TextView userName;
         public TextView userPhone;
@@ -31,7 +31,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public Button accept_button;
         public Button reject_button;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder (@NonNull View itemView) {
             super(itemView);
             userEmail = itemView.findViewById(R.id.userEmail);
             userName = itemView.findViewById(R.id.userName);
@@ -46,35 +46,35 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userlist_layout,parent,false);
+    public UserAdapter.ViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userlist_layout,
+                parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder (@NonNull UserAdapter.ViewHolder holder, int position) {
         RegisterableUser user = (RegisterableUser) users.get(position);
         holder.userEmail.setText(user.getEmail());
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
         holder.userTime.setText(user.getRequestTime().toDate().toString());
         holder.userAddress.setText(user.getAddress());
-        if (user.userType.equals("Organizer")){
+        if (user.userType.equals("Organizer")) {
             holder.userOrganization.setText(((Organizer) user).getOrganizationName());
-        }
-        else{
+        } else {
             holder.userOrganization.setText("Attendee");
         }
 
-        holder.accept_button.setOnClickListener(new View.OnClickListener(){
+        holder.accept_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 Administrator.approveRequest(user.getEmail());
             }
         });
-        holder.reject_button.setOnClickListener(new View.OnClickListener(){
+        holder.reject_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 Administrator.rejectRequest(user.getEmail());
             }
         });
@@ -82,7 +82,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount () {
         return users.size();
     }
 }

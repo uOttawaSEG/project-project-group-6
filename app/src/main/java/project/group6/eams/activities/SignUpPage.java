@@ -60,9 +60,8 @@ public class SignUpPage extends AppCompatActivity {
 
     private RegisterableUser toAdd;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
 
         // figure out how to hide organization thing till checkbox is clicked
         super.onCreate(savedInstanceState);
@@ -83,7 +82,7 @@ public class SignUpPage extends AppCompatActivity {
     /**
      * Initializes views for the sign up page
      */
-    private void initViews(){
+    private void initViews () {
         organizerCheckbox = findViewById(R.id.organizerCheckBox);
         firstName = findViewById(R.id.enterFirstName);
         lastName = findViewById(R.id.enterLastName);
@@ -96,14 +95,14 @@ public class SignUpPage extends AppCompatActivity {
         organization = findViewById(R.id.enterOrganization);
         password = findViewById(R.id.enterPassword);
         password2 = findViewById(R.id.reenterPassword);
-        backButton =  findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
         submitButton = findViewById(R.id.submitButton);
     }
 
     /**
      * Initializes & defines logic for listeners
      */
-    private void initListeners(){
+    private void initListeners () {
         firstName.addTextChangedListener(textWatcher);
         lastName.addTextChangedListener(textWatcher);
         email.addTextChangedListener(textWatcher);
@@ -119,8 +118,8 @@ public class SignUpPage extends AppCompatActivity {
         //Checkbox that toggles Organizer input
         organizerCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                checkboxIsChecked = ( (CheckBox)v).isChecked();
+            public void onClick (View v) {
+                checkboxIsChecked = ((CheckBox) v).isChecked();
                 if (checkboxIsChecked) {
                     organization.setVisibility(EditText.VISIBLE);
                 } else {
@@ -132,8 +131,8 @@ public class SignUpPage extends AppCompatActivity {
         // Back button pressed, return to login page.
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { // returns to LogIn page
-                Intent intent = new Intent(SignUpPage.this,MainActivity.class);
+            public void onClick (View v) { // returns to LogIn page
+                Intent intent = new Intent(SignUpPage.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -141,8 +140,9 @@ public class SignUpPage extends AppCompatActivity {
         // Submit button pressed, validates all inputs and then adds user to the database
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                EditText[] editTexts = {firstName,lastName,email,phoneNumber,street,city, province, postalCode, organization, password, password2};
+            public void onClick (View v) {
+                EditText[] editTexts = {firstName, lastName, email, phoneNumber, street, city,
+                        province, postalCode, organization, password, password2};
                 clearErrors(editTexts);
 
                 boolean allValidInputs = true;
@@ -163,7 +163,7 @@ public class SignUpPage extends AppCompatActivity {
                     phoneNumber.setError("Invalid phone number. Format: \n[123-456-7890]");
                 }
 
-                if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility()==View.VISIBLE) {
+                if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility() == View.VISIBLE) {
                     allValidInputs = false;
                     organization.setError("Must include organization name.");
                 }
@@ -177,18 +177,21 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 if (!InputUtils.isValidName(inputProvince)) {
                     allValidInputs = false;
-                    province.setError("Invalid Province Name.\nMust be alphabetic characters only.");
+                    province.setError("Invalid Province Name.\nMust be alphabetic characters only" +
+                            ".");
                 }
                 if (!InputUtils.isValidPostalCode(inputPostalCode)) {
                     allValidInputs = false;
                     postalCode.setError("Must be a Canadian postal code of format:\n[A1A 1A1]");
                 }
-                address = InputUtils.addressCreator(inputStreet,inputCity,inputProvince,inputPostalCode);
+                address = InputUtils.addressCreator(inputStreet, inputCity, inputProvince,
+                        inputPostalCode);
                 String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
-                if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with the password
+                if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with
+                    // the password
                     allValidInputs = false;
                     password.setError(passwordInvalidReason);
-                } else if (!InputUtils.verifyPassword(inputPassword,inputPasswordAgain)){
+                } else if (!InputUtils.verifyPassword(inputPassword, inputPasswordAgain)) {
                     allValidInputs = false;
                     password2.setError("Password must match previous input.");
                 }
@@ -196,31 +199,37 @@ public class SignUpPage extends AppCompatActivity {
                 // only runs once all inputs are valid
                 if (allValidInputs) {
                     if (checkboxIsChecked) {
-                        toAdd = new Organizer(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address,inputOrganization);
-                    }
-                    else{
-                        toAdd = new Attendee(inputEmail,inputPassword,inputFirstName,inputLastName,inputPhoneNumber,address);
+                        toAdd = new Organizer(inputEmail, inputPassword, inputFirstName,
+                                inputLastName, inputPhoneNumber, address, inputOrganization);
+                    } else {
+                        toAdd = new Attendee(inputEmail, inputPassword, inputFirstName,
+                                inputLastName, inputPhoneNumber, address);
                     }
                     toAdd.setRequestTime(Timestamp.now());
                     RegistrationManager registrationManager = new RegistrationManager("Users");
-                    registrationManager.addUser(toAdd, new RegistrationManager.RegistrationCallback() {
-                        public void onSuccess(User user){}
+                    registrationManager.addUser(toAdd,
+                            new RegistrationManager.RegistrationCallback() {
+                        public void onSuccess (User user) {}
                         @Override
-                        public void onSuccess() {
-                            Toast.makeText(getApplicationContext(), "Sign Up Successful! Please wait for admins to approve your request.", Toast.LENGTH_LONG).show();
+                        public void onSuccess () {
+                            Toast.makeText(getApplicationContext(), "Sign Up Successful! Please " +
+                                    "wait for admins to approve your request.",
+                                    Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(SignUpPage.this, MainActivity.class);
                             startActivity(intent);
                         }
                         @Override
-                        public void onError(Exception e) {
+                        public void onError (Exception e) {
                             if (e instanceof RejectedUserException) {
                                 email.setError("Email has been rejected by Admin");
                             } else if (e instanceof PendingUserException) {
-                                email.setError("Email is currently waiting to be processed by the Admin");
+                                email.setError("Email is currently waiting to be processed by the" +
+                                        " Admin");
                             } else if (e instanceof ExistingUserException) {
                                 email.setError("Email already in use.");
                             } else {
-                                Toast.makeText(getApplicationContext(), "DATABASE ERROR.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "DATABASE ERROR.",
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -233,9 +242,10 @@ public class SignUpPage extends AppCompatActivity {
     /**
      * Resets setError to null so that the previous value does not repeat for next input.
      *
-     * @param editTexts array of all editTexts that are used for signup info and checked for validity.
+     * @param editTexts array of all editTexts that are used for signup info and checked for
+     *                  validity.
      */
-    private void clearErrors(EditText[] editTexts) {
+    private void clearErrors (EditText[] editTexts) {
         for (EditText editText : editTexts) {
             editText.setError(null);
         }
@@ -244,12 +254,12 @@ public class SignUpPage extends AppCompatActivity {
     /**
      * Waiting for editText fields to change and updating variables
      */
-    private final TextWatcher textWatcher = new TextWatcher(){
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged (CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged (CharSequence s, int start, int before, int count) {
             inputFirstName = firstName.getText().toString();
             inputLastName = lastName.getText().toString();
             inputEmail = email.getText().toString();
@@ -258,12 +268,12 @@ public class SignUpPage extends AppCompatActivity {
             inputCity = city.getText().toString();
             inputProvince = province.getText().toString();
             inputPostalCode = postalCode.getText().toString();
-            inputOrganization =  organization.getText().toString();
+            inputOrganization = organization.getText().toString();
             inputPassword = password.getText().toString();
             inputPasswordAgain = password2.getText().toString();
         }
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged (Editable s) {}
     };
 
 }
