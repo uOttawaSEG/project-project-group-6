@@ -17,8 +17,9 @@ jobs:
           keys:
             - gradle-cache-{{ checksum "build.gradle" }}
             - gradle-cache-
-      - android/run-tests:
-          test-command: ./gradlew testDebug
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew testDebug
       - run:
           name: Save test results
           command: |
