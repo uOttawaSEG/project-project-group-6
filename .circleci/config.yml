@@ -13,7 +13,10 @@ jobs:
       name: android/android-docker
     steps:
       - checkout
-      - android/restore-gradle-cache
+      - restore_cache:
+          keys:
+            - gradle-cache-{{ checksum "build.gradle" }}
+            - gradle-cache-
       - android/run-tests:
           test-command: ./gradlew testDebug
       - run:
@@ -26,7 +29,11 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
-      - android/save-gradle-cache
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: gradle-cache-{{ checksum "build.gradle" }}
 
   android-test:
     parameters:
@@ -58,13 +65,20 @@ jobs:
       resource-class: xlarge
     steps:
       - checkout
-      - android/restore-gradle-cache
-      - android/restore-build-cache
+      - restore_cache:
+          keys:
+            - gradle-cache-{{ checksum "build.gradle" }}
+            - gradle-cache-
       - run:
           name: Assemble Release Build
           command: ./gradlew assembleRelease
       - store_artifacts:
           path: app/build/outputs/apk/release
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: gradle-cache-{{ checksum "build.gradle" }}
 
 workflows:
   build-and-test:
