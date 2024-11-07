@@ -1,6 +1,7 @@
 package project.group6.eams.utils;
 
 import java.util.Date;
+import java.util.Map;
 
 public class Event {
 
@@ -11,8 +12,9 @@ public class Event {
     public Date endTime;
     public boolean automaticApproval;
     public User creator;
+    public Map attendees; // (String id, String approval status (approved, requested, denied)
 
-    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, User creator){
+    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, User creator, Map attendees){
         this.automaticApproval = automaticApproval;
         this.creator = creator;
         this.eventAddress = eventAddress;
@@ -20,6 +22,7 @@ public class Event {
         this.description =description;
         this.startTime = startTime;
         this.title = title;
+        this.attendees = attendees;
 
     }
 
