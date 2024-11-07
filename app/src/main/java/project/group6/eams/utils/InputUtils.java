@@ -14,7 +14,8 @@ public class InputUtils {
      * @return true if email is valid, false otherwise
      */
     public static boolean isValidEmail (String email) {
-        return (!TextUtils.isEmpty(email) && email.length() > 0 && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if (email == null) {return false;}
+        return (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     /**
@@ -26,7 +27,8 @@ public class InputUtils {
      * @return true if phone number is valid, false otherwise
      */
     public static boolean isValidPhoneNumber (String phoneNumber) {
-        return (!TextUtils.isEmpty(phoneNumber) && phoneNumber.length() >= 7 && Patterns.PHONE.matcher(phoneNumber).matches());
+        if (phoneNumber == null) {return false;}
+        return (!phoneNumber.isEmpty() && phoneNumber.length() >= 7 && Patterns.PHONE.matcher(phoneNumber).matches());
     }
 
     /**
@@ -37,7 +39,8 @@ public class InputUtils {
      * @return true if the two passwords are the same, false otherwise.
      */
     public static boolean verifyPassword (String passwordEntry1, String passwordEntry2) {
-        return (!TextUtils.isEmpty(passwordEntry1) && !TextUtils.isEmpty(passwordEntry2) && passwordEntry2.equals(passwordEntry1));
+        if (passwordEntry1 == null || passwordEntry2 == null) {return false;}
+        return (!passwordEntry1.isEmpty() && !passwordEntry2.isEmpty() && passwordEntry2.equals(passwordEntry1));
     }
 
     /**
@@ -82,9 +85,10 @@ public class InputUtils {
      * @return true if address is valid, false otherwise
      */
     public static boolean isValidStreet (String street) {
-        if (!TextUtils.isEmpty(street)) {
+        if (street == null){return false;}
+        if (!street.isEmpty()) {
             String components[] = street.split(" ");
-            if (components.length != 3) {
+            if (components.length < 2 || components.length > 3) {
                 return false;
             }
             for (int j = 0; j < components.length; j++) {
@@ -108,7 +112,11 @@ public class InputUtils {
      * @return true if address is valid, false otherwise
      */
     public static boolean isValidPostalCode (String postalCode) {
-        if (!TextUtils.isEmpty(postalCode)) {
+        if (postalCode == null) {
+            return false;
+        }
+        postalCode = postalCode.toUpperCase();
+        if (!postalCode.isEmpty()) {
             postalCode = postalCode.replaceAll("\\s", "");
 
             if (postalCode.length() != 6) {
@@ -116,7 +124,7 @@ public class InputUtils {
             }
 
             for (int i = 0; i < postalCode.length(); i++) {
-                if (!Character.isUpperCase(postalCode.charAt(i))) {
+                if (!Character.isLetter(postalCode.charAt(i))) {
                     return false;
                 }
                 i++;
@@ -136,12 +144,17 @@ public class InputUtils {
 
     /**
      * Checks if a string matches the password pattern and isn't empty
+     * At least one upper case letter
+     * At least one lower case letter
+     * At least one number
+     * At least one special character. Eg: @,!,?
+     * At least 8 characters
      *
      * @param password string to check
      * @return empty string if password is valid, string with length >0 otherwise
      */
     public static String passwordChecker (String password) {
-        if (!TextUtils.isEmpty(password)) {
+        if (!password.isEmpty()) {
             int numOfCapitals = 0;
             int numOfLowerCase = 0;
             int numOfSpecialChar = 0;
