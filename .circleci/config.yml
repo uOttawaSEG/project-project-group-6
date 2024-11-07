@@ -1,94 +1,62 @@
-# Config File for CircleCI,
-# Code for tests from circleCI:
-# https://circleci.com/blog/building-android-on-circleci/
-
-#Defining Version
+# This config was automatically generated from your source code
+# Stacks detected: deps:java:.,tool:gradle:
 version: 2.1
 orbs:
   android: circleci/android@3.0.1
-
+executors:
+  android-executor:
+    docker:
+      - image: cimg/android:2024.11
+    environment:
+      JVM_OPTS: -Xmx3200m
 jobs:
-  unit-test:
-    executor:
-      name: android/android-docker
+  build:
+    executor: android-executor
     steps:
       - checkout
-      - android/restore-gradle-cache
-      - android/run-tests:
-          test-command: ./gradlew testDebug
+      - restore_cache:
+          keys:
+            - v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - run:
-          name: Save test results
-          command: mkdir -p ~/test-results/junit/find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
+          name: Build APK
+          command: ./gradlew assembleDebug
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      - store_artifacts:
+          path: app/build/outputs/apk/debug/app-debug.apk
+          destination: app-debug.apk
       - store_test_results:
-          path: ~test-results
-      - store_artifacts:
-          path: ~/test-results/junit
-      - android/save-gradle-cache
-  android-test:
-    matrix:
-      alias: android-test-all
-    parameters:
-      system-image:
-        type: string
-        default: system-images;android-35;google_apis;x86
-    executor:
-      name: android/android-machine
-      resource-class: xlarge
+          path: app/build/test-results
+
+  unit_tests:
+    executor: android-executor
     steps:
       - checkout
-      - android/start-emulator-and-run-tests:
-          test-command: ./gradlew connectedDebugAndroidTest
-          system-image: << parameters.system-image >>
+      - restore_cache:
+          keys:
+            - v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - run:
-          name: Save test results
-          command: mkdir -p ~/test-results/junit/find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
+          name: Run Unit Tests
+          command: ./gradlew testDebugUnitTest
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - store_test_results:
-          path: ~/test-results
+          path: app/build/test-results/testDebugUnitTest
       - store_artifacts:
-          path: ~/test-results/junit
-  release-build:
-    executor:
-      name: android/android-machine
-      resource-class: xlarge
-    steps:
-      - checkout
-      - android/restore-gradle-cache
-      - android/restore-build-cache
-      - run:
-          name: Assemble Release Build
-          command: ./gradlew assembleRelease
-      - store_artifacts:
-          path: app/build/outputs/apk/release
+          path: app/build/reports/tests/testDebugUnitTest
+          destination: unit_test_reports
+
 workflows:
-  build-and-test:
+  version: 2
+  build_and_test:
     jobs:
-      - unit-test
-      - android-test:
-          filters:
-            branches:
-              ignore: main
-      - android-test:
-          matrix:
-            alias: android-test-all
-            parameters:
-              system-image:
-                - system-images;android-35;google_apis;x86
-                - system-images;android-34;google_apis;x86
-                - system-images;android-33;google_apis;x86
-                - system-images;android-32;google_apis;x86
-                - system-images;android-31;google_apis;x86
-                - system-images;android-30;google_apis;x86
-                - system-images;android-29;google_apis;x86
-          name: android-test-<<matrix.system-image>>
-          filters:
-            branches:
-              only: main
-      - release-build:
+      - unit_tests
+      - build:
           requires:
-            - unit-test
-            - android-test-all
-          filters:
-            branches:
-              only: main
+            - unit_tests
