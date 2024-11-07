@@ -180,4 +180,5 @@ public class RegistrationManager {
 
         void onError (Exception e);
     }
+
 }

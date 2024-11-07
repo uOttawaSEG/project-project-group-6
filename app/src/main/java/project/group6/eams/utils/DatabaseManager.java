@@ -3,7 +3,9 @@ package project.group6.eams.utils;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseException;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -100,5 +102,23 @@ public class DatabaseManager {
                 throw new RuntimeException("Failed to retrieve from reference");
             }
         });
+    }
+
+    /**
+     *  Deletes document with given ID from the database.
+     *
+     * Resources used to help write this code:
+     * - <a href="https://firebase.google.com/docs/firestore/manage-data/delete-data#java">...</a
+     * @param eventId
+     * @param callback
+     */
+    public void deleteFromReference (String eventId, DatabaseCallback callback) {
+        if (eventId == null || callback == null) {
+            throw new IllegalArgumentException("Data or ID given is null");
+        }
+        databaseReference.document(eventId).delete().addOnSuccessListener( s -> Log.i("Database",eventId +
+                " event successfully deleted.")).addOnFailureListener( f -> Log.e("Database",eventId+ " " +
+                "event unsuccessfully deleted."));
+
     }
 }
