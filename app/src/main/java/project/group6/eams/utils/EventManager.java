@@ -38,8 +38,13 @@ public class EventManager {
         events.readFromReference(eventTitle, existingEvent -> {
             if (!existingEvent.exists()) { // event not already in database
 
-                events.writeToReference(eventTitle, event);
-                callback.onSuccess();
+                try {
+                    events.writeToReference(eventTitle, event);
+                    callback.onSuccess();
+                } catch (Exception e) {
+                    callback.onError(e);
+                    Log.e("Database",Objects.requireNonNull(e.getMessage()));
+                }
 
             } else { // already exists
 
@@ -59,24 +64,34 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void removeEvent(String title, EventCallback callback) {
+        events.readFromReference(title, event -> {
+            if (!event.exists()) {
+                callback.onError(new ExistingEventException("Event does not exist, cannot be removed."));
+            } else { // event found
+                events.deleteFromReference(title);
+                callback.onSuccess();
 
+            }
+        });
     }
 
     /**
      * Gets all events that have yet to occur from Database
      *
+     * @param organizationName is the name of the organization whos upcoming events are to be found
      * @param callback allows for exception handling
      */
-    public void getUpcomingEvents(EventCallbackList callback) {
+    public void getUpcomingEvents(String organizationName, EventCallbackList callback) {
 
     }
 
     /**
      * Gets all events that have already occurred from Database
      *
+     * @param organizationName is the name of the organization whos past events are to be found
      * @param callback allows for exception handling
      */
-    public void getPastEvents(EventCallbackList callback) {
+    public void getPastEvents(String organizationName, EventCallbackList callback) {
 
     }
 
