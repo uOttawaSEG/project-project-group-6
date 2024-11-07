@@ -16,8 +16,18 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - gradle-cache-{{ checksum "build.gradle" }}
             - gradle-cache-
+      - run:
+          name: Ensure gradlew is runnable
+          command: |
+            if [ -f "./gradlew" ]; then
+              chmod +x ./gradlew
+              echo "gradlew is now executable."
+            else
+              echo "gradlew not found!"
+              exit 1
+            fi
       - run:
           name: Build APK
           command: ./gradlew assembleDebug
@@ -25,7 +35,7 @@ jobs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+          key: gradle-cache-{{ checksum "build.gradle" }}
       - store_artifacts:
           path: app/build/outputs/apk/debug/app-debug.apk
           destination: app-debug.apk
@@ -38,7 +48,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - gradle-cache-{{ checksum "build.gradle" }}
             - gradle-cache-
       - run:
           name: Ensure gradlew is runnable
@@ -57,7 +67,7 @@ jobs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+          key: gradle-cache-{{ checksum "build.gradle" }}
       - store_test_results:
           path: app/build/test-results/testDebugUnitTest
       - store_artifacts:
