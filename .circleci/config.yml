@@ -40,12 +40,16 @@ jobs:
     parameters:
       system-image:
         type: string
-        default: system-images;android-35;google_apis;x86
+        default: system-images;android-33;google_apis;x86
     docker:
       - image: circleci/android:latest
     resource-class: xlarge
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - gradle-cache-{{ checksum "build.gradle" }}
+            - gradle-cache-
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: << parameters.system-image >>
@@ -94,8 +98,6 @@ workflows:
           matrix:
             parameters:
               system-image:
-                - system-images;android-35;google_apis;x86
-                - system-images;android-34;google_apis;x86
                 - system-images;android-33;google_apis;x86
                 - system-images;android-32;google_apis;x86
                 - system-images;android-31;google_apis;x86
