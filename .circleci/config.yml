@@ -7,10 +7,15 @@ version: 2.1
 orbs:
   android: circleci/android@3.0.1
 
-jobs:
-  unit-test:
+executors:
+  android-executor:
     docker:
       - image: circleci/android:latest
+    resource_class: xlarge
+
+jobs:
+  unit-test:
+    executor: android-executor
     steps:
       - checkout
       - restore_cache:
@@ -37,22 +42,26 @@ jobs:
           key: gradle-cache-{{ checksum "build.gradle" }}
 
   android-test:
+    executor: android-executor
     parameters:
       system-image:
         type: string
         default: system-images;android-33;google_apis;x86
-    docker:
-      - image: circleci/android:latest
-    resource-class: xlarge
     steps:
       - checkout
       - restore_cache:
           keys:
             - gradle-cache-{{ checksum "build.gradle" }}
             - gradle-cache-
-      - android/start-emulator-and-run-tests:
-          test-command: ./gradlew connectedDebugAndroidTest
-          system-image: << parameters.system-image >>
+      - run:
+          name: Start Emulator and Run Tests
+          command: |
+            # Start the emulator with the specified system image
+            echo "Starting emulator"
+            ./gradlew connectedDebugAndroidTest
+            # Wait for emulator to fully boot
+            adb wait-for-device
+            adb shell input keyevent 82
       - run:
           name: Save test results
           command: |
@@ -65,9 +74,7 @@ jobs:
           path: ~/test-results/junit
 
   release-build:
-    docker:
-      - image: circleci/android:latest
-    resource-class: xlarge
+    executor: android-executor
     steps:
       - checkout
       - restore_cache:
