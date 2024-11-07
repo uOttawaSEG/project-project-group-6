@@ -28,16 +28,6 @@ jobs:
   android-test:
     matrix:
       alias: android-test-all
-      parameters:
-        system-image:
-          - system-images;android-35;google_apis;x86
-          - system-images;android-34;google_apis;x86
-          - system-images;android-33;google_apis;x86
-          - system-images;android-32;google_apis;x86
-          - system-images;android-31;google_apis;x86
-          - system-images;android-30;google_apis;x86
-          - system-images;android-29;google_apis;x86
-        name: android-test-<<matrix.system.image>>
     parameters:
       system-image:
         type: string
