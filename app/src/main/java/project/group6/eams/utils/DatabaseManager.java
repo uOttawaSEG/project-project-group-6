@@ -109,15 +109,14 @@ public class DatabaseManager {
      *
      * Resources used to help write this code:
      * - <a href="https://firebase.google.com/docs/firestore/manage-data/delete-data#java">...</a
-     * @param eventId
-     * @param callback
+     * @param id is the ID of the document to be deleted
      */
-    public void deleteFromReference (String eventId, DatabaseCallback callback) {
-        if (eventId == null || callback == null) {
+    public void deleteFromReference (String id) {
+        if (id == null) {
             throw new IllegalArgumentException("Data or ID given is null");
         }
-        databaseReference.document(eventId).delete().addOnSuccessListener( s -> Log.i("Database",eventId +
-                " event successfully deleted.")).addOnFailureListener( f -> Log.e("Database",eventId+ " " +
+        databaseReference.document(id).delete().addOnSuccessListener( s -> Log.i("Database",id +
+                " event successfully deleted.")).addOnFailureListener( f -> Log.e("Database",id+ " " +
                 "event unsuccessfully deleted."));
 
     }
