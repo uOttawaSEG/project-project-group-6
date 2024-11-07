@@ -43,8 +43,8 @@ public class EventManager {
 
             } else { // already exists
 
-                Event existingUser = eventWrapper(existingEvent);
-                callback.onError(new ExistingEventException("Event already created."));
+                Event eventExists= eventWrapper(existingEvent);
+                callback.onError(new ExistingEventException( eventExists.getTitle() + " Event already created."));
 
             }
         });
