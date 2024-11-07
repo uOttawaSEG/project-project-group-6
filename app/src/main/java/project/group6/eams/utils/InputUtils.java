@@ -210,11 +210,7 @@ public class InputUtils {
      */
     public boolean dateHasPassed(Date date) {
         Date currentDate = new Date(); // defaults to current date
-        if (date.before(currentDate)) { // date has passed
-            return true;
-        } else { // either same date OR date is after current
-            return false;
-        }
+        return date.before(currentDate);
     }
 
 }
