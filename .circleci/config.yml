@@ -42,7 +42,7 @@ jobs:
             - gradle-cache-
       - run:
           name: Ensure gradlew is runnable
-          commad: |
+          command: |
             if [ -f "./gradlew" ]; then
               chmod +x ./gradlew
               echo "gradlew is now executable."
