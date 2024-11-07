@@ -3,6 +3,8 @@ package project.group6.eams.utils;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import java.util.Date;
+
 public class InputUtils {
 
     /**
@@ -198,6 +200,21 @@ public class InputUtils {
                 "\nAt least one number \n" +
                 "At least one special character. Eg: @,!,? \n" +
                 "At least 8 characters";
+    }
+
+    /**
+     * Method that returns a boolean that is true if date has already passed in comparison to current date,
+     * false if it is same date OR after current date.
+     * @param date is the Date that is to be compared to current date
+     * @return boolean value htat represents if the date has passed or not.
+     */
+    public boolean dateHasPassed(Date date) {
+        Date currentDate = new Date(); // defaults to current date
+        if (date.before(currentDate)) { // date has passed
+            return true;
+        } else { // either same date OR date is after current
+            return false;
+        }
     }
 
 }
