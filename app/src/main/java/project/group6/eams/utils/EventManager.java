@@ -96,33 +96,103 @@ public class EventManager {
     }
 
     /**
-     * Gets all attendee's for a given event that have yet to have been approved or denied
+     * Gets all attendee's IDs for a given event that have yet to have been approved or denied
      *
-     * @param event is the Event whos requested attendees are to be found
+     * @param eventID is the Event whos requested attendees are to be found
      * @param callback allows for exception handling
      */
-    public void getRequestedAttendees(Event event, AttendeeCallbackList callback) {
+    public void getRequestedAttendees(String eventID, AttendeeCallbackList callback) {
+        ArrayList<String> requestedAttendeesIDs = new ArrayList<>();
+        events.readFromReference(eventID, event -> {
+            try {
+                Log.d("Database","Finding attendee's from map within Event.");
+                if (!event.exists()) {
+                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                } else { // event found
+                    Event e = eventWrapper(event);
+                    Map<String, String> attendees = e.getAttendees();
+
+                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
+                        String id = attendee.getKey();
+                        String approvalStatus = attendee.getValue();
+                        if (approvalStatus.equals("requested")) {
+                            requestedAttendeesIDs.add(id);
+                        }
+                    }
+
+                    callback.onSuccess(requestedAttendeesIDs);
+                }
+            } catch (Exception e) {
+                callback.onError(e);
+            }
+        });
 
     }
 
     /**
-     * Gets all the attendee's for a given event who's requests have been rejected.
+     * Gets all the attendee's IDs for a given event who's requests have been rejected.
      *
-     * @param event is the Event in which the rejected attendees are to be found
+     * @param eventID is the Event in which the rejected attendees are to be found
      * @param callback allows for exception handling
      */
-    public void getRejectedAttendees(Event event, AttendeeCallbackList callback) {
+    public void getRejectedAttendees(String eventID, AttendeeCallbackList callback) {
+        ArrayList<String> rejectedAttendeesIDs = new ArrayList<>();
+        events.readFromReference(eventID, event -> {
+            try {
+                Log.d("Database","Finding attendee's from map within Event.");
+                if (!event.exists()) {
+                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                } else { // event found
+                    Event e = eventWrapper(event);
+                    Map<String, String> attendees = e.getAttendees();
 
+                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
+                        String id = attendee.getKey();
+                        String approvalStatus = attendee.getValue();
+                        if (approvalStatus.equals("rejected")) {
+                            rejectedAttendeesIDs.add(id);
+                        }
+                    }
+
+                    callback.onSuccess(rejectedAttendeesIDs);
+                }
+            } catch (Exception e) {
+                callback.onError(e);
+            }
+        });
     }
 
     /**
      * Gets all the attendee's for a given event who's requests have been approved.
      *
-     * @param event is the Event in which the approved attendees are to be found
+     * @param eventID is the Event in which the approved attendees are to be found
      * @param callback allows for exception handling
      */
-    public void getApprovedAttendees(Event event, AttendeeCallbackList callback) {
+    public void getApprovedAttendees(String eventID, AttendeeCallbackList callback) {
+        ArrayList<String> approvedAttendeesIDs = new ArrayList<>();
+        events.readFromReference(eventID, event -> {
+            try {
+                Log.d("Database","Finding attendee's from map within Event.");
+                if (!event.exists()) {
+                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                } else { // event found
+                    Event e = eventWrapper(event);
+                    Map<String, String> attendees = e.getAttendees();
 
+                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
+                        String id = attendee.getKey();
+                        String approvalStatus = attendee.getValue();
+                        if (approvalStatus.equals("approved")) {
+                            approvedAttendeesIDs.add(id);
+                        }
+                    }
+
+                    callback.onSuccess(approvedAttendeesIDs);
+                }
+            } catch (Exception e) {
+                callback.onError(e);
+            }
+        });
     }
 
     /**
@@ -152,7 +222,7 @@ public class EventManager {
     }
 
     public interface AttendeeCallbackList {
-        void onSuccess (ArrayList<Attendee> attendees);
+        void onSuccess (ArrayList<String> attendees);
 
         void onError (Exception e);
     }

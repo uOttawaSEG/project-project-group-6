@@ -34,6 +34,7 @@ public class Event {
     public Date getStartTime() {return startTime;}
     public String getDescription() {return description;}
     public String getTitle() {return title;}
+    public Map getAttendees() {return attendees;}
 
     //Setters
     public void setAutomaticApproval() {this.automaticApproval = automaticApproval;}
@@ -43,4 +44,9 @@ public class Event {
     public void setStartTime() {this.startTime = startTime;}
     public void setDescription() {this.description =description;}
     public void setTitle() {this.title = title;}
+
+    // approval status = approved, rejected, requested ONLY
+    public void addAttendee(String id, String approvalStatus) {
+        attendees.put(id, approvalStatus);
+    }
 }
