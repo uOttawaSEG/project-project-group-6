@@ -18,10 +18,12 @@ public class EventManager {
 
     private final String eventsReference;
     private final DatabaseManager events;
+    private final RegistrationManager users; // used for methods that fetch lists of attendees
 
     public EventManager(String eventsReference) {
         this.eventsReference = eventsReference;
         events = new DatabaseManager(eventsReference);
+        users = new RegistrationManager("Users");
     }
 
     /**
@@ -46,7 +48,7 @@ public class EventManager {
                     Log.e("Database",Objects.requireNonNull(e.getMessage()));
                 }
 
-            } else { // already exists
+            } else { // already exists, might remove this so that addEvent can overwrite existing events?... but what if they make duplicate events TT
 
                 Event eventExists= eventWrapper(existingEvent);
                 callback.onError(new ExistingEventException( eventExists.getTitle() + " Event already created."));
@@ -64,15 +66,21 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void removeEvent(String title, EventCallback callback) {
-        events.readFromReference(title, event -> {
-            if (!event.exists()) {
-                callback.onError(new ExistingEventException("Event does not exist, cannot be removed."));
-            } else { // event found
-                events.deleteFromReference(title);
-                callback.onSuccess();
+        try {
+            events.readFromReference(title, event -> {
+                if (!event.exists()) {
+                    callback.onError(new ExistingEventException("Event does not exist, cannot be removed."));
+                } else { // event found
+                    events.deleteFromReference(title);
+                    callback.onSuccess();
 
-            }
-        });
+                }
+            });
+
+        } catch (Exception e) {
+            callback.onError(e);
+
+        }
     }
 
     /**
@@ -82,7 +90,27 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getUpcomingEvents(String organizationName, EventCallbackList callback) {
+        ArrayList<Event> upcomingEvents = new ArrayList<>();
 
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc: eventList) {
+                    Event event = eventWrapper(doc);
+                    Date startDate = event.getStartTime();
+                    if (!InputUtils.dateHasPassed(startDate)) { // date has not passed
+                        upcomingEvents.add(event);
+                    }
+                }
+                callback.onSuccess(upcomingEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+
+        });
     }
 
     /**
@@ -92,7 +120,26 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getPastEvents(String organizationName, EventCallbackList callback) {
+        ArrayList<Event> pastEvents = new ArrayList<>();
 
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc: eventList) {
+                    Event event = eventWrapper(doc);
+                    Date endDate = event.getEndTime();
+                    if (InputUtils.dateHasPassed(endDate)) { // date has passed
+                        pastEvents.add(event);
+                    }
+                }
+                callback.onSuccess(pastEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+        });
     }
 
     /**
@@ -102,7 +149,7 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getRequestedAttendees(String eventID, AttendeeCallbackList callback) {
-        ArrayList<String> requestedAttendeesIDs = new ArrayList<>();
+        ArrayList<Attendee> requestedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
                 Log.d("Database","Finding attendee's from map within Event.");
@@ -116,11 +163,23 @@ public class EventManager {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
                         if (approvalStatus.equals("requested")) {
-                            requestedAttendeesIDs.add(id);
+                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
+                                @Override
+                                public void onSuccess() {}
+
+                                @Override
+                                public void onSuccess(User type) {
+                                    requestedAttendees.add((Attendee) type);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("Database", "Failed to get attendee");
+                                }
+                            });
                         }
                     }
-
-                    callback.onSuccess(requestedAttendeesIDs);
+                    callback.onSuccess(requestedAttendees);
                 }
             } catch (Exception e) {
                 callback.onError(e);
@@ -136,7 +195,7 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getRejectedAttendees(String eventID, AttendeeCallbackList callback) {
-        ArrayList<String> rejectedAttendeesIDs = new ArrayList<>();
+        ArrayList<Attendee> rejectedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
                 Log.d("Database","Finding attendee's from map within Event.");
@@ -150,11 +209,24 @@ public class EventManager {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
                         if (approvalStatus.equals("rejected")) {
-                            rejectedAttendeesIDs.add(id);
+                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
+                                @Override
+                                public void onSuccess() {}
+
+                                @Override
+                                public void onSuccess(User type) {
+                                    rejectedAttendees.add((Attendee) type);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("Database", "Failed to get attendee");
+                                }
+                            });
                         }
                     }
 
-                    callback.onSuccess(rejectedAttendeesIDs);
+                    callback.onSuccess(rejectedAttendees);
                 }
             } catch (Exception e) {
                 callback.onError(e);
@@ -169,7 +241,7 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getApprovedAttendees(String eventID, AttendeeCallbackList callback) {
-        ArrayList<String> approvedAttendeesIDs = new ArrayList<>();
+        ArrayList<Attendee> approvedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
                 Log.d("Database","Finding attendee's from map within Event.");
@@ -183,11 +255,25 @@ public class EventManager {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
                         if (approvalStatus.equals("approved")) {
-                            approvedAttendeesIDs.add(id);
+                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
+                                @Override
+                                public void onSuccess() {}
+
+                                @Override
+                                public void onSuccess(User type) {
+                                    approvedAttendees.add((Attendee) type);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("Database", "Failed to get attendee");
+                                    callback.onError(e);
+                                }
+                            });
                         }
                     }
 
-                    callback.onSuccess(approvedAttendeesIDs);
+                    callback.onSuccess(approvedAttendees);
                 }
             } catch (Exception e) {
                 callback.onError(e);
@@ -222,7 +308,7 @@ public class EventManager {
     }
 
     public interface AttendeeCallbackList {
-        void onSuccess (ArrayList<String> attendees);
+        void onSuccess (ArrayList<Attendee> attendees);
 
         void onError (Exception e);
     }
