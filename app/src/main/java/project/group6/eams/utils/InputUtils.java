@@ -213,4 +213,15 @@ public class InputUtils {
         return date.before(currentDate);
     }
 
+    /**
+     * Method used to check whether event times are valid
+     * startTime must be before endTime.
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static boolean isValidEventRuntime(Date startDate, Date endDate) {
+        return startDate.before(endDate);
+    }
+
 }

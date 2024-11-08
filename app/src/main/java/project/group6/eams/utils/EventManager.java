@@ -48,7 +48,7 @@ public class EventManager {
                     Log.e("Database",Objects.requireNonNull(e.getMessage()));
                 }
 
-            } else { // already exists
+            } else { // already exists, might remove this so that addEvent can overwrite existing events?... but what if they make duplicate events TT
 
                 Event eventExists= eventWrapper(existingEvent);
                 callback.onError(new ExistingEventException( eventExists.getTitle() + " Event already created."));
