@@ -17,6 +17,7 @@ import project.group6.eams.utils.Organizer;
 
 public class OrganizerPage extends AppCompatActivity {
     private Button logOffButton2;
+    private Button createEvent_button;
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class OrganizerPage extends AppCompatActivity {
 
     private void initViews () {
         logOffButton2 = findViewById(R.id.logOffButton2);
+        createEvent_button = findViewById(R.id.createEvent_button);
 
     }
     private void initListeners () {
@@ -44,6 +46,13 @@ public class OrganizerPage extends AppCompatActivity {
                 Intent intent = new Intent(OrganizerPage.this, MainActivity.class);
                 startActivity(intent);
 
+            }
+        });
+        createEvent_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
+                startActivity(intent);
             }
         });
     }

@@ -27,5 +27,11 @@
     <string name="logout">Logout</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="create_event">Create Event</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_description">Event Description</string>
 
 </resources>
