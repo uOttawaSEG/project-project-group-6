@@ -208,7 +208,7 @@ public class InputUtils {
      * @param date is the Date that is to be compared to current date
      * @return boolean value htat represents if the date has passed or not.
      */
-    public boolean dateHasPassed(Date date) {
+    public static boolean dateHasPassed(Date date) {
         Date currentDate = new Date(); // defaults to current date
         return date.before(currentDate);
     }

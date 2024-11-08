@@ -66,15 +66,21 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void removeEvent(String title, EventCallback callback) {
-        events.readFromReference(title, event -> {
-            if (!event.exists()) {
-                callback.onError(new ExistingEventException("Event does not exist, cannot be removed."));
-            } else { // event found
-                events.deleteFromReference(title);
-                callback.onSuccess();
+        try {
+            events.readFromReference(title, event -> {
+                if (!event.exists()) {
+                    callback.onError(new ExistingEventException("Event does not exist, cannot be removed."));
+                } else { // event found
+                    events.deleteFromReference(title);
+                    callback.onSuccess();
 
-            }
-        });
+                }
+            });
+
+        } catch (Exception e) {
+            callback.onError(e);
+
+        }
     }
 
     /**
@@ -84,7 +90,27 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getUpcomingEvents(String organizationName, EventCallbackList callback) {
+        ArrayList<Event> upcomingEvents = new ArrayList<>();
 
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc: eventList) {
+                    Event event = eventWrapper(doc);
+                    Date startDate = event.getStartTime();
+                    if (!InputUtils.dateHasPassed(startDate)) { // date has not passed
+                        upcomingEvents.add(event);
+                    }
+                }
+                callback.onSuccess(upcomingEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+
+        });
     }
 
     /**
@@ -94,7 +120,26 @@ public class EventManager {
      * @param callback allows for exception handling
      */
     public void getPastEvents(String organizationName, EventCallbackList callback) {
+        ArrayList<Event> pastEvents = new ArrayList<>();
 
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc: eventList) {
+                    Event event = eventWrapper(doc);
+                    Date endDate = event.getEndTime();
+                    if (InputUtils.dateHasPassed(endDate)) { // date has passed
+                        pastEvents.add(event);
+                    }
+                }
+                callback.onSuccess(pastEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+            
+        });
     }
 
     /**
