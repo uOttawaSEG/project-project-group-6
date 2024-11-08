@@ -1,6 +1,5 @@
-package project.group6.eams.utils;
+package project.group6.eams.activityUtils;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import project.group6.eams.R;
+import project.group6.eams.utils.Administrator;
+import project.group6.eams.utils.Organizer;
+import project.group6.eams.utils.RegisterableUser;
+import project.group6.eams.utils.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> users;
@@ -60,7 +63,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.userPhone.setText(user.getPhoneNumber());
         holder.userTime.setText(user.getRequestTime().toDate().toString());
         holder.userAddress.setText(user.getAddress());
-        if (user.userType.equals("Organizer")) {
+        if (user.getUserType().equals("Organizer")) {
             holder.userOrganization.setText(((Organizer) user).getOrganizationName());
         } else {
             holder.userOrganization.setText("Attendee");

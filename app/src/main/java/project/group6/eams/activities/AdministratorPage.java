@@ -21,7 +21,7 @@ import java.util.Objects;
 import project.group6.eams.R;
 import project.group6.eams.utils.RegistrationManager;
 import project.group6.eams.utils.User;
-import project.group6.eams.utils.UserAdapter;
+import project.group6.eams.activityUtils.UserAdapter;
 
 public class AdministratorPage extends AppCompatActivity {
     private Button logOffButton3;
