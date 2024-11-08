@@ -138,7 +138,7 @@ public class EventManager {
                 callback.onError(e);
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
             }
-            
+
         });
     }
 
@@ -267,6 +267,7 @@ public class EventManager {
                                 @Override
                                 public void onError(Exception e) {
                                     Log.e("Database", "Failed to get attendee");
+                                    callback.onError(e);
                                 }
                             });
                         }
