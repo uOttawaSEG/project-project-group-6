@@ -8,80 +8,12 @@
     tools:context=".activities.CreateEventPage">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="324dp"
-        android:layout_height="560dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="108dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/eventTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/event_title" />
-
-        <EditText
-            android:id="@+id/eventDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="@string/event_description"
-            android:inputType="textMultiLine" />
-
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-        <EditText
-            android:id="@+id/editTextNumberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/editTextNumberDecimal2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/editTextTextPostalAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPostalAddress" />
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Check for automatic approval of event attendee requests" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="409dp"
         android:layout_height="94dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/back_button"
@@ -98,5 +30,149 @@
             android:text="Please complete the following information regarding your event then press &quot;Create Event&quot;"
             android:textAlignment="center" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="350dp"
+        android:layout_height="584dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <EditText
+            android:id="@+id/enterStreetName"
+            android:layout_width="316dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="18dp"
+            android:ems="10"
+            android:hint="Building Number and Street"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <EditText
+            android:id="@+id/enterEventProvince"
+            android:layout_width="162dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="7dp"
+            android:ems="10"
+            android:hint="Province"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/end_date"
+            app:layout_constraintEnd_toStartOf="@+id/enterEventPostal" />
+
+        <EditText
+            android:id="@+id/enterEventCity"
+            android:layout_width="162dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="168dp"
+            android:ems="10"
+            android:hint="City"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterStreetName" />
+
+        <EditText
+            android:id="@+id/end_date"
+            android:layout_width="221dp"
+            android:layout_height="63dp"
+            android:layout_marginEnd="112dp"
+            android:layout_marginBottom="212dp"
+            android:ems="10"
+            android:hint="End date and time"
+            android:inputType="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="TextFields" />
+
+        <Button
+            android:id="@+id/createEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Create Event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/autoApprove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Check the box for automatic approval of event attendee requests"
+            app:layout_constraintBottom_toTopOf="@+id/createEvent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/eventDescription"
+            android:layout_width="317dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="17dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/event_description"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
+
+        <EditText
+            android:id="@+id/eventTitle"
+            android:layout_width="317dp"
+            android:layout_height="59dp"
+            android:ems="10"
+            android:hint="@string/event_title"
+            app:layout_constraintBottom_toTopOf="@+id/eventDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/start_date"
+            android:layout_width="218dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="116dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="Start date and time"
+            android:inputType="none"
+            app:layout_constraintBottom_toTopOf="@+id/autoApprove"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextFields" />
+
+        <EditText
+            android:id="@+id/enterEventPostal"
+            android:layout_width="162dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="4dp"
+            android:ems="10"
+            android:hint="Postal Code"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/enterEventCity"
+            app:layout_constraintTop_toBottomOf="@+id/enterStreetName" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="248dp"
+            android:text=" Event Adress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

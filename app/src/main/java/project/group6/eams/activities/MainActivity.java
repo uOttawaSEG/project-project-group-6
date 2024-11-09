@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         case "Organizer": {
                             Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
                             startActivity(intent);
+                            intent.putExtra("EMAIL",inputEmailAddress);
                             break;
                         }
                         case "Administrator": {

@@ -16,8 +16,11 @@ import project.group6.eams.R;
 import project.group6.eams.utils.Organizer;
 
 public class OrganizerPage extends AppCompatActivity {
+    private String organizerEmail;
+
     private Button logOffButton2;
     private Button createEvent_button;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,9 @@ public class OrganizerPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Intent intent = getIntent();
+        organizerEmail = intent.getStringExtra("EMAIL");
+
         initViews();
         initListeners();
     }
