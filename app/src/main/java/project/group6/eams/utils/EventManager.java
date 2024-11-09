@@ -58,6 +58,26 @@ public class EventManager {
     }
 
     /**
+     * Updates the Event in the database.
+     * Although the addEvent could be used to update an event, we must allow for the ability to tell an Organizer that
+     * they already made an event.
+     *
+     * Calling this method means that they intend to update the event.
+     *
+     * @param event is the event to be updated
+     * @param callback allows for error handling
+     */
+    public void updateEvent(Event event, EventCallback callback) {
+        try {
+          events.writeToReference(event.getTitle(),event);
+          callback.onSuccess();
+        } catch (Exception e) {
+          callback.onError(e);
+        }
+    }
+
+
+    /**
      * Checks for Event with title.
      * If found, removes it from the list.
      * Error handling(?)uhhhhh adding soon
