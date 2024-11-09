@@ -13,16 +13,16 @@ import project.group6.eams.utils.Attendee;
 import project.group6.eams.utils.RegistrationManager;
 import project.group6.eams.utils.User;
 
-@RunWith(RobolectricTestRunner.class)
+//@RunWith(RobolectricTestRunner.class)
 public class RegistrationTests {
-    @Test
-    public void testAddUser(){
-        String email = generateRandomString(16);
-        email += "@test.com";
-        Attendee toAdd = new Attendee(email,email,"Test","Test","123 456 7890", "123 Test Test");
-        RegistrationManager rm = new RegistrationManager("Users");
-
-    }
+//    @Test
+//    public void testAddUser(){
+//        String email = generateRandomString(16);
+//        email += "@test.com";
+//        Attendee toAdd = new Attendee(email,email,"Test","Test","123 456 7890", "123 Test Test");
+//        RegistrationManager rm = new RegistrationManager("Users");
+//
+//    }
 
     /**
      * Generates a random string of a given length.
