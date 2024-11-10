@@ -14,6 +14,8 @@ public class Event {
     public User creator;
     public Map attendees; // (String id, String approval status (approved, requested, denied)
 
+    public Event(){}
+
     public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, User creator, Map attendees){
         this.automaticApproval = automaticApproval;
         this.creator = creator;
