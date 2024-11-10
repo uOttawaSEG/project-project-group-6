@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import project.group6.eams.execptions.ExistingEventException;
 
@@ -180,7 +181,7 @@ public class EventManager {
                     Map<String, String> attendees = e.getAttendees();
 
                     int totalAttendees = attendees.size();
-                    int processedAttendees = 0;
+                    AtomicInteger processedAttendees = new AtomicInteger(0);
 
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
@@ -200,9 +201,9 @@ public class EventManager {
                                 }
                             });
                         }
-                        processedAttendees++;
+                        processedAttendees.incrementAndGet();
                     }
-                    if (processedAttendees == totalAttendees) {
+                    if (processedAttendees.get() == totalAttendees) {
                         callback.onSuccess(requestedAttendees);
                     }
                 }
@@ -231,7 +232,7 @@ public class EventManager {
                     Map<String, String> attendees = e.getAttendees();
 
                     int totalAttendees = attendees.size();
-                    int processedAttendees = 0;
+                    AtomicInteger processedAttendees = new AtomicInteger(0);
 
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
@@ -253,9 +254,9 @@ public class EventManager {
                             });
                         }
 
-                        processedAttendees++;
+                        processedAttendees.incrementAndGet();
                     }
-                    if (processedAttendees == totalAttendees) {
+                    if (processedAttendees.get() == totalAttendees) {
                         callback.onSuccess(rejectedAttendees);
                     }
                 }
@@ -283,7 +284,7 @@ public class EventManager {
                     Map<String, String> attendees = e.getAttendees();
 
                     int totalAttendees = attendees.size();
-                    int processedAttendees = 0;
+                    AtomicInteger processedAttendees = new AtomicInteger(0);
 
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
@@ -305,10 +306,10 @@ public class EventManager {
                                 }
                             });
                         }
-                        processedAttendees++;
+                        processedAttendees.incrementAndGet();
                     }
 
-                    if (processedAttendees == totalAttendees) {
+                    if (processedAttendees.get() == totalAttendees) {
                         callback.onSuccess(approvedAttendees);
                     }
 
