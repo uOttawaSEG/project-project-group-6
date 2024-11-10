@@ -39,64 +39,74 @@ public class Organizer extends RegisterableUser{
                 organizationName;
     }
 
-    public void approveEventRequest(Event ev, String email){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
-        @Override
-        public void onSuccess() {
-            if (ev.attendees.get(email) != null){
-                ev.attendees.put(email, "approved");
+    public void approveEventRequest(Event ev, String email){
+        if (ev.attendees.get(email) != null){
+            ev.attendees.put(email, "approved");
+        }
+
+        eventManager.updateEvent(ev, new EventManager.EventCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("Database", "Successfully approved " +email+ "for event");
             }
-        }
 
-        @Override
-        public void onError(Exception e) {
-
-        }
-    });
+            @Override
+            public void onError(Exception e) {
+                Log.e("Database", "Could not approve " +email);
+            }
+        });
 
     }
 
-    public void approveAllEventRequests(Event ev){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
-        @Override
-        public void onSuccess() {
-            for(Object requester : ev.attendees.keySet()){
-                if (requester != null){
-                    ev.attendees.put((String) requester, "approved");
-                }
+    public void approveAllEventRequests(Event ev){
+
+        for(String requester : ev.attendees.keySet()){
+            if (requester != null){
+                ev.attendees.put(requester, "approved");
             }
         }
 
-        @Override
-        public void onError(Exception e) {
+        eventManager.updateEvent(ev, new EventManager.EventCallback() {
+            @Override
+            public void onSuccess() {
+              Log.d("Database", "Successfully updated event");
+            }
 
-        }
-    });
+            @Override
+            public void onError(Exception e) {
+                Log.e("Database","Could not update event");
+            }
+         });
 
     }
 
-    public void rejectEventRequest(Event ev, String email){eventManager.updateEvent(ev, new EventManager.EventCallback() {
-        @Override
-        public void onSuccess() {
-            if (ev.attendees.get(email) != null){
-                ev.attendees.put(email, "rejected");
+    public void rejectEventRequest(Event ev, String email){
+        if (ev.attendees.get(email) != null){
+            ev.attendees.put(email, "rejected");
+        }
+
+        eventManager.updateEvent(ev, new EventManager.EventCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("Database", "Successfully rejected " +email+ "for event");
             }
-        }
 
-        @Override
-        public void onError(Exception e) {
-
-        }
-    });
+            @Override
+            public void onError(Exception e) {
+                Log.e("Database", "Could not reject " +email);
+            }
+        });
     }
 
     public void deleteEvent(Event ev){ eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
         @Override
         public void onSuccess() {
-
+            Log.d("Database", "Successfully deleted " + ev.getTitle());
         }
 
         @Override
         public void onError(Exception e) {
-
+            Log.e("Database","Could not delete" + ev.getTitle());
         }
     });
 
