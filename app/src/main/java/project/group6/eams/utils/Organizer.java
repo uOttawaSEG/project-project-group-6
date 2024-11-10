@@ -1,7 +1,13 @@
 package project.group6.eams.utils;
 
+import android.util.Log;
+
+import java.util.Objects;
+
 public class Organizer extends RegisterableUser {
     private String organizationName;
+
+    private static EventManager eventManager = new EventManager("Events");
 
     public Organizer () {
         super();
@@ -30,4 +36,68 @@ public class Organizer extends RegisterableUser {
         this.organizationName =
                 organizationName;
     }
+
+    public void approveEventRequest(Event ev, String email){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
+        @Override
+        public void onSuccess() {
+            if (ev.attendees.get(email) != null){
+                ev.attendees.put(email, "approved");
+            }
+        }
+
+        @Override
+        public void onError(Exception e) {
+
+        }
+    });
+
+    }
+
+    public void approveAllEventRequests(Event ev, String email){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
+        @Override
+        public void onSuccess() {
+            for(Object requester : ev.attendees.keySet()){
+                if (requester != null){
+                    ev.attendees.put((String) requester, "approved");
+                }
+            }
+        }
+
+        @Override
+        public void onError(Exception e) {
+
+        }
+    });
+
+    }
+
+    public void rejectEventRequest(Event ev, String email){eventManager.updateEvent(ev, new EventManager.EventCallback() {
+        @Override
+        public void onSuccess() {
+            if (ev.attendees.get(email) != null){
+                ev.attendees.put(email, "rejected");
+            }
+        }
+
+        @Override
+        public void onError(Exception e) {
+
+        }
+    });
+    }
+
+    public void deleteEvent(Event ev, String email){ eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
+        @Override
+        public void onSuccess() {
+
+        }
+
+        @Override
+        public void onError(Exception e) {
+
+        }
+    });
+
+    }
+
 }
