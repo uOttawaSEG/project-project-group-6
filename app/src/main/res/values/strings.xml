@@ -33,5 +33,15 @@
     <string name="create_event">Create Event</string>
     <string name="event_title">Event Title</string>
     <string name="event_description">Event Description</string>
+    <string name="building_number_and_street">Building Number and Street</string>
+    <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="end_date_and_time">End date and time</string>
+    <string name="check_the_box_for_automatic_approval_of_event_attendee_requests">Check the box for automatic approval of event attendee requests</string>
+    <string name="start_date_and_time">Start date and time</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="event_address">Event Address</string>
+    <string name="please_complete_the_following_information_regarding_your_event_then_press_quot_create_event_quot">Please complete the following information regarding your event then press \"Create Event\"</string>
+    <string name="back">Back</string>
 
 </resources>
