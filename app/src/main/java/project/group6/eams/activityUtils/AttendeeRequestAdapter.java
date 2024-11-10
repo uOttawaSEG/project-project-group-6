@@ -28,6 +28,7 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
     public AttendeeRequestAdapter (ArrayList<Attendee> attendees, Event event, Organizer organizer) {
         this.attendees = attendees;
         this.event = event;
+        this.organizer = organizer;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

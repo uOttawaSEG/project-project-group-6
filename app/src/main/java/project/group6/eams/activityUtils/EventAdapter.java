@@ -74,20 +74,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.eventDescription.setText(event.getDescription());
         holder.startTime.setText(event.getStartTime().toString());
         holder.endTime.setText(event.getEndTime().toString());
-
-        holder.attendee_list_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                showAttendeeDialog(event);
-            }
-        });
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                organizer.deleteEvent(event);
-            }
-        });
-
+        holder.attendee_list_button.setOnClickListener(v -> showAttendeeDialog(event));
+        holder.delete.setOnClickListener(v -> organizer.deleteEvent(event));
 
     }
     @Override
@@ -118,60 +106,70 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     }
 
-    private void loadAttendees(Event event, String attendeeType){
+    private void loadAttendees(Event event, String attendeeType) {
         EventManager eventManager = new EventManager("Events");
         String eventID = event.getTitle();
-        switch (attendeeType){
+        Log.d("Events", "Loading attendees for event: " + eventID + " with type: " + attendeeType);
+
+        switch (attendeeType) {
             case "accepted":
-                eventManager.getApprovedAttendees(eventID, new EventManager.AttendeeCallbackList(){
+                eventManager.getApprovedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
-                        Log.d("Events", attendees.toString());
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event,organizer);
+                        Log.d("Events", "Approved attendees: " + attendees.toString());
+                        if (attendees.isEmpty()) {
+                            Log.d("Events", "No approved attendees found.");
+                        }
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                        Log.e("Database", "Error fetching approved attendees: " + e.getMessage());
                     }
                 });
                 break;
             case "rejected":
-                eventManager.getRejectedAttendees(eventID, new EventManager.AttendeeCallbackList(){
+                eventManager.getRejectedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
-                        Log.d("Events", attendees.toString());
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event,organizer);
+                        Log.d("Events", "Rejected attendees: " + attendees.toString());
+                        if (attendees.isEmpty()) {
+                            Log.d("Events", "No rejected attendees found.");
+                        }
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                        Log.e("Database", "Error fetching rejected attendees: " + e.getMessage());
                     }
                 });
                 break;
             case "requested":
-                eventManager.getRequestedAttendees(eventID, new EventManager.AttendeeCallbackList(){
+                eventManager.getRequestedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
-                        Log.d("Events", attendees.toString());
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event,organizer);
+                        Log.d("Events", "Requested attendees: " + attendees.toString());
+                        if (attendees.isEmpty()) {
+                            Log.d("Events", "No requested attendees found.");
+                        }
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                        Log.e("Database", "Error fetching requested attendees: " + e.getMessage());
                     }
                 });
                 break;
         }
-
     }
 
 

@@ -154,7 +154,7 @@ public class RegistrationManager {
         });
     }
 
-    public User userMapper (DocumentSnapshot document) {
+    public static User userMapper (DocumentSnapshot document) {
         switch ((String) Objects.requireNonNull(document.get("userType"))) {
             case "Attendee":
                 return document.toObject(Attendee.class);

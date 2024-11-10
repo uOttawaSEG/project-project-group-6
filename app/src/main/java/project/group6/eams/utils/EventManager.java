@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import project.group6.eams.execptions.ExistingEventException;
@@ -19,12 +20,12 @@ public class EventManager {
 
     private final String eventsReference;
     private final DatabaseManager events;
-    private final RegistrationManager users; // used for methods that fetch lists of attendees
+    private final DatabaseManager users; // used for methods that fetch lists of attendees
 
     public EventManager(String eventsReference) {
         this.eventsReference = eventsReference;
         events = new DatabaseManager(eventsReference);
-        users = new RegistrationManager("Users");
+        users = new DatabaseManager("Users");
     }
 
     /**
@@ -166,105 +167,113 @@ public class EventManager {
     /**
      * Gets all attendee's IDs for a given event that have yet to have been approved or denied
      *
-     * @param eventID  is the Event whos requested attendees are to be found
-     * @param callback allows for exception handling
+     * @param eventID              is the Event whos requested attendees are to be found
+     * @param attendeeCallbackList allows for exception handling
      */
-    public void getRequestedAttendees(String eventID, AttendeeCallbackList callback) {
+    public void getRequestedAttendees(String eventID, AttendeeCallbackList attendeeCallbackList) {
         ArrayList<Attendee> requestedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
-                Log.d("Database", "Finding attendee's from map within Event.");
+                Log.d("Database", "Finding attendees from map within Event.");
+                // Check if the event exists
                 if (!event.exists()) {
-                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
-                } else { // event found
-                    Event e = eventWrapper(event);
-                    Map<String, String> attendees = e.getAttendees();
-
-                    int totalAttendees = attendees.size();
-                    AtomicInteger processedAttendees = new AtomicInteger(0);
-
-                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
-                        String id = attendee.getKey();
-                        String approvalStatus = attendee.getValue();
-                        if (approvalStatus.equals("requested")) {
-                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
-                                @Override
-                                public void onSuccess() {
-                                }
-
-                                @Override
-                                public void onSuccess(User type) {
-                                    requestedAttendees.add((Attendee) type);
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    Log.e("Database", "Failed to get attendee");
-                                }
-                            });
-                        }
-                        processedAttendees.incrementAndGet();
-                    }
-                    if (processedAttendees.get() == totalAttendees) {
-                        callback.onSuccess(requestedAttendees);
-                    }
+                    attendeeCallbackList.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                    return;
                 }
+
+                // Wrap the event and get attendees map
+                Event e = eventWrapper(event);
+                Map<String, String> attendees = e.getAttendees();
+
+                // Fetch all users and process them
+                users.readAllFromReference(usersList -> {
+                    try {
+                        Log.d("Database", usersList.toString());
+
+                        // Loop through the list of users
+                        for (DocumentSnapshot doc : usersList) {
+                            User user = RegistrationManager.userMapper(doc);
+
+                            // Check if the user is an Attendee and if they're marked as requested
+                            if (user != null && user.userType.equals("Attendee")) {
+                                Attendee attendee = (Attendee) user;
+
+                                if (attendees.containsKey(attendee.getEmail()) &&
+                                        "requested".equals(attendees.get(attendee.getEmail()))) {
+                                    requestedAttendees.add(attendee);
+                                }
+                            }
+                        }
+
+                        // Return the list of requested attendees
+                        attendeeCallbackList.onSuccess(requestedAttendees);
+
+                    } catch (Exception err) {
+                        Log.e("Database", "Error processing users: " + err.getMessage());
+                        attendeeCallbackList.onError(err);
+                    }
+                });
+
             } catch (Exception e) {
-                callback.onError(e);
+                Log.e("Database", "Error retrieving event data: " + e.getMessage());
+                attendeeCallbackList.onError(e);
             }
         });
-
     }
 
     /**
      * Gets all the attendee's IDs for a given event who's requests have been rejected.
      *
      * @param eventID  is the Event in which the rejected attendees are to be found
-     * @param callback allows for exception handling
+     * @param attendeeCallbackList allows for exception handling
      */
-    public void getRejectedAttendees(String eventID, AttendeeCallbackList callback) {
+    public void getRejectedAttendees(String eventID, AttendeeCallbackList attendeeCallbackList) {
         ArrayList<Attendee> rejectedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
-                Log.d("Database", "Finding attendee's from map within Event.");
+                Log.d("Database", "Finding attendees from map within Event.");
+                // Check if the event exists
                 if (!event.exists()) {
-                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
-                } else { // event found
-                    Event e = eventWrapper(event);
-                    Map<String, String> attendees = e.getAttendees();
+                    attendeeCallbackList.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                    return;
+                }
 
-                    int totalAttendees = attendees.size();
-                    AtomicInteger processedAttendees = new AtomicInteger(0);
+                // Wrap the event and get attendees map
+                Event e = eventWrapper(event);
+                Map<String, String> attendees = e.getAttendees();
 
-                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
-                        String id = attendee.getKey();
-                        String approvalStatus = attendee.getValue();
-                        if (approvalStatus.equals("rejected")) {
-                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
-                                @Override
-                                public void onSuccess() {
+                // Fetch all users and process them
+                users.readAllFromReference(usersList -> {
+                    try {
+                        Log.d("Database", usersList.toString());
+
+                        // Loop through the list of users
+                        for (DocumentSnapshot doc : usersList) {
+                            User user = RegistrationManager.userMapper(doc);
+
+                            // Check if the user is an Attendee and if they're marked as requested
+                            if (user != null && user.userType.equals("Attendee")) {
+                                Attendee attendee = (Attendee) user;
+
+                                if (attendees.containsKey(attendee.getEmail()) &&
+                                        "rejected".equals(attendees.get(attendee.getEmail()))) {
+                                    rejectedAttendees.add(attendee);
                                 }
-
-                                @Override
-                                public void onSuccess(User type) {
-                                    rejectedAttendees.add((Attendee) type);
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    Log.e("Database", "Failed to get attendee");
-                                }
-                            });
+                            }
                         }
 
-                        processedAttendees.incrementAndGet();
+                        // Return the list of requested attendees
+                        attendeeCallbackList.onSuccess(rejectedAttendees);
+
+                    } catch (Exception err) {
+                        Log.e("Database", "Error processing users: " + err.getMessage());
+                        attendeeCallbackList.onError(err);
                     }
-                    if (processedAttendees.get() == totalAttendees) {
-                        callback.onSuccess(rejectedAttendees);
-                    }
-                }
+                });
+
             } catch (Exception e) {
-                callback.onError(e);
+                Log.e("Database", "Error retrieving event data: " + e.getMessage());
+                attendeeCallbackList.onError(e);
             }
         });
     }
@@ -273,53 +282,55 @@ public class EventManager {
      * Gets all the attendee's for a given event who's requests have been approved.
      *
      * @param eventID  is the Event in which the approved attendees are to be found
-     * @param callback allows for exception handling
+     * @param attendeeCallbackList allows for exception handling
      */
-    public void getApprovedAttendees(String eventID, AttendeeCallbackList callback) {
+    public void getApprovedAttendees(String eventID, AttendeeCallbackList attendeeCallbackList) {
         ArrayList<Attendee> approvedAttendees = new ArrayList<>();
         events.readFromReference(eventID, event -> {
             try {
-                Log.d("Database", "Finding attendee's from map within Event.");
+                Log.d("Database", "Finding attendees from map within Event.");
+                // Check if the event exists
                 if (!event.exists()) {
-                    callback.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
-                } else { // event found
-                    Event e = eventWrapper(event);
-                    Map<String, String> attendees = e.getAttendees();
-
-                    int totalAttendees = attendees.size();
-                    AtomicInteger processedAttendees = new AtomicInteger(0);
-
-                    for (Map.Entry<String, String> attendee : attendees.entrySet()) {
-                        String id = attendee.getKey();
-                        String approvalStatus = attendee.getValue();
-                        if (approvalStatus.equals("approved")) {
-                            users.checkForUser(id, new RegistrationManager.RegistrationCallback() {
-                                @Override
-                                public void onSuccess() {
-                                }
-
-                                @Override
-                                public void onSuccess(User type) {
-                                    approvedAttendees.add((Attendee) type);
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    Log.e("Database", "Failed to get attendee");
-                                    callback.onError(e);
-                                }
-                            });
-                        }
-                        processedAttendees.incrementAndGet();
-                    }
-
-                    if (processedAttendees.get() == totalAttendees) {
-                        callback.onSuccess(approvedAttendees);
-                    }
-
+                    attendeeCallbackList.onError(new ExistingEventException("Event does not exist, cannot get requested attendees."));
+                    return;
                 }
+
+                // Wrap the event and get attendees map
+                Event e = eventWrapper(event);
+                Map<String, String> attendees = e.getAttendees();
+
+                // Fetch all users and process them
+                users.readAllFromReference(usersList -> {
+                    try {
+                        Log.d("Database", usersList.toString());
+
+                        // Loop through the list of users
+                        for (DocumentSnapshot doc : usersList) {
+                            User user = RegistrationManager.userMapper(doc);
+
+                            // Check if the user is an Attendee and if they're marked as requested
+                            if (user != null && user.userType.equals("Attendee")) {
+                                Attendee attendee = (Attendee) user;
+
+                                if (attendees.containsKey(attendee.getEmail()) &&
+                                        "approved".equals(attendees.get(attendee.getEmail()))) {
+                                    approvedAttendees.add(attendee);
+                                }
+                            }
+                        }
+
+                        // Return the list of requested attendees
+                        attendeeCallbackList.onSuccess(approvedAttendees);
+
+                    } catch (Exception err) {
+                        Log.e("Database", "Error processing users: " + err.getMessage());
+                        attendeeCallbackList.onError(err);
+                    }
+                });
+
             } catch (Exception e) {
-                callback.onError(e);
+                Log.e("Database", "Error retrieving event data: " + e.getMessage());
+                attendeeCallbackList.onError(e);
             }
         });
     }
