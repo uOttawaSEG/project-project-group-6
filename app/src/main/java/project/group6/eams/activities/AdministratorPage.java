@@ -53,58 +53,21 @@ public class AdministratorPage extends AppCompatActivity {
     }
 
     private void initListeners () {
+        loadUsers("requested");
+        logOffButton3.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
+                    "page.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(AdministratorPage.this, MainActivity.class);
+            startActivity(intent);
+        });
+        requested_button.setOnClickListener(v -> loadUsers("requested"));
+        rejected_button.setOnClickListener(v -> loadUsers("rejected"));
+
+    }
+    private void loadUsers(String userStatuses){
         RegistrationManager registrationManager = new RegistrationManager("Users");
-        registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
-            @Override
-            public void onSuccess (ArrayList<User> usersList) {
-                Log.d("Users", usersList.toString());
-                UserAdapter adapter = new UserAdapter(usersList);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError (Exception e) {
-                Log.e("Database", Objects.requireNonNull(e.getMessage()));
-            }
-
-        });
-        logOffButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
-                        "page.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AdministratorPage.this, MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        requested_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                RegistrationManager registrationManager = new RegistrationManager("Users");
-                registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
-                    @Override
-                    public void onSuccess (ArrayList<User> usersList) {
-                        Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList);
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError (Exception e) {
-                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
-                    }
-
-                });
-            }
-        });
-
-        rejected_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                RegistrationManager registrationManager = new RegistrationManager("Users");
+        switch (userStatuses){
+            case "rejected":
                 registrationManager.getAllRejectedUsers(new RegistrationManager.RegistrationCallbackList() {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
@@ -120,8 +83,24 @@ public class AdministratorPage extends AppCompatActivity {
                     }
 
                 });
-            }
-        });
+                break;
+            case "requested":
+                registrationManager.getAllRequestedUsers(new RegistrationManager.RegistrationCallbackList() {
+                    @Override
+                    public void onSuccess (ArrayList<User> usersList) {
+                        Log.d("Users", usersList.toString());
+                        UserAdapter adapter = new UserAdapter(usersList);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
 
+                    @Override
+                    public void onError (Exception e) {
+                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                    }
+
+                });
+                break;
+        }
     }
 }

@@ -31,15 +31,15 @@ import project.group6.eams.utils.User;
 public class OrganizerPage extends AppCompatActivity {
     private String orgEmail;
     private String org;
-
     private Button logOffButton2;
     private Button createEvent_button;
     private Button pastEvents;
     private Button upcomingEvents;
     private TextView displayOrg;
     private RecyclerView recyclerView;
+
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_organizer_page);
@@ -51,7 +51,7 @@ public class OrganizerPage extends AppCompatActivity {
         Intent intent = getIntent();
         orgEmail = intent.getStringExtra("email");
 
-        if(org==null){
+        if (org == null) {
             org = intent.getStringExtra("org_name");
         }
 
@@ -62,7 +62,7 @@ public class OrganizerPage extends AppCompatActivity {
         initListeners();
     }
 
-    private void initViews () {
+    private void initViews() {
         logOffButton2 = findViewById(R.id.logOffButton2);
         createEvent_button = findViewById(R.id.createEvent_button);
         pastEvents = findViewById(R.id.past_events);
@@ -70,97 +70,64 @@ public class OrganizerPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.event_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-    private void initListeners () {
+
+    private void initListeners() {
+        loadEvents("upcomingEvents");
+
+        logOffButton2.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
+                    "page.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(OrganizerPage.this, MainActivity.class);
+            startActivity(intent);
+        });
+        createEvent_button.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
+            intent.putExtra("email", orgEmail);
+            startActivity(intent);
+        });
+
+        pastEvents.setOnClickListener(v -> loadEvents("pastEvents"));
+
+        upcomingEvents.setOnClickListener(v -> loadEvents("upcomingEvents"));
+    }
+
+    private void loadEvents(String eventType) {
         EventManager eventManager = new EventManager("Events");
-        eventManager.getUpcomingEvents(org,new EventManager.EventCallbackList() {
-            @Override
-            public void onSuccess (ArrayList<Event> eventList) {
-                Log.d("Events",eventList.toString());
-                EventAdapter adapter = new EventAdapter(eventList,false);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError (Exception e) {
-                Log.e("Database", Objects.requireNonNull(e.getMessage()));
-            }
-
-        });
-
-        logOffButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
-                        "page.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(OrganizerPage.this, MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        createEvent_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
-
-                intent.putExtra("email", orgEmail);
-
-                startActivity(intent);
-
-            }
-        });
-
-        pastEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                EventManager eventManager = new EventManager("Events");
-                eventManager.getPastEvents(org,new EventManager.EventCallbackList() {
+        switch (eventType) {
+            case "upcomingEvents":
+                eventManager.getUpcomingEvents(org, new EventManager.EventCallbackList() {
                     @Override
-                    public void onSuccess (ArrayList<Event> eventList) {
-                        Log.d("Events",eventList.toString());
-                        EventAdapter adapter = new EventAdapter(eventList,true);
+                    public void onSuccess(ArrayList<Event> eventList) {
+                        Log.d("Events", eventList.toString());
+                        EventAdapter adapter = new EventAdapter(eventList, false);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onError (Exception e) {
+                    public void onError(Exception e) {
                         Log.e("Database", Objects.requireNonNull(e.getMessage()));
-
                     }
 
                 });
-
-
-            }
-
-
-        });
-
-        upcomingEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                EventManager eventManager = new EventManager("Events");
-                eventManager.getUpcomingEvents(org,new EventManager.EventCallbackList() {
+                break;
+            case "pastEvents":
+                eventManager.getPastEvents(org, new EventManager.EventCallbackList() {
                     @Override
-                    public void onSuccess (ArrayList<Event> eventList) {
-                        Log.d("Events",eventList.toString());
-                        EventAdapter adapter = new EventAdapter(eventList,false);
+                    public void onSuccess(ArrayList<Event> eventList) {
+                        Log.d("Events", eventList.toString());
+                        EventAdapter adapter = new EventAdapter(eventList, true);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onError (Exception e) {
+                    public void onError(Exception e) {
                         Log.e("Database", Objects.requireNonNull(e.getMessage()));
+
                     }
-
                 });
-            }
-        });
-
-
-
-
+                break;
+        }
     }
 }
