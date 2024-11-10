@@ -63,6 +63,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.startTime.setText(event.getStartTime().toString());
         holder.endTime.setText(event.getEndTime().toString());
 
+        holder.attendee_list_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+            }
+        });
+        holder.accept_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+            }
+        });
+
 
     }
     @Override
