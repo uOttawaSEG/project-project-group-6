@@ -8,15 +8,17 @@
     android:layout_margin="10dp"
     android:padding="8dp">
 
+    <!-- User Info Section -->
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Email and Phone Row -->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -43,10 +45,12 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+        <!-- Name and Organization Row -->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
 
             <TextView
                 android:id="@+id/userName"
@@ -70,53 +74,54 @@
                 android:fontFamily="@font/capriola_regular"
                 android:text="userOrganization"
                 android:textSize="12sp" />
-
         </LinearLayout>
 
+        <!-- Address -->
         <TextView
             android:id="@+id/userAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/capriola_regular"
             android:text="Address"
             android:textSize="12sp" />
 
+        <!-- Time -->
         <TextView
             android:id="@+id/userTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/capriola_regular"
             android:text="Time"
             android:textSize="12sp" />
-
     </LinearLayout>
 
+    <!-- Action Buttons -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="end">
+        android:gravity="end|center_vertical">
 
         <Button
             android:id="@+id/accept_button"
             style="@style/button.Style"
-            android:padding="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
             android:text="@string/accept"
             android:textSize="12sp" />
 
         <Button
             android:id="@+id/reject_button"
             style="@style/button.Style"
-            android:layout_marginTop="5dp"
-            android:padding="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingHorizontal="16dp"
             android:text="@string/reject"
             android:textSize="12sp" />
-
     </LinearLayout>
+
 </LinearLayout>

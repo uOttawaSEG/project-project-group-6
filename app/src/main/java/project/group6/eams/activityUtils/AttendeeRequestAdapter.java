@@ -21,10 +21,10 @@ import project.group6.eams.utils.RegisterableUser;
 import project.group6.eams.utils.User;
 
 public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequestAdapter.ViewHolder> {
-    private ArrayList<Attendee> attendees;
+    private final ArrayList<Attendee> attendees;
     //The even this list is attached to
-    private Event event;
-    private Organizer organizer;
+    private final Event event;
+    private final Organizer organizer;
 
     public AttendeeRequestAdapter (ArrayList<Attendee> attendees, Event event, Organizer organizer) {
         Log.d("Event","AttendeeRequestAdapter has received: "+attendees.toString());
@@ -74,19 +74,8 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
         holder.userAddress.setText(user.getAddress());
         holder.userOrganization.setText("Attendee");
 
-
-        holder.accept_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                organizer.approveEventRequest(event,user.getEmail());
-            }
-        });
-        holder.reject_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                organizer.rejectEventRequest(event,user.getEmail());
-            }
-        });
+        holder.accept_button.setOnClickListener(v -> organizer.approveEventRequest(event,user.getEmail()));
+        holder.reject_button.setOnClickListener(v -> organizer.rejectEventRequest(event,user.getEmail()));
 
     }
 

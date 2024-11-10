@@ -23,9 +23,9 @@ import project.group6.eams.utils.EventManager;
 import project.group6.eams.utils.Organizer;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
-    private ArrayList<Event> events;
+    private final ArrayList<Event> events;
     private boolean isOnPastEventPage;
-    private Context context;
+    private final Context context;
     private RecyclerView recyclerViewAttendee;
     Organizer organizer = new Organizer();
 
@@ -86,6 +86,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public void showAttendeeDialog(Event event){
         loadAttendees(event,"requested");
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.view_attendees_dialog, null);
@@ -101,9 +102,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         AlertDialog b = dialogBuilder.create();
         b.show();
 
-        acceptedButton.setOnClickListener(v -> loadAttendees(event,"accepted"));
-        requestedButton.setOnClickListener(v -> loadAttendees(event,"requested"));
-        rejectedButton.setOnClickListener(v -> loadAttendees(event,"rejected"));
+        acceptedButton.setOnClickListener(v -> {
+            loadAttendees(event,"accepted");
+            if (event.getAutomaticApproval()){
+                organizer.approveAllEventRequests(event);
+            }
+        });
+        requestedButton.setOnClickListener(v -> {
+            loadAttendees(event,"requested");
+            if (event.getAutomaticApproval()){
+                organizer.approveAllEventRequests(event);
+            }
+        });
+
+        rejectedButton.setOnClickListener(v -> {
+            loadAttendees(event,"rejected");
+            if (event.getAutomaticApproval()){
+                organizer.approveAllEventRequests(event);
+            }
+        });
         acceptAll.setOnClickListener(v -> organizer.approveAllEventRequests(event));
 
     }

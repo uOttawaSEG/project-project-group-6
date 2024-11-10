@@ -40,10 +40,14 @@ public class Organizer extends RegisterableUser{
     }
 
     public void approveEventRequest(Event ev, String email){
-        if (ev.attendees.get(email) != null){
-            ev.attendees.put(email, "approved");
-        }
+        Log.d("Event",ev.attendees.toString() + ev.attendees.get(email) + email);
+        if (ev.attendees.get(email) != null && ev.attendees.containsKey(email)){
+            if(!ev.attendees.get(email).isEmpty()){
+                ev.attendees.put(email, "approved");
+            }
 
+        }
+        Log.d("Event",ev.attendees.toString() + ev.attendees.get(email) + email);
         eventManager.updateEvent(ev, new EventManager.EventCallback() {
             @Override
             public void onSuccess() {
@@ -59,10 +63,12 @@ public class Organizer extends RegisterableUser{
     }
 
     public void approveAllEventRequests(Event ev){
-
         for(String requester : ev.attendees.keySet()){
-            if (requester != null){
-                ev.attendees.put(requester, "approved");
+            if (requester != null && ev.attendees.containsKey(requester)){
+                if(!requester.isEmpty()){
+                    ev.attendees.put(requester, "approved");
+                }
+
             }
         }
 
@@ -81,9 +87,14 @@ public class Organizer extends RegisterableUser{
     }
 
     public void rejectEventRequest(Event ev, String email){
-        if (ev.attendees.get(email) != null){
-            ev.attendees.put(email, "rejected");
+        Log.d("Event",ev.attendees.toString() + ev.attendees.get(email) + email);
+        if (ev.attendees.get(email) != null && ev.attendees.containsKey(email)){
+            if(!ev.attendees.get(email).isEmpty()){
+                ev.attendees.put(email, "rejected");
+            }
+
         }
+        Log.d("Event",ev.attendees.toString() + ev.attendees.get(email) + email);
 
         eventManager.updateEvent(ev, new EventManager.EventCallback() {
             @Override

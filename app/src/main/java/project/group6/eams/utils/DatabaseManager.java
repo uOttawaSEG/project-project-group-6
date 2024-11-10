@@ -53,6 +53,9 @@ public class DatabaseManager {
         if (id == null || data == null) {
             throw new IllegalArgumentException("Data or ID given is null");
         }
+        if (id.isEmpty()){
+            throw new IllegalArgumentException("Empty ID");
+        }
         this.databaseReference.document(id).set(data).addOnSuccessListener(s -> Log.i("Database",
                 "Write to Database success")).addOnFailureListener(f -> Log.e("Database", "Failed" +
                 " to write to database"));
