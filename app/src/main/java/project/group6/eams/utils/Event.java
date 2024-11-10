@@ -12,11 +12,11 @@ public class Event {
     public Date endTime;
     public boolean automaticApproval;
     public Organizer creator;
-    public Map attendees; // (String id, String approval status (approved, requested, denied)
+    public Map<String, String> attendees; // (String id, String approval status (approved, requested, denied)
 
     public Event(){} // needed for firestore
 
-    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, Organizer creator, Map attendees){
+    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, Organizer creator, Map<String,String> attendees){
         this.automaticApproval = automaticApproval;
         this.creator = creator;
         this.eventAddress = eventAddress;
