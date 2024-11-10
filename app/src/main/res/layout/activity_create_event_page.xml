@@ -58,13 +58,13 @@
             android:id="@+id/enterEventProvince"
             android:layout_width="162dp"
             android:layout_height="52dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginStart="18dp"
             android:ems="10"
             android:hint="Province"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/end_date"
-            app:layout_constraintEnd_toStartOf="@+id/enterEventPostal" />
+            app:layout_constraintBottom_toTopOf="@+id/start_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterEventCity" />
 
         <EditText
             android:id="@+id/enterEventCity"
@@ -74,20 +74,22 @@
             android:ems="10"
             android:hint="City"
             android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/enterEventProvince"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/enterStreetName" />
+            app:layout_constraintTop_toBottomOf="@+id/enterStreetName"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/end_date"
             android:layout_width="221dp"
             android:layout_height="63dp"
-            android:layout_marginEnd="112dp"
-            android:layout_marginBottom="212dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="End date and time"
             android:inputType="none"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_date"
             tools:ignore="TextFields" />
 
         <Button
@@ -129,25 +131,23 @@
             android:layout_height="59dp"
             android:ems="10"
             android:hint="@string/event_title"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/eventDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/start_date"
             android:layout_width="218dp"
             android:layout_height="66dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="116dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="1dp"
             android:ems="10"
             android:hint="Start date and time"
             android:inputType="none"
-            app:layout_constraintBottom_toTopOf="@+id/autoApprove"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterEventProvince"
             tools:ignore="TextFields" />
 
         <EditText
@@ -155,12 +155,13 @@
             android:layout_width="162dp"
             android:layout_height="52dp"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="49dp"
+            android:layout_marginTop="52dp"
             android:layout_marginEnd="4dp"
             android:ems="10"
             android:hint="Postal Code"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/enterEventCity"
             app:layout_constraintTop_toBottomOf="@+id/enterStreetName" />
 

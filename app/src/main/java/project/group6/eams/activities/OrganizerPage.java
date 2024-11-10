@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,6 +21,7 @@ public class OrganizerPage extends AppCompatActivity {
 
     private Button logOffButton2;
     private Button createEvent_button;
+    TextView displayOrg;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -32,7 +34,10 @@ public class OrganizerPage extends AppCompatActivity {
             return insets;
         });
         Intent intent = getIntent();
-        organizerEmail = intent.getStringExtra("EMAIL");
+        organizerEmail = intent.getStringExtra("email");
+
+        displayOrg = findViewById(R.id.organizerEmail);
+        displayOrg.setText(organizerEmail);
 
         initViews();
         initListeners();
@@ -41,6 +46,7 @@ public class OrganizerPage extends AppCompatActivity {
     private void initViews () {
         logOffButton2 = findViewById(R.id.logOffButton2);
         createEvent_button = findViewById(R.id.createEvent_button);
+
 
     }
     private void initListeners () {
@@ -58,7 +64,11 @@ public class OrganizerPage extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
+
+                intent.putExtra("email", organizerEmail);
+
                 startActivity(intent);
+
             }
         });
     }
