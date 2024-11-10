@@ -179,6 +179,9 @@ public class EventManager {
                     Event e = eventWrapper(event);
                     Map<String, String> attendees = e.getAttendees();
 
+                    int totalAttendees = attendees.size();
+                    int processedAttendees = 0;
+
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
@@ -197,8 +200,11 @@ public class EventManager {
                                 }
                             });
                         }
+                        processedAttendees++;
                     }
-                    callback.onSuccess(requestedAttendees);
+                    if (processedAttendees == totalAttendees) {
+                        callback.onSuccess(requestedAttendees);
+                    }
                 }
             } catch (Exception e) {
                 callback.onError(e);
@@ -224,6 +230,9 @@ public class EventManager {
                     Event e = eventWrapper(event);
                     Map<String, String> attendees = e.getAttendees();
 
+                    int totalAttendees = attendees.size();
+                    int processedAttendees = 0;
+
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
@@ -243,9 +252,12 @@ public class EventManager {
                                 }
                             });
                         }
-                    }
 
-                    callback.onSuccess(rejectedAttendees);
+                        processedAttendees++;
+                    }
+                    if (processedAttendees == totalAttendees) {
+                        callback.onSuccess(rejectedAttendees);
+                    }
                 }
             } catch (Exception e) {
                 callback.onError(e);
@@ -270,6 +282,9 @@ public class EventManager {
                     Event e = eventWrapper(event);
                     Map<String, String> attendees = e.getAttendees();
 
+                    int totalAttendees = attendees.size();
+                    int processedAttendees = 0;
+
                     for (Map.Entry<String, String> attendee : attendees.entrySet()) {
                         String id = attendee.getKey();
                         String approvalStatus = attendee.getValue();
@@ -290,9 +305,13 @@ public class EventManager {
                                 }
                             });
                         }
+                        processedAttendees++;
                     }
 
-                    callback.onSuccess(approvedAttendees);
+                    if (processedAttendees == totalAttendees) {
+                        callback.onSuccess(approvedAttendees);
+                    }
+
                 }
             } catch (Exception e) {
                 callback.onError(e);
