@@ -1,9 +1,10 @@
 package project.group6.eams.utils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-public class Event {
+public class Event{
 
     public String title;
     public String description;

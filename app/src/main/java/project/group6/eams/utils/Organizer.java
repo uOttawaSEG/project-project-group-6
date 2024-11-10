@@ -1,13 +1,15 @@
 package project.group6.eams.utils;
 
+import android.os.Parcelable;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Organizer extends RegisterableUser {
+public class Organizer extends RegisterableUser{
     private String organizationName;
 
-    private static EventManager eventManager = new EventManager("Events");
+    private transient EventManager eventManager = new EventManager("Events");
 
     public Organizer () {
         super();
@@ -53,7 +55,7 @@ public class Organizer extends RegisterableUser {
 
     }
 
-    public void approveAllEventRequests(Event ev, String email){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
+    public void approveAllEventRequests(Event ev){ eventManager.updateEvent(ev, new EventManager.EventCallback() {
         @Override
         public void onSuccess() {
             for(Object requester : ev.attendees.keySet()){
@@ -86,7 +88,7 @@ public class Organizer extends RegisterableUser {
     });
     }
 
-    public void deleteEvent(Event ev, String email){ eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
+    public void deleteEvent(Event ev){ eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
         @Override
         public void onSuccess() {
 

@@ -1,8 +1,14 @@
 package project.group6.eams.utils;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.Timestamp;
 
-public class RegisterableUser extends User {
+import java.io.Serializable;
+
+public class RegisterableUser extends User{
     private String firstname;
     private String lastname;
     private String phoneNumber;
@@ -68,5 +74,7 @@ public class RegisterableUser extends User {
     }
 
     public void setRequestTime (Timestamp requestTime) {this.requestTime = requestTime;}
+
+
 }
 

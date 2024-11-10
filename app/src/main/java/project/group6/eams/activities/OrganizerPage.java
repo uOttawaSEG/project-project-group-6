@@ -1,14 +1,17 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -20,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.AttendeeRequestAdapter;
 import project.group6.eams.activityUtils.EventAdapter;
 
+import project.group6.eams.utils.Attendee;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 import project.group6.eams.utils.Organizer;
@@ -37,6 +42,7 @@ public class OrganizerPage extends AppCompatActivity {
     private Button upcomingEvents;
     private TextView displayOrg;
     private RecyclerView recyclerView;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class OrganizerPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        this.context = this;
         Intent intent = getIntent();
         orgEmail = intent.getStringExtra("email");
 
@@ -89,6 +96,7 @@ public class OrganizerPage extends AppCompatActivity {
         pastEvents.setOnClickListener(v -> loadEvents("pastEvents"));
 
         upcomingEvents.setOnClickListener(v -> loadEvents("upcomingEvents"));
+
     }
 
     private void loadEvents(String eventType) {
@@ -99,7 +107,7 @@ public class OrganizerPage extends AppCompatActivity {
                     @Override
                     public void onSuccess(ArrayList<Event> eventList) {
                         Log.d("Events", eventList.toString());
-                        EventAdapter adapter = new EventAdapter(eventList, false);
+                        EventAdapter adapter = new EventAdapter(eventList, false, context);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -116,7 +124,7 @@ public class OrganizerPage extends AppCompatActivity {
                     @Override
                     public void onSuccess(ArrayList<Event> eventList) {
                         Log.d("Events", eventList.toString());
-                        EventAdapter adapter = new EventAdapter(eventList, true);
+                        EventAdapter adapter = new EventAdapter(eventList, true, context);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -130,4 +138,5 @@ public class OrganizerPage extends AppCompatActivity {
                 break;
         }
     }
+
 }

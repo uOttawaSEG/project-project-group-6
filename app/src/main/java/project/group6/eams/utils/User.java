@@ -1,6 +1,10 @@
 package project.group6.eams.utils;
 
-public abstract class User {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public abstract class User{
     private boolean loginStatus;
     private String email;
     private String password;

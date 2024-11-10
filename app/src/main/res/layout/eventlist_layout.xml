@@ -109,13 +109,13 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/accept_all"
+            android:id="@+id/delete_event"
             style="@style/button.Style"
             android:layout_marginTop="5dp"
             android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Accept All"
+            android:text="Delete"
             android:textSize="12sp" />
 
     </LinearLayout>

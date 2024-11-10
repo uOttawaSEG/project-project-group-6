@@ -191,7 +191,6 @@ public class EventManager {
                                 public void onSuccess(User type) {
                                     requestedAttendees.add((Attendee) type);
                                 }
-
                                 @Override
                                 public void onError(Exception e) {
                                     Log.e("Database", "Failed to get attendee");
