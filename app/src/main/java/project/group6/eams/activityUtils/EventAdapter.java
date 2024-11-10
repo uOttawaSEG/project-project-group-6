@@ -15,8 +15,12 @@ import project.group6.eams.R;
 import project.group6.eams.utils.Event;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private ArrayList<Event> events;
+    private boolean isOnPastEventPage;
 
-    public EventAdapter (ArrayList<Event> events) {this.events = events;}
+    public EventAdapter (ArrayList<Event> events,boolean isOnPastEventPage) {
+        this.events = events;
+        this.isOnPastEventPage = isOnPastEventPage;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventTitle;
