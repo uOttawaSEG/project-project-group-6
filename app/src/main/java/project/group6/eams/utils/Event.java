@@ -39,13 +39,13 @@ public class Event {
     public Map getAttendees() {return attendees;}
 
     //Setters
-    public void setAutomaticApproval() {this.automaticApproval = automaticApproval;}
-    public void setCreator() {this.creator = creator;}
-    public void setEventAddress(){this.eventAddress = eventAddress;}
-    public void setEndTime() {this.endTime = endTime;}
-    public void setStartTime() {this.startTime = startTime;}
-    public void setDescription() {this.description =description;}
-    public void setTitle() {this.title = title;}
+    public void setAutomaticApproval(boolean automaticApproval) {this.automaticApproval = automaticApproval;}
+    public void setCreator(Organizer creator) {this.creator = creator;}
+    public void setEventAddress(String eventAddress){this.eventAddress = eventAddress;}
+    public void setEndTime(Date endTime) {this.endTime = endTime;}
+    public void setStartTime(Date startTime) {this.startTime = startTime;}
+    public void setDescription(String description) {this.description =description;}
+    public void setTitle(String title) {this.title = title;}
 
     // approval status = approved, rejected, requested ONLY
     public void addAttendee(String id, String approvalStatus) {
