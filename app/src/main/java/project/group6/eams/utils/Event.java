@@ -11,10 +11,12 @@ public class Event {
     public Date startTime;
     public Date endTime;
     public boolean automaticApproval;
-    public User creator;
-    public Map attendees; // (String id, String approval status (approved, requested, denied)
+    public Organizer creator;
+    public Map<String, String> attendees; // (String id, String approval status (approved, requested, denied)
 
-    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, User creator, Map attendees){
+    public Event(){} // needed for firestore
+
+    public Event(String title, String description, String eventAddress, Date startTime, Date endTime, boolean automaticApproval, Organizer creator, Map<String,String> attendees){
         this.automaticApproval = automaticApproval;
         this.creator = creator;
         this.eventAddress = eventAddress;
@@ -28,7 +30,7 @@ public class Event {
 
     //Getters
     public boolean getAutomaticApproval() {return automaticApproval;}
-    public User getCreator() {return creator;}
+    public Organizer getCreator() {return creator;}
     public String getEventAddress(){return eventAddress;}
     public Date getEndTime() {return endTime;}
     public Date getStartTime() {return startTime;}
@@ -37,13 +39,13 @@ public class Event {
     public Map getAttendees() {return attendees;}
 
     //Setters
-    public void setAutomaticApproval() {this.automaticApproval = automaticApproval;}
-    public void setCreator() {this.creator = creator;}
-    public void setEventAddress(){this.eventAddress = eventAddress;}
-    public void setEndTime() {this.endTime = endTime;}
-    public void setStartTime() {this.startTime = startTime;}
-    public void setDescription() {this.description =description;}
-    public void setTitle() {this.title = title;}
+    public void setAutomaticApproval(boolean automaticApproval) {this.automaticApproval = automaticApproval;}
+    public void setCreator(Organizer creator) {this.creator = creator;}
+    public void setEventAddress(String eventAddress){this.eventAddress = eventAddress;}
+    public void setEndTime(Date endTime) {this.endTime = endTime;}
+    public void setStartTime(Date startTime) {this.startTime = startTime;}
+    public void setDescription(String description) {this.description =description;}
+    public void setTitle(String title) {this.title = title;}
 
     // approval status = approved, rejected, requested ONLY
     public void addAttendee(String id, String approvalStatus) {

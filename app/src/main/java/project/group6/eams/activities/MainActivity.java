@@ -119,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
                         case "Organizer": {
                             Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
 
+                            Organizer org = (Organizer)user;
+
                             intent.putExtra("email", inputEmailAddress);
+                            intent.putExtra("org_name",org.getOrganizationName());
 
                             startActivity(intent);
 

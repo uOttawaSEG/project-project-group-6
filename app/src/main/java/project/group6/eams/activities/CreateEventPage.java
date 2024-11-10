@@ -65,7 +65,7 @@ public class CreateEventPage extends AppCompatActivity {
     private boolean autoApproval;
 
     private String orgEmail;
-    private User organizer;
+    private Organizer organizer;
 
     private Date startDate;
     private Date endDate;
@@ -96,7 +96,7 @@ public class CreateEventPage extends AppCompatActivity {
 
             @Override
             public void onSuccess(User user) {
-                organizer = user;
+                organizer = (Organizer) user;
             }
 
             @Override
