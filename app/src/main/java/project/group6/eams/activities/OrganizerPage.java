@@ -55,8 +55,6 @@ public class OrganizerPage extends AppCompatActivity {
             org = intent.getStringExtra("org_name");
         }
 
-
-
         displayOrg = findViewById(R.id.organizerEmail);
         displayOrg.setText(org);
 
@@ -71,12 +69,24 @@ public class OrganizerPage extends AppCompatActivity {
         upcomingEvents = findViewById(R.id.upcoming_events);
         recyclerView = findViewById(R.id.event_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
     private void initListeners () {
+        EventManager eventManager = new EventManager("Events");
+        eventManager.getUpcomingEvents(org,new EventManager.EventCallbackList() {
+            @Override
+            public void onSuccess (ArrayList<Event> eventList) {
+                Log.d("Events",eventList.toString());
+                EventAdapter adapter = new EventAdapter(eventList,false);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
 
-        
+            @Override
+            public void onError (Exception e) {
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+        });
 
         logOffButton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +112,12 @@ public class OrganizerPage extends AppCompatActivity {
 
         pastEvents.setOnClickListener(new View.OnClickListener() {
             @Override
-
-
             public void onClick (View v) {
-
                 EventManager eventManager = new EventManager("Events");
                 eventManager.getPastEvents(org,new EventManager.EventCallbackList() {
                     @Override
                     public void onSuccess (ArrayList<Event> eventList) {
-
+                        Log.d("Events",eventList.toString());
                         EventAdapter adapter = new EventAdapter(eventList,true);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -137,7 +144,7 @@ public class OrganizerPage extends AppCompatActivity {
                 eventManager.getUpcomingEvents(org,new EventManager.EventCallbackList() {
                     @Override
                     public void onSuccess (ArrayList<Event> eventList) {
-
+                        Log.d("Events",eventList.toString());
                         EventAdapter adapter = new EventAdapter(eventList,false);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();

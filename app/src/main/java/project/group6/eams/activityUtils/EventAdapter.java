@@ -55,7 +55,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder (@NonNull EventAdapter.ViewHolder holder, int position) {
-        Event event = (Event) events.get(position);
+        Event event = events.get(position);
         holder.eventTitle.setText(event.getTitle());
         holder.creator.setText(event.getCreator().getEmail());
         holder.eventAddress.setText(event.getEventAddress());
@@ -78,6 +78,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
     @Override
     public int getItemCount () {
-        return 0;
+        return events.size();
     }
 }
