@@ -1,5 +1,6 @@
 package project.group6.eams.activityUtils;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
     private Organizer organizer;
 
     public AttendeeRequestAdapter (ArrayList<Attendee> attendees, Event event, Organizer organizer) {
+        Log.d("Event","AttendeeRequestAdapter has received: "+attendees.toString());
         this.attendees = attendees;
         this.event = event;
         this.organizer = organizer;

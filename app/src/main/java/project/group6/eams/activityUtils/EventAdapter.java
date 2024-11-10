@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -95,6 +96,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         Button rejectedButton = dialogView.findViewById(R.id.attendee_rejected_button);
         Button acceptAll = dialogView.findViewById(R.id.attendee_accept_all_button);
         recyclerViewAttendee = dialogView.findViewById(R.id.attendee_recycler_view);
+        recyclerViewAttendee.setLayoutManager(new LinearLayoutManager(context));
         dialogBuilder.setTitle(event.getTitle()+ " Attendees");
         AlertDialog b = dialogBuilder.create();
         b.show();
