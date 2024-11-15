@@ -210,16 +210,21 @@ public class CreateEventPage extends AppCompatActivity {
                     allValidInputs = false;
                     postalCode.setError("Must be a Canadian postal code of format:\n[A1A 1A1]");
                 }
+                if(endDate==null) {
+
+                    allValidInputs = false;
+                    end_date.setError("Please select end date/time");
+                }
                 if(startDate==null){
                     allValidInputs = false;
                     start_date.setError("Please select start date/time");
                 }
-                if(endDate==null){
-                    allValidInputs = false;
-                    end_date.setError("Please select end date/time");
-                }
-                if(startDate!=null && end_date!=null){
+
+
+                else if(endDate!=null && startDate!=null){
+
                     if(!InputUtils.isValidEventRuntime(startDate,endDate)){
+
                         allValidInputs = false;
                         end_date.setError("Error. End of event cannot be before start of event.");
                     }
@@ -283,10 +288,10 @@ public class CreateEventPage extends AppCompatActivity {
 
                         text.setText(simpleDateFormat.format(c.getTime()));
 
-                        if(text ==start_date){
+                        if(text==start_date){
                             startDate = c.getTime();
                         }
-                        else{
+                        if(text==end_date){
                             endDate =c.getTime();
                         }
 
