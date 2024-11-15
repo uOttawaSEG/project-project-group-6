@@ -1,8 +1,4 @@
-package project.group6.eams.utils;
-
-import android.os.Parcelable;
-
-import java.io.Serializable;
+package project.group6.eams.users;
 
 public abstract class User{
     private boolean loginStatus;

@@ -21,14 +21,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
-
 import java.util.Objects;
 
 import project.group6.eams.R;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
+import project.group6.eams.users.Organizer;
+import project.group6.eams.users.User;
 import project.group6.eams.utils.*;
 
 public class MainActivity extends AppCompatActivity {

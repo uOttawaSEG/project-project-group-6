@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import project.group6.eams.R;
-import project.group6.eams.utils.Attendee;
+import project.group6.eams.users.Attendee;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
-import project.group6.eams.utils.Organizer;
+import project.group6.eams.users.Organizer;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private final ArrayList<Event> events;

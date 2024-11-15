@@ -13,12 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import project.group6.eams.R;
-import project.group6.eams.utils.Administrator;
-import project.group6.eams.utils.Attendee;
+import project.group6.eams.users.Attendee;
 import project.group6.eams.utils.Event;
-import project.group6.eams.utils.Organizer;
-import project.group6.eams.utils.RegisterableUser;
-import project.group6.eams.utils.User;
+import project.group6.eams.users.Organizer;
 
 public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequestAdapter.ViewHolder> {
     private final ArrayList<Attendee> attendees;

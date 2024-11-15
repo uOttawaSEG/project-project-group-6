@@ -156,6 +156,14 @@ public class InputUtils {
      * @return empty string if password is valid, string with length >0 otherwise
      */
     public static String passwordChecker (String password) {
+        if (password == null) {
+            return "Password must contain: \n" +
+                    "At least one upper case letter \n" +
+                    "At least one lower case letter" +
+                    "\nAt least one number \n" +
+                    "At least one special character. Eg: @,!,? \n" +
+                    "At least 8 characters";
+        }
         if (!password.isEmpty()) {
             int numOfCapitals = 0;
             int numOfLowerCase = 0;

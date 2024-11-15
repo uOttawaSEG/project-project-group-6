@@ -1,8 +1,9 @@
 package project.group6.eams.utils;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+
+import project.group6.eams.users.Organizer;
 
 public class Event{
 

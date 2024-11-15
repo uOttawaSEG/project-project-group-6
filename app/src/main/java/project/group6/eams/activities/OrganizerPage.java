@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,15 +20,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
-import project.group6.eams.activityUtils.AttendeeRequestAdapter;
 import project.group6.eams.activityUtils.EventAdapter;
 
-import project.group6.eams.utils.Attendee;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
-import project.group6.eams.utils.Organizer;
-import project.group6.eams.utils.RegistrationManager;
-import project.group6.eams.utils.User;
 
 public class OrganizerPage extends AppCompatActivity {
     private String orgEmail;

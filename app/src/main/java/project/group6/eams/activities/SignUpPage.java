@@ -12,19 +12,23 @@ import androidx.core.view.WindowInsetsCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.CheckBox;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 
 import project.group6.eams.R;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
+import project.group6.eams.users.Attendee;
+import project.group6.eams.users.Organizer;
+import project.group6.eams.users.RegisterableUser;
+import project.group6.eams.users.User;
 import project.group6.eams.utils.*;
 
 public class SignUpPage extends AppCompatActivity {
@@ -149,6 +153,7 @@ public class SignUpPage extends AppCompatActivity {
                 if (!InputUtils.isValidName(inputFirstName)) {
                     allValidInputs = false;
                     firstName.setError("First Name must be alphabetic characters only.");
+                    Log.d("Input","First Name is invalid");
                 }
                 if (!InputUtils.isValidName(inputLastName)) {
                     allValidInputs = false;
@@ -234,6 +239,7 @@ public class SignUpPage extends AppCompatActivity {
                         }
                     });
                 }
+
             }
 
         });

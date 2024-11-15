@@ -1,9 +1,7 @@
 package project.group6.eams.utils;
 
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -12,6 +10,11 @@ import java.util.Objects;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
+import project.group6.eams.users.Administrator;
+import project.group6.eams.users.Attendee;
+import project.group6.eams.users.Organizer;
+import project.group6.eams.users.RegisterableUser;
+import project.group6.eams.users.User;
 
 public class RegistrationManager {
 
@@ -33,7 +36,7 @@ public class RegistrationManager {
             try {
                 User existingUser = userMapper(existingUserDoc);
 
-                if (existingUser.userType.equals("Administrator")) {
+                if (existingUser.getUserType().equals("Administrator")) {
                     callback.onError(new ExistingUserException("User already in database"));
                 } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
                     callback.onError(new RejectedUserException("User has been rejected by Admin"));
@@ -57,7 +60,7 @@ public class RegistrationManager {
             }
             try {
                 User existingUser = userMapper(existingUserDoc);
-                if (existingUser.userType.equals("Administrator")) {
+                if (existingUser.getUserType().equals("Administrator")) {
                     callback.onSuccess(existingUser);
                 } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
                     callback.onError(new RejectedUserException("User has been rejected by Admin"));
@@ -85,7 +88,7 @@ public class RegistrationManager {
                 Log.d("Database", usersList.toString());
                 for (DocumentSnapshot doc : usersList) {
                     User user = userMapper(doc);
-                    if (user == null) {} else if (!user.userType.equals("Administrator")) {
+                    if (user == null) {} else if (!user.getUserType().equals("Administrator")) {
                         RegisterableUser rUser = (RegisterableUser) user;
                         if (!rUser.getApprovalStatus() && !rUser.getRejectionStatus()) {
                             requestedUsers.add(user);
@@ -107,7 +110,7 @@ public class RegistrationManager {
                 Log.d("Database", usersList.toString());
                 for (DocumentSnapshot doc : usersList) {
                     User user = userMapper(doc);
-                    if (user == null) {} else if (!user.userType.equals("Administrator")) {
+                    if (user == null) {} else if (!user.getUserType().equals("Administrator")) {
                         RegisterableUser rUser = (RegisterableUser) user;
                         if (!rUser.getApprovalStatus() && rUser.getRejectionStatus()) {
                             rejectedUsers.add(user);

@@ -1,13 +1,11 @@
-package project.group6.eams.utils;
+package project.group6.eams.users;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import project.group6.eams.utils.RegistrationManager;
 
-public class Administrator extends User{
+public class Administrator extends User {
 
     private static RegistrationManager registrationManager = new RegistrationManager("Users");
 

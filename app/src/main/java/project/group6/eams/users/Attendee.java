@@ -1,8 +1,6 @@
-package project.group6.eams.utils;
+package project.group6.eams.users;
 
-import java.io.Serializable;
-
-public class Attendee extends RegisterableUser{
+public class Attendee extends RegisterableUser {
 
     public Attendee () {
         super();

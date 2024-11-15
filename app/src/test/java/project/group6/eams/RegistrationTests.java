@@ -1,17 +1,7 @@
 package project.group6.eams;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-
 import java.security.SecureRandom;
 import java.util.Base64;
-
-import project.group6.eams.utils.Attendee;
-import project.group6.eams.utils.RegistrationManager;
-import project.group6.eams.utils.User;
 
 //@RunWith(RobolectricTestRunner.class)
 public class RegistrationTests {

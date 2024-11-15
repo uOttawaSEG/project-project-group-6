@@ -1,14 +1,8 @@
-package project.group6.eams.utils;
-
-import android.os.Parcel;
-
-import androidx.annotation.NonNull;
+package project.group6.eams.users;
 
 import com.google.firebase.Timestamp;
 
-import java.io.Serializable;
-
-public class RegisterableUser extends User{
+public class RegisterableUser extends User {
     private String firstname;
     private String lastname;
     private String phoneNumber;

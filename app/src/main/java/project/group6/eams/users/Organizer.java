@@ -1,12 +1,11 @@
-package project.group6.eams.utils;
+package project.group6.eams.users;
 
-import android.os.Parcelable;
 import android.util.Log;
 
-import java.io.Serializable;
-import java.util.Objects;
+import project.group6.eams.utils.Event;
+import project.group6.eams.utils.EventManager;
 
-public class Organizer extends RegisterableUser{
+public class Organizer extends RegisterableUser {
     private String organizationName;
 
     private transient EventManager eventManager = new EventManager("Events");

@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import project.group6.eams.R;
-import project.group6.eams.utils.Administrator;
-import project.group6.eams.utils.Organizer;
-import project.group6.eams.utils.RegisterableUser;
-import project.group6.eams.utils.User;
+import project.group6.eams.users.Administrator;
+import project.group6.eams.users.Organizer;
+import project.group6.eams.users.RegisterableUser;
+import project.group6.eams.users.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> users;

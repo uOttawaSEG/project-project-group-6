@@ -1,6 +1,5 @@
 package project.group6.eams.activities;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -29,16 +28,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
 import project.group6.eams.R;
-import project.group6.eams.utils.Attendee;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 import project.group6.eams.utils.InputUtils;
-import project.group6.eams.utils.Organizer;
+import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.RegistrationManager;
-import project.group6.eams.utils.User;
+import project.group6.eams.users.User;
 
 public class CreateEventPage extends AppCompatActivity {
 

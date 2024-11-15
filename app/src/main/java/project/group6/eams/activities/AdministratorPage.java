@@ -3,7 +3,6 @@ package project.group6.eams.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -20,7 +19,7 @@ import java.util.Objects;
 
 import project.group6.eams.R;
 import project.group6.eams.utils.RegistrationManager;
-import project.group6.eams.utils.User;
+import project.group6.eams.users.User;
 import project.group6.eams.activityUtils.UserAdapter;
 
 public class AdministratorPage extends AppCompatActivity {

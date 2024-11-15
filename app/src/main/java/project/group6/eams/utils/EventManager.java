@@ -1,20 +1,17 @@
 package project.group6.eams.utils;
 
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import project.group6.eams.execptions.ExistingEventException;
+import project.group6.eams.users.Attendee;
+import project.group6.eams.users.User;
 
 public class EventManager {
 
@@ -195,7 +192,7 @@ public class EventManager {
                             User user = RegistrationManager.userMapper(doc);
 
                             // Check if the user is an Attendee and if they're marked as requested
-                            if (user != null && user.userType.equals("Attendee")) {
+                            if (user != null && user.getUserType().equals("Attendee")) {
                                 Attendee attendee = (Attendee) user;
 
                                 if (attendees.containsKey(attendee.getEmail()) &&
@@ -252,7 +249,7 @@ public class EventManager {
                             User user = RegistrationManager.userMapper(doc);
 
                             // Check if the user is an Attendee and if they're marked as requested
-                            if (user != null && user.userType.equals("Attendee")) {
+                            if (user != null && user.getUserType().equals("Attendee")) {
                                 Attendee attendee = (Attendee) user;
 
                                 if (attendees.containsKey(attendee.getEmail()) &&
@@ -309,7 +306,7 @@ public class EventManager {
                             User user = RegistrationManager.userMapper(doc);
 
                             // Check if the user is an Attendee and if they're marked as requested
-                            if (user != null && user.userType.equals("Attendee")) {
+                            if (user != null && user.getUserType().equals("Attendee")) {
                                 Attendee attendee = (Attendee) user;
 
                                 if (attendees.containsKey(attendee.getEmail()) &&
