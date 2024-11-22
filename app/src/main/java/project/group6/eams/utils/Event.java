@@ -53,4 +53,10 @@ public class Event{
     public void addAttendee(String id, String approvalStatus) {
         attendees.put(id, approvalStatus);
     }
+
+    public void removeAttendee(String ID) {
+        if (attendees.containsKey(ID)) {
+            attendees.remove(ID);
+        }
+    }
 }
