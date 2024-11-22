@@ -71,7 +71,7 @@ public class SignUpPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signup_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -136,7 +136,7 @@ public class SignUpPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) { // returns to LogIn page
-                Intent intent = new Intent(SignUpPage.this, MainActivity.class);
+                Intent intent = new Intent(SignUpPage.this, LoginPage.class);
                 startActivity(intent);
             }
         });
@@ -220,7 +220,7 @@ public class SignUpPage extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Sign Up Successful! Please " +
                                     "wait for admins to approve your request.",
                                     Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignUpPage.this, MainActivity.class);
+                            Intent intent = new Intent(SignUpPage.this, LoginPage.class);
                             startActivity(intent);
                         }
                         @Override

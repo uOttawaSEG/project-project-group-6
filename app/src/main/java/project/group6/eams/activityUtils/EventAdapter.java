@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
+import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 import project.group6.eams.users.Organizer;
@@ -26,7 +27,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private boolean isOnPastEventPage;
     private final Context context;
     private RecyclerView recyclerViewAttendee;
-    Organizer organizer = new Organizer();
+    private final Organizer organizer = (Organizer)AppInfo.getInstance().getCurrentUser();
 
     public EventAdapter (ArrayList<Event> events,boolean isOnPastEventPage, Context context) {
         this.events = events;

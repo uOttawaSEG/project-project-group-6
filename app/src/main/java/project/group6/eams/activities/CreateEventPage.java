@@ -76,7 +76,7 @@ public class CreateEventPage extends AppCompatActivity {
         setContentView(R.layout.activity_create_event_page);
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.create_event_page_organizer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -107,23 +107,23 @@ public class CreateEventPage extends AppCompatActivity {
     }
 
     private void initViews(){
-        eventTitle = findViewById(R.id.eventTitle);
-        eventDescription = findViewById(R.id.eventDescription);
-        street = findViewById(R.id.enterStreetName);
-        city = findViewById(R.id.enterEventCity);
-        province = findViewById(R.id.enterEventProvince);
-        postalCode = findViewById(R.id.enterEventPostal);
+        eventTitle = findViewById(R.id.eventTitleEditText_create_event_organizer);
+        eventDescription = findViewById(R.id.eventDescriptionEditText_create_event_organizer);
+        street = findViewById(R.id.enterStreetNameEditText_create_event_organizer);
+        city = findViewById(R.id.enterEventCityEditText_create_event_organizer);
+        province = findViewById(R.id.enterEventProvinceEditText_create_event_organizer);
+        postalCode = findViewById(R.id.enterEventPostalEditText_create_event_organizer);
 
-        start_date=findViewById(R.id.start_date);
-        end_date=findViewById(R.id.end_date);
+        start_date=findViewById(R.id.start_dateEditText_create_event_organizer);
+        end_date=findViewById(R.id.end_dateEditText_create_event_organizer);
 
-        autoApproveCheckbox=findViewById(R.id.autoApprove);
+        autoApproveCheckbox=findViewById(R.id.autoApproveCheckbox_create_event_organizer);
 
         start_date.setInputType(InputType.TYPE_NULL);
         end_date.setInputType(InputType.TYPE_NULL);
 
-        backButton = findViewById(R.id.back_button);
-        createEventButton = findViewById(R.id.createEvent);
+        backButton = findViewById(R.id.back_button_create_event_organizer);
+        createEventButton = findViewById(R.id.createEventButton_create_event_organizer);
 
     }
 

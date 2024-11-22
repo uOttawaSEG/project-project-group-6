@@ -43,5 +43,6 @@
     <string name="event_address">Event Address</string>
     <string name="please_complete_the_following_information_regarding_your_event_then_press_quot_create_event_quot">Please complete the following information regarding your event then press \"Create Event\"</string>
     <string name="back">Back</string>
+    <string name="requested_events">Requested Events</string>
 
 </resources>

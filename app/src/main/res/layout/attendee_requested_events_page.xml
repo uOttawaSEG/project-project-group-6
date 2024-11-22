@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/attendee_page"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back2"
@@ -13,31 +13,35 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <SearchView
-            android:id="@+id/searchView_attendee"
+        <TextView
+            android:id="@+id/requested_event_title_attendee"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="20sp"
+            android:fontFamily="@font/amarante_regular"
+            android:textSize="20sp"
+            android:text="Requested Event Title">
 
-        </SearchView>
+        </TextView>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/back1"
-            app:layout_constraintTop_toBottomOf="@+id/searchView_attendee"
-            app:layout_constraintBottom_toTopOf="@id/linearLayout3_attendee"
+            app:layout_constraintTop_toBottomOf="@+id/requested_event_title_attendee"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3_requested_events_attendee"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_attendee"
+                android:id="@+id/recycler_view_requested_events_attendee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/linearLayout3_attendee"
+            android:id="@+id/linearLayout3_requested_events_attendee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -47,29 +51,20 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/welcomeText_attendee"
+                android:id="@+id/welcomeText_requested_events_attendee"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/capriola_regular"
                 android:text="@string/welcome_message_attendee" />
-
             <Button
-                android:id="@+id/logOffButton_attendee"
-                style="@style/button.Style"
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/logout" />
-            <Button
-                android:id="@+id/view_requested_events_button_attendeepage"
+                android:id="@+id/back_button_requested_events_attendee"
                 style="@style/button.Style"
                 android:layout_width="0dp"
                 android:layout_margin="5dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.2"
-                android:text="@string/requested_events"/>
+                android:text="@string/back_button"/>
         </LinearLayout>
     </LinearLayout>
 
