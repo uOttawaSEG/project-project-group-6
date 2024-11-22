@@ -1,5 +1,6 @@
 package project.group6.eams.activityUtils;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -19,9 +21,11 @@ import project.group6.eams.users.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> users;
+    private Context context;
 
-    public UserAdapter (ArrayList<User> users) {
+    public UserAdapter (ArrayList<User> users, Context context) {
         this.users = users;
+        this.context = context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,6 +37,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView userAddress;
         public Button accept_button;
         public Button reject_button;
+        public RecyclerView attendee_recycler_view;
 
         public ViewHolder (@NonNull View itemView) {
             super(itemView);
@@ -44,6 +49,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userAddress = itemView.findViewById(R.id.userAddress_userlistlayout);
             accept_button = itemView.findViewById(R.id.accept_button_userlistlayout);
             reject_button = itemView.findViewById(R.id.reject_button_userlistlayout);
+            attendee_recycler_view = itemView.findViewById(R.id.attendee_recycler_view_event_attendees_organizer);
         }
     }
 
@@ -81,11 +87,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 Administrator.rejectRequest(user.getEmail());
             }
         });
+        holder.attendee_recycler_view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showUserInfo(user);
+                return true;
+            }
+        });
 
     }
 
     @Override
     public int getItemCount () {
         return users.size();
+    }
+
+    public void showUserInfo(User user){
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.user_info_page, null);
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setTitle("User Info");
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+
     }
 }

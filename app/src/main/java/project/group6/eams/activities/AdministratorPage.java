@@ -71,7 +71,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList);
+                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -88,7 +88,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList);
+                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }

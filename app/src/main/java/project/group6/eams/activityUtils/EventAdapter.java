@@ -70,7 +70,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder (@NonNull EventAdapter.ViewHolder holder, int position) {
         Event event = events.get(position);
         holder.eventTitle.setText(event.getTitle());
-        holder.creator.setText(event.getCreator().getEmail());
+        if (event.getCreator() != null){
+            holder.creator.setText(event.getCreator().getEmail());
+        } else {holder.creator.setText("Unknown Creator");}
         holder.eventAddress.setText(event.getEventAddress());
         holder.eventDescription.setText(event.getDescription());
         holder.startTime.setText(event.getStartTime().toString());
