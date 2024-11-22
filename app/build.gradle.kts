@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.core)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     testImplementation("org.robolectric:robolectric:4.13")
