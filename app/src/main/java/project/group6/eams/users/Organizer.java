@@ -108,7 +108,10 @@ public class Organizer extends RegisterableUser {
         });
     }
 
-    public void deleteEvent(Event ev){ eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
+    public void deleteEvent(Event ev){
+
+
+        eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
         @Override
         public void onSuccess() {
             Log.d("Database", "Successfully deleted " + ev.getTitle());

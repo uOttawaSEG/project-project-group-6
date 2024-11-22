@@ -174,19 +174,15 @@ public class CreateEventPage extends AppCompatActivity {
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
-                EditText[] editTexts = {eventTitle,street, city,
-                        province, postalCode,start_date,end_date};
-                clearErrors(editTexts);
 
 
                 boolean allValidInputs = true;
 
-                if (TextUtils.isEmpty(inputEventTitle)) {
+                if (inputEventTitle != null && inputEventTitle.isEmpty()) {
                     allValidInputs = false;
                     eventTitle.setError("Please enter an event name.");
                 }
-                if(TextUtils.isEmpty(inputEventDescription)){
+                if(inputEventDescription != null && inputEventDescription.isEmpty()){
                     allValidInputs = false;
                     eventDescription.setError("Please describe your event.");
                 }
@@ -227,6 +223,9 @@ public class CreateEventPage extends AppCompatActivity {
                     }
 
                 }
+                EditText[] editTexts = {eventTitle,street, city,
+                        province, postalCode,start_date,end_date};
+                clearErrors(editTexts);
                 address = InputUtils.addressCreator(inputStreet, inputCity, inputProvince,
                         inputPostalCode);
                 if(allValidInputs) {
