@@ -47,14 +47,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventTitle = itemView.findViewById(R.id.event_title);
-            creator = itemView.findViewById(R.id.creator);
-            startTime = itemView.findViewById(R.id.startTime);
-            endTime = itemView.findViewById(R.id.endTime);
-            eventAddress = itemView.findViewById(R.id.eventAddress);
-            eventDescription = itemView.findViewById(R.id.description);
-            attendee_list_button = itemView.findViewById(R.id.attendee_list_button);
-            delete = itemView.findViewById(R.id.delete_event);
+            eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
+            creator = itemView.findViewById(R.id.creator_eventlistlayout);
+            startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
+            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
+            eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
+            eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
+            attendee_list_button = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
+            delete = itemView.findViewById(R.id.delete_event_eventlistlayout);
         }
     }
 
@@ -92,11 +92,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         View dialogView = inflater.inflate(R.layout.view_attendees_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        Button acceptedButton = dialogView.findViewById(R.id.attendee_accepted_button);
-        Button requestedButton = dialogView.findViewById(R.id.attendee_requested_button);
-        Button rejectedButton = dialogView.findViewById(R.id.attendee_rejected_button);
-        Button acceptAll = dialogView.findViewById(R.id.attendee_accept_all_button);
-        recyclerViewAttendee = dialogView.findViewById(R.id.attendee_recycler_view);
+        Button acceptedButton = dialogView.findViewById(R.id.attendee_accepted_button_event_attendees_organizer);
+        Button requestedButton = dialogView.findViewById(R.id.attendee_requested_button_event_attendees_organizer);
+        Button rejectedButton = dialogView.findViewById(R.id.attendee_rejected_button_event_attendees_organizer);
+        Button acceptAll = dialogView.findViewById(R.id.attendee_accept_all_button_event_attendees_organizer);
+        recyclerViewAttendee = dialogView.findViewById(R.id.attendee_recycler_view_event_attendees_organizer);
         recyclerViewAttendee.setLayoutManager(new LinearLayoutManager(context));
         dialogBuilder.setTitle(event.getTitle()+ " Attendees");
         AlertDialog b = dialogBuilder.create();

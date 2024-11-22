@@ -42,14 +42,14 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
 
         public ViewHolder (@NonNull View itemView) {
             super(itemView);
-            userEmail = itemView.findViewById(R.id.userEmail);
-            userName = itemView.findViewById(R.id.userName);
-            userPhone = itemView.findViewById(R.id.userPhone);
-            userOrganization = itemView.findViewById(R.id.userOrganization);
-            userTime = itemView.findViewById(R.id.userTime);
-            userAddress = itemView.findViewById(R.id.userAddress);
-            accept_button = itemView.findViewById(R.id.accept_button);
-            reject_button = itemView.findViewById(R.id.reject_button);
+            userEmail = itemView.findViewById(R.id.userEmail_userlistlayout);
+            userName = itemView.findViewById(R.id.userName_userlistlayout);
+            userPhone = itemView.findViewById(R.id.userPhone_userlistlayout);
+            userOrganization = itemView.findViewById(R.id.userOrganization_userlistlayout);
+            userTime = itemView.findViewById(R.id.userTime_userlistlayout);
+            userAddress = itemView.findViewById(R.id.userAddress_userlistlayout);
+            accept_button = itemView.findViewById(R.id.accept_button_userlistlayout);
+            reject_button = itemView.findViewById(R.id.reject_button_userlistlayout);
         }
     }
 

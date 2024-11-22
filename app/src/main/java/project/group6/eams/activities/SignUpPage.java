@@ -87,20 +87,20 @@ public class SignUpPage extends AppCompatActivity {
      * Initializes views for the sign up page
      */
     private void initViews () {
-        organizerCheckbox = findViewById(R.id.organizerCheckBox);
-        firstName = findViewById(R.id.enterFirstName);
-        lastName = findViewById(R.id.enterLastName);
-        email = findViewById(R.id.enterEmail);
-        phoneNumber = findViewById(R.id.enterPhoneNumber);
-        street = findViewById(R.id.enterStreet);
-        city = findViewById(R.id.enterCity);
-        province = findViewById(R.id.enterProvince);
-        postalCode = findViewById(R.id.enterPostalCode);
-        organization = findViewById(R.id.enterOrganization);
-        password = findViewById(R.id.enterPassword);
-        password2 = findViewById(R.id.reenterPassword);
-        backButton = findViewById(R.id.backButton);
-        submitButton = findViewById(R.id.submitButton);
+        organizerCheckbox = findViewById(R.id.organizerCheckBox_signup_page);
+        firstName = findViewById(R.id.enterFirstName_signup_page);
+        lastName = findViewById(R.id.enterLastName_signup_page);
+        email = findViewById(R.id.enterEmail_signup_page);
+        phoneNumber = findViewById(R.id.enterPhoneNumber_signup_page);
+        street = findViewById(R.id.enterStreet_signup_page);
+        city = findViewById(R.id.enterCity_signup_page);
+        province = findViewById(R.id.enterProvince_signup_page);
+        postalCode = findViewById(R.id.enterPostalCode_signup_page);
+        organization = findViewById(R.id.enterOrganization_signup_page);
+        password = findViewById(R.id.enterPassword_signup_page);
+        password2 = findViewById(R.id.reenterPassword_signup_page);
+        backButton = findViewById(R.id.backButton_signup_page);
+        submitButton = findViewById(R.id.submitButton_signup_page);
     }
 
     /**

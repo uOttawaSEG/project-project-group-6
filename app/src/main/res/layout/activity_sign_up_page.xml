@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signUpText_signup_page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonContainer">
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer_signup_page">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,7 @@
 
 
             <EditText
-                android:id="@+id/enterFirstName"
+                android:id="@+id/enterFirstName_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="26dp"
@@ -49,13 +49,13 @@
                 android:hint="@string/first_name_field_hint"
                 style="@style/EditText.Style"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@+id/enterLastName"
+                app:layout_constraintBottom_toTopOf="@+id/enterLastName_signup_page"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/enterLastName"
+                android:id="@+id/enterLastName_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -65,10 +65,10 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterFirstName" />
+                app:layout_constraintTop_toBottomOf="@+id/enterFirstName_signup_page" />
 
             <EditText
-                android:id="@+id/enterEmail"
+                android:id="@+id/enterEmail_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -78,10 +78,10 @@
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterLastName" />
+                app:layout_constraintTop_toBottomOf="@+id/enterLastName_signup_page" />
 
             <EditText
-                android:id="@+id/enterPhoneNumber"
+                android:id="@+id/enterPhoneNumber_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -91,10 +91,10 @@
                 android:inputType="phone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/enterEmail_signup_page" />
 
             <EditText
-                android:id="@+id/enterStreet"
+                android:id="@+id/enterStreet_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -104,10 +104,10 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterPhoneNumber" />
+                app:layout_constraintTop_toBottomOf="@+id/enterPhoneNumber_signup_page" />
 
             <EditText
-                android:id="@+id/enterCity"
+                android:id="@+id/enterCity_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -117,10 +117,10 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterStreet" />
+                app:layout_constraintTop_toBottomOf="@+id/enterStreet_signup_page" />
 
             <EditText
-                android:id="@+id/enterProvince"
+                android:id="@+id/enterProvince_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -130,12 +130,12 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterCity" />
+                app:layout_constraintTop_toBottomOf="@+id/enterCity_signup_page" />
 
 
 
             <EditText
-                android:id="@+id/enterPostalCode"
+                android:id="@+id/enterPostalCode_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -145,10 +145,10 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterProvince" />
+                app:layout_constraintTop_toBottomOf="@+id/enterProvince_signup_page" />
 
             <EditText
-                android:id="@+id/enterPassword"
+                android:id="@+id/enterPassword_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -158,10 +158,10 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterPostalCode" />
+                app:layout_constraintTop_toBottomOf="@+id/enterPostalCode_signup_page" />
 
             <EditText
-                android:id="@+id/reenterPassword"
+                android:id="@+id/reenterPassword_signup_page"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="26dp"
@@ -171,10 +171,10 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/enterPassword_signup_page" />
 
             <CheckBox
-                android:id="@+id/organizerCheckBox"
+                android:id="@+id/organizerCheckBox_signup_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -185,11 +185,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reenterPassword"
+                app:layout_constraintTop_toBottomOf="@+id/reenterPassword_signup_page"
                 app:layout_constraintVertical_bias="0.0" />
 
             <EditText
-                android:id="@+id/enterOrganization"
+                android:id="@+id/enterOrganization_signup_page"
                 style="@style/EditText.Style"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
@@ -200,13 +200,13 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/organizerCheckBox" />
+                app:layout_constraintTop_toBottomOf="@+id/organizerCheckBox_signup_page" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <LinearLayout
-        android:id="@+id/buttonContainer"
+        android:id="@+id/buttonContainer_signup_page"
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -219,7 +219,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
-            android:id="@+id/backButton"
+            android:id="@+id/backButton_signup_page"
             style="@style/button.Style"
             android:layout_width="130dp"
             android:layout_height="50dp"
@@ -229,14 +229,14 @@
             android:text="@string/back_button"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/submitButton"
+            app:layout_constraintEnd_toEndOf="@+id/submitButton_signup_page"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/submitButton_signup_page"
             style="@style/button.Style"
             android:layout_width="130dp"
             android:layout_height="50dp"
@@ -247,7 +247,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintStart_toEndOf="@+id/backButton_signup_page"
             app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
             app:layout_constraintVertical_bias="0.0" />
     </LinearLayout>

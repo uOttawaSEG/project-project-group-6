@@ -45,14 +45,14 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventTitle = itemView.findViewById(R.id.event_title);
-            creator = itemView.findViewById(R.id.creator);
-            startTime = itemView.findViewById(R.id.startTime);
-            endTime = itemView.findViewById(R.id.endTime);
-            eventAddress = itemView.findViewById(R.id.eventAddress);
-            eventDescription = itemView.findViewById(R.id.description);
-            requestToAttendButton = itemView.findViewById(R.id.attendee_list_button);
-            delete = itemView.findViewById(R.id.delete_event);
+            eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
+            creator = itemView.findViewById(R.id.creator_eventlistlayout);
+            startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
+            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
+            eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
+            eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
+            requestToAttendButton = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
+            delete = itemView.findViewById(R.id.delete_event_eventlistlayout);
         }
     }
 
