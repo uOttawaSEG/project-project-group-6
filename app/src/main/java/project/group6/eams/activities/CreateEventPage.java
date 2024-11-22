@@ -246,7 +246,9 @@ public class CreateEventPage extends AppCompatActivity {
 
                         @Override
                         public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Event of this Title already exists", Toast.LENGTH_LONG).show();
 
+                            eventTitle.setError("Title already in exists.");
                         }
 
                     });

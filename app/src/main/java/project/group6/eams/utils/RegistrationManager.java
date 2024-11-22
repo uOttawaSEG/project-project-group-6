@@ -27,58 +27,62 @@ public class RegistrationManager {
     }
 
     public void addUser (RegisterableUser user, RegistrationCallback callback) {
-        String userEmail = user.getEmail().toLowerCase().replaceAll(" ", "");
-        users.readFromReference(userEmail, existingUserDoc -> {
-            if (!existingUserDoc.exists()) {
-                users.writeToReference(userEmail, user);
-                callback.onSuccess();
-            }
-            try {
-                User existingUser = userMapper(existingUserDoc);
-
-                if (existingUser.getUserType().equals("Administrator")) {
-                    callback.onError(new ExistingUserException("User already in database"));
-                } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
-                    callback.onError(new RejectedUserException("User has been rejected by Admin"));
-                } else if (((RegisterableUser) existingUser).getApprovalStatus()) {
-                    callback.onError(new ExistingUserException("User already in database"));
-                } else {
-                    callback.onError(new PendingUserException("Request waiting for admin " +
-                            "approval"));
-
+        if (user != null) {
+            String userEmail = user.getEmail().toLowerCase().replaceAll(" ", "");
+            users.readFromReference(userEmail, existingUserDoc -> {
+                if (!existingUserDoc.exists()) {
+                    users.writeToReference(userEmail, user);
+                    callback.onSuccess();
                 }
-            } catch (Exception e) {
-                callback.onError(e);
-            }
-        });
+                try {
+                    User existingUser = userMapper(existingUserDoc);
+
+                    if (existingUser.getUserType().equals("Administrator")) {
+                        callback.onError(new ExistingUserException("User already in database"));
+                    } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
+                        callback.onError(new RejectedUserException("User has been rejected by Admin"));
+                    } else if (((RegisterableUser) existingUser).getApprovalStatus()) {
+                        callback.onError(new ExistingUserException("User already in database"));
+                    } else {
+                        callback.onError(new PendingUserException("Request waiting for admin " +
+                                "approval"));
+
+                    }
+                } catch (Exception e) {
+                    callback.onError(e);
+                }
+            });
+        }
     }
 
     public void checkForUser (String email, RegistrationCallback callback) {
-        users.readFromReference(email.toLowerCase().replaceAll(" ", ""), existingUserDoc -> {
-            if (!existingUserDoc.exists()) {
-                callback.onError(new ExistingUserException("User not in database"));
-            }
-            try {
-                User existingUser = userMapper(existingUserDoc);
-                if (existingUser.getUserType().equals("Administrator")) {
-                    callback.onSuccess(existingUser);
-                } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
-                    callback.onError(new RejectedUserException("User has been rejected by Admin"));
-                } else if (!((RegisterableUser) existingUser).getApprovalStatus()) {
-                    callback.onError(new PendingUserException("Request waiting for admin " +
-                            "approval"));
-                } else {
-                    callback.onSuccess(existingUser);
+        if (email != null) {
+            users.readFromReference(email.toLowerCase().replaceAll(" ", ""), existingUserDoc -> {
+                if (!existingUserDoc.exists()) {
+                    callback.onError(new ExistingUserException("User not in database"));
                 }
-            } catch (Exception e) {
-                if (e.getMessage() != null) {
-                    Log.e("Database", e.getMessage());
-                } else {
-                    Log.e("Database", "emptyMessage");
+                try {
+                    User existingUser = userMapper(existingUserDoc);
+                    if (existingUser.getUserType().equals("Administrator")) {
+                        callback.onSuccess(existingUser);
+                    } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
+                        callback.onError(new RejectedUserException("User has been rejected by Admin"));
+                    } else if (!((RegisterableUser) existingUser).getApprovalStatus()) {
+                        callback.onError(new PendingUserException("Request waiting for admin " +
+                                "approval"));
+                    } else {
+                        callback.onSuccess(existingUser);
+                    }
+                } catch (Exception e) {
+                    if (e.getMessage() != null) {
+                        Log.e("Database", e.getMessage());
+                    } else {
+                        Log.e("Database", "emptyMessage");
+                    }
+                    callback.onError(e);
                 }
-                callback.onError(e);
-            }
-        });
+            });
+        }
     }
 
     public void getAllRequestedUsers (RegistrationCallbackList callback) {
@@ -136,25 +140,27 @@ public class RegistrationManager {
      * @param callback allows for exception handling.
      */
     public void changeUserStatus (String email, boolean accepted, RegistrationCallback callback) {
-        users.readFromReference(email.toLowerCase().replaceAll(" ", ""), userDoc -> {
-            try {
-                RegisterableUser user = (RegisterableUser) userMapper(userDoc);
-                if (accepted) {
-                    if (user.getRejectionStatus()) {
-                        user.setRejectionStatus(false);
+        if (email != null) {
+            users.readFromReference(email.toLowerCase().replaceAll(" ", ""), userDoc -> {
+                try {
+                    RegisterableUser user = (RegisterableUser) userMapper(userDoc);
+                    if (accepted) {
+                        if (user.getRejectionStatus()) {
+                            user.setRejectionStatus(false);
+                        }
+                        user.setApprovalStatus(true);
+                    } else {
+                        user.setRejectionStatus(true);
                     }
-                    user.setApprovalStatus(true);
-                } else {
-                    user.setRejectionStatus(true);
-                }
 
-                users.writeToReference(email.toLowerCase().replaceAll(" ", ""), user);
-                callback.onSuccess();
-            } catch (Exception e) {
-                Log.e("Database", Objects.requireNonNull(e.getMessage()));
-                callback.onError(e);
-            }
-        });
+                    users.writeToReference(email.toLowerCase().replaceAll(" ", ""), user);
+                    callback.onSuccess();
+                } catch (Exception e) {
+                    Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                    callback.onError(e);
+                }
+            });
+        }
     }
 
     public static User userMapper (DocumentSnapshot document) {

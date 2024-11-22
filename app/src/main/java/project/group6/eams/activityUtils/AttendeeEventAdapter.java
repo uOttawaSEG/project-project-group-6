@@ -68,7 +68,9 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     public void onBindViewHolder (@NonNull AttendeeEventAdapter.ViewHolder holder, int position) {
         Event event = events.get(position);
         holder.eventTitle.setText(event.getTitle());
-        holder.creator.setText(event.getCreator().getEmail());
+        if (event.getCreator() != null){
+            holder.creator.setText(event.getCreator().getEmail());
+        } else {holder.creator.setText("Unknown Creator");}
         holder.eventAddress.setText(event.getEventAddress());
         holder.eventDescription.setText(event.getDescription());
         holder.startTime.setText(event.getStartTime().toString());
@@ -80,7 +82,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
 
     }
     @Override
-    public int getItemCount () {
+    public int getItemCount(){
         return events.size();
     }
 
