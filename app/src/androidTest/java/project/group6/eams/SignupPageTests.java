@@ -24,9 +24,9 @@ public class SignupPageTests {
     public ActivityScenarioRule<SignUpPage> activityRule = new ActivityScenarioRule<>(SignUpPage.class);
     @Test
     public void testInputsShowMessage(){
-        ViewInteraction firstName = Espresso.onView(withId(R.id.enterFirstName));
+        ViewInteraction firstName = Espresso.onView(withId(R.id.enterFirstName_signup_page));
         firstName.perform(typeText("12345"));
-        Espresso.onView(withId(R.id.submitButton)).perform(click());
+        Espresso.onView(withId(R.id.submitButton_signup_page)).perform(click());
         firstName.check(matches(hasErrorText("First Name must be alphabetic characters only.")));
     }
 }

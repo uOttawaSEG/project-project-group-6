@@ -45,14 +45,14 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventTitle = itemView.findViewById(R.id.event_title);
-            creator = itemView.findViewById(R.id.creator);
-            startTime = itemView.findViewById(R.id.startTime);
-            endTime = itemView.findViewById(R.id.endTime);
-            eventAddress = itemView.findViewById(R.id.eventAddress);
-            eventDescription = itemView.findViewById(R.id.description);
-            requestToAttendButton = itemView.findViewById(R.id.attendee_list_button);
-            delete = itemView.findViewById(R.id.delete_event);
+            eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
+            creator = itemView.findViewById(R.id.creator_eventlistlayout);
+            startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
+            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
+            eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
+            eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
+            requestToAttendButton = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
+            delete = itemView.findViewById(R.id.delete_event_eventlistlayout);
         }
     }
 
@@ -68,7 +68,9 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     public void onBindViewHolder (@NonNull AttendeeEventAdapter.ViewHolder holder, int position) {
         Event event = events.get(position);
         holder.eventTitle.setText(event.getTitle());
-        holder.creator.setText(event.getCreator().getEmail());
+        if (event.getCreator() != null){
+            holder.creator.setText(event.getCreator().getEmail());
+        } else {holder.creator.setText("Unknown Creator");}
         holder.eventAddress.setText(event.getEventAddress());
         holder.eventDescription.setText(event.getDescription());
         holder.startTime.setText(event.getStartTime().toString());
@@ -80,7 +82,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
 
     }
     @Override
-    public int getItemCount () {
+    public int getItemCount(){
         return events.size();
     }
 

@@ -27,11 +27,13 @@ import project.group6.eams.R;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
+import project.group6.eams.users.Administrator;
+import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
 import project.group6.eams.users.User;
 import project.group6.eams.utils.*;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity {
 
     private Button loginButton;
     private Button signUpButton;
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_login_page);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -61,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
      * Initializes the views for the Login page
      */
     private void initViews () {
-        loginButton = findViewById(R.id.loginButton);
-        editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
-        editTextTextPassword = findViewById(R.id.editTextTextPassword);
-        signUpButton = findViewById(R.id.signUpButton);
+        loginButton = findViewById(R.id.loginButton_login_page);
+        editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress_login_page);
+        editTextTextPassword = findViewById(R.id.editTextTextPassword_login_page);
+        signUpButton = findViewById(R.id.signUpButton_login_page);
     }
 
     /**
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                Intent intent = new Intent(MainActivity.this, SignUpPage.class);
+                Intent intent = new Intent(LoginPage.this, SignUpPage.class);
                 startActivity(intent);
             }
         });
@@ -109,27 +111,24 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess () {}
             @Override
             public void onSuccess (User user) {
+                AppInfo appInfo = AppInfo.getInstance();
                 if (Objects.equals(user.getPassword(), inputPassword)) {
                     switch (user.getUserType()) {
                         case "Attendee": {
-                            Intent intent = new Intent(MainActivity.this, AttendeePage.class);
+                            appInfo.setCurrentUser((Attendee)user);
+                            Intent intent = new Intent(LoginPage.this, AttendeePage.class);
                             startActivity(intent); //Switching to the type's activity
                             break;
                         }
                         case "Organizer": {
-                            Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
-
-                            Organizer org = (Organizer)user;
-
-                            intent.putExtra("email", inputEmailAddress);
-                            intent.putExtra("org_name",org.getOrganizationName());
-
+                            appInfo.setCurrentUser((Organizer)user);
+                            Intent intent = new Intent(LoginPage.this, OrganizerPage.class);
                             startActivity(intent);
-
                             break;
                         }
                         case "Administrator": {
-                            Intent intent = new Intent(MainActivity.this, AdministratorPage.class);
+                            appInfo.setCurrentUser((Administrator)user);
+                            Intent intent = new Intent(LoginPage.this, AdministratorPage.class);
                             startActivity(intent);
                             break;
                         }

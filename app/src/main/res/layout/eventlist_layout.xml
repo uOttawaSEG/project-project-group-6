@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/event_title"
+                android:id="@+id/event_title_eventlistlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -37,7 +37,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/creator"
+                android:id="@+id/creator_eventlistlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -53,7 +53,7 @@
             android:layout_marginTop="4dp">
 
             <TextView
-                android:id="@+id/startTime"
+                android:id="@+id/startTime_eventlistlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -68,7 +68,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/endTime"
+                android:id="@+id/endTime_eventlistlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -78,7 +78,7 @@
 
         <!-- Event Address -->
         <TextView
-            android:id="@+id/eventAddress"
+            android:id="@+id/eventAddress_eventlistlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -89,7 +89,7 @@
 
         <!-- Event Description -->
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/description_eventlistlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -110,7 +110,7 @@
 
         <!-- Attendee List Button -->
         <Button
-            android:id="@+id/attendee_list_button"
+            android:id="@+id/attendee_list_button_eventlistlayout"
             style="@style/button.Style"
             android:padding="8dp"
             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
 
         <!-- Delete Event Button -->
         <Button
-            android:id="@+id/delete_event"
+            android:id="@+id/delete_event_eventlistlayout"
             style="@style/button.Style"
             android:layout_marginTop="8dp"
             android:padding="8dp"

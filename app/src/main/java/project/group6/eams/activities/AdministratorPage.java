@@ -33,7 +33,7 @@ public class AdministratorPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_administrator_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.administrator_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -43,10 +43,10 @@ public class AdministratorPage extends AppCompatActivity {
     }
 
     private void initViews () {
-        logOffButton3 = findViewById(R.id.logOffButton3);
-        rejected_button = findViewById(R.id.rejected_button);
-        requested_button = findViewById(R.id.requested_button);
-        recyclerView = findViewById(R.id.recycler_view);
+        logOffButton3 = findViewById(R.id.logOffButton_administrator);
+        rejected_button = findViewById(R.id.rejected_button_administrator);
+        requested_button = findViewById(R.id.requested_button_administrator);
+        recyclerView = findViewById(R.id.recycler_view_administrator);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -56,7 +56,7 @@ public class AdministratorPage extends AppCompatActivity {
         logOffButton3.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
                     "page.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(AdministratorPage.this, MainActivity.class);
+            Intent intent = new Intent(AdministratorPage.this, LoginPage.class);
             startActivity(intent);
         });
         requested_button.setOnClickListener(v -> loadUsers("requested"));
@@ -71,7 +71,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList);
+                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -88,7 +88,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList);
+                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }

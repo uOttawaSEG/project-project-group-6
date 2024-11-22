@@ -22,12 +22,13 @@ import java.util.Objects;
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.EventAdapter;
 
+import project.group6.eams.users.Organizer;
+import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 
 public class OrganizerPage extends AppCompatActivity {
-    private String orgEmail;
-    private String org;
+    private Organizer organizer;
     private Button logOffButton2;
     private Button createEvent_button;
     private Button pastEvents;
@@ -41,32 +42,28 @@ public class OrganizerPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_organizer_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.organizer_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         this.context = this;
-        Intent intent = getIntent();
-        orgEmail = intent.getStringExtra("email");
+        AppInfo appInfo = AppInfo.getInstance();
+        organizer = (Organizer) appInfo.getCurrentUser();
 
-        if (org == null) {
-            org = intent.getStringExtra("org_name");
-        }
-
-        displayOrg = findViewById(R.id.organizerEmail);
-        displayOrg.setText(org);
+        displayOrg = findViewById(R.id.organizerEmail_organizer_page);
+        displayOrg.setText(organizer.getEmail());
 
         initViews();
         initListeners();
     }
 
     private void initViews() {
-        logOffButton2 = findViewById(R.id.logOffButton2);
-        createEvent_button = findViewById(R.id.createEvent_button);
-        pastEvents = findViewById(R.id.past_events);
-        upcomingEvents = findViewById(R.id.upcoming_events);
-        recyclerView = findViewById(R.id.event_recycler_view);
+        logOffButton2 = findViewById(R.id.logOffButton_organizer_page);
+        createEvent_button = findViewById(R.id.createEvent_button_organizer_page);
+        pastEvents = findViewById(R.id.past_events_organizer_page);
+        upcomingEvents = findViewById(R.id.upcoming_events_organizer_page);
+        recyclerView = findViewById(R.id.event_recycler_view_organizer_page);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -76,12 +73,11 @@ public class OrganizerPage extends AppCompatActivity {
         logOffButton2.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
                     "page.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(OrganizerPage.this, MainActivity.class);
+            Intent intent = new Intent(OrganizerPage.this, LoginPage.class);
             startActivity(intent);
         });
         createEvent_button.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
-            intent.putExtra("email", orgEmail);
             startActivity(intent);
         });
 
@@ -95,7 +91,7 @@ public class OrganizerPage extends AppCompatActivity {
         EventManager eventManager = new EventManager("Events");
         switch (eventType) {
             case "upcomingEvents":
-                eventManager.getUpcomingEvents(org, new EventManager.EventCallbackList() {
+                eventManager.getUpcomingEvents(organizer.getOrganizationName(), new EventManager.EventCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Event> eventList) {
                         Log.d("Events", eventList.toString());
@@ -112,7 +108,7 @@ public class OrganizerPage extends AppCompatActivity {
                 });
                 break;
             case "pastEvents":
-                eventManager.getPastEvents(org, new EventManager.EventCallbackList() {
+                eventManager.getPastEvents(organizer.getOrganizationName(), new EventManager.EventCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Event> eventList) {
                         Log.d("Events", eventList.toString());

@@ -71,7 +71,7 @@ public class SignUpPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signup_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -87,20 +87,20 @@ public class SignUpPage extends AppCompatActivity {
      * Initializes views for the sign up page
      */
     private void initViews () {
-        organizerCheckbox = findViewById(R.id.organizerCheckBox);
-        firstName = findViewById(R.id.enterFirstName);
-        lastName = findViewById(R.id.enterLastName);
-        email = findViewById(R.id.enterEmail);
-        phoneNumber = findViewById(R.id.enterPhoneNumber);
-        street = findViewById(R.id.enterStreet);
-        city = findViewById(R.id.enterCity);
-        province = findViewById(R.id.enterProvince);
-        postalCode = findViewById(R.id.enterPostalCode);
-        organization = findViewById(R.id.enterOrganization);
-        password = findViewById(R.id.enterPassword);
-        password2 = findViewById(R.id.reenterPassword);
-        backButton = findViewById(R.id.backButton);
-        submitButton = findViewById(R.id.submitButton);
+        organizerCheckbox = findViewById(R.id.organizerCheckBox_signup_page);
+        firstName = findViewById(R.id.enterFirstName_signup_page);
+        lastName = findViewById(R.id.enterLastName_signup_page);
+        email = findViewById(R.id.enterEmail_signup_page);
+        phoneNumber = findViewById(R.id.enterPhoneNumber_signup_page);
+        street = findViewById(R.id.enterStreet_signup_page);
+        city = findViewById(R.id.enterCity_signup_page);
+        province = findViewById(R.id.enterProvince_signup_page);
+        postalCode = findViewById(R.id.enterPostalCode_signup_page);
+        organization = findViewById(R.id.enterOrganization_signup_page);
+        password = findViewById(R.id.enterPassword_signup_page);
+        password2 = findViewById(R.id.reenterPassword_signup_page);
+        backButton = findViewById(R.id.backButton_signup_page);
+        submitButton = findViewById(R.id.submitButton_signup_page);
     }
 
     /**
@@ -136,7 +136,7 @@ public class SignUpPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) { // returns to LogIn page
-                Intent intent = new Intent(SignUpPage.this, MainActivity.class);
+                Intent intent = new Intent(SignUpPage.this, LoginPage.class);
                 startActivity(intent);
             }
         });
@@ -220,7 +220,7 @@ public class SignUpPage extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Sign Up Successful! Please " +
                                     "wait for admins to approve your request.",
                                     Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignUpPage.this, MainActivity.class);
+                            Intent intent = new Intent(SignUpPage.this, LoginPage.class);
                             startActivity(intent);
                         }
                         @Override

@@ -140,7 +140,6 @@ public class EventManager {
      */
     public void getPastEvents(String organizationName, EventCallbackList callback) {
         ArrayList<Event> pastEvents = new ArrayList<>();
-
         events.readAllFromReference(eventList -> {
             try {
                 Log.d("Database", eventList.toString());
@@ -329,6 +328,30 @@ public class EventManager {
                 Log.e("Database", "Error retrieving event data: " + e.getMessage());
                 attendeeCallbackList.onError(e);
             }
+        });
+    }
+
+    public void getRequestedEvents(String attendeeEmail, EventCallbackList callback) {
+        ArrayList<Event> requestedEvents = new ArrayList<>();
+
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc : eventList) {
+                    Event event = eventWrapper(doc);
+                    Map<String, String> attendees = event.getAttendees();
+                    if (attendees.containsKey(attendeeEmail)) { //The attendees email is in the events list of attendees
+                        requestedEvents.add(event);
+                    }
+                }
+                callback.onSuccess(requestedEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+
         });
     }
 

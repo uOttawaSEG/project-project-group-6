@@ -16,11 +16,6 @@
             android:name=".activities.CreateEventPage"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.EventAttendanceManagementSystem.NoActionBar" />
-        <activity
             android:name=".activities.AdministratorPage"
             android:exported="false" />
         <activity
@@ -34,7 +29,9 @@
             android:name=".activities.AttendeePage"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.AttendeeRequestedEventsPage"/>
+        <activity
+            android:name=".activities.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

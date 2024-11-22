@@ -1,6 +1,5 @@
 package project.group6.eams.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +20,6 @@ import java.util.Objects;
 
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.AttendeeEventAdapter;
-import project.group6.eams.activityUtils.EventAdapter;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 
@@ -29,13 +27,14 @@ public class AttendeePage extends AppCompatActivity {
 
     private Button logOffButton;
     private RecyclerView recyclerView;
+    private Button viewRequestedEventsButton;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_attendee_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.attendee_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -46,9 +45,11 @@ public class AttendeePage extends AppCompatActivity {
     }
 
     private void initViews () {
-        logOffButton = findViewById(R.id.logOffButton);
+        logOffButton = findViewById(R.id.logOffButton_attendee);
         recyclerView = findViewById(R.id.recycler_view_attendee);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        viewRequestedEventsButton = findViewById(R.id.view_requested_events_button_attendeepage);
+
 
     }
     private void initListeners () {
@@ -57,9 +58,18 @@ public class AttendeePage extends AppCompatActivity {
             public void onClick (View v) {
                 Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
                         "page.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AttendeePage.this, MainActivity.class);
+                Intent intent = new Intent(AttendeePage.this, LoginPage.class);
                 startActivity(intent);
 
+            }
+        });
+        viewRequestedEventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                Toast.makeText(getApplicationContext(), "Redirecting to requested events page.",
+                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(AttendeePage.this, AttendeeRequestedEventsPage.class);
+                startActivity(intent);
             }
         });
         EventManager eventManager = new EventManager("Events");
