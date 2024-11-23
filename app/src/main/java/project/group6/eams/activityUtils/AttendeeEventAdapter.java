@@ -89,6 +89,11 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         return eventsFiltered.size();
     }
 
+    /**
+     * custom filtration based on Event attributes (title, description).
+     *<a href = "https://abhiandroid.com/ui/searchview#gsc.tab=0" </a>
+     * @param query is the search query entered by the user
+     */
     public void filter (String query) {
         ArrayList<Event> filteredList = new ArrayList<>();
         if (query == null || query.trim().isEmpty()) {
