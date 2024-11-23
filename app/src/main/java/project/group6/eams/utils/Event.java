@@ -59,4 +59,8 @@ public class Event{
             attendees.remove(ID);
         }
     }
+
+    public boolean isRegistered(String ID) {
+        return attendees.containsKey(ID);
+    }
 }

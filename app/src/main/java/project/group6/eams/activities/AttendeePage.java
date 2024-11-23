@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,12 +21,17 @@ import java.util.Objects;
 
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.AttendeeEventAdapter;
+import project.group6.eams.users.Attendee;
+import project.group6.eams.users.Organizer;
+import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 
 public class AttendeePage extends AppCompatActivity {
 
+    private Attendee attendee;
     private Button logOffButton;
+    private SearchView searchView;
     private RecyclerView recyclerView;
     private Button viewRequestedEventsButton;
 
@@ -39,6 +45,8 @@ public class AttendeePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        AppInfo appInfo = AppInfo.getInstance();
+        attendee = (Attendee) appInfo.getCurrentUser();
         initViews();
         initListeners();
 
@@ -49,6 +57,7 @@ public class AttendeePage extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_attendee);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         viewRequestedEventsButton = findViewById(R.id.view_requested_events_button_attendeepage);
+        searchView = findViewById(R.id.searchView_attendee);
 
 
     }
@@ -77,14 +86,41 @@ public class AttendeePage extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<Event> eventList) {
                 Log.d("Events", eventList.toString());
-                AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList, false);
+
+                // Filter out events that the attendee has already registered for
+                ArrayList<Event> unregisteredEvents = new ArrayList<>();
+                for (Event event : eventList) {
+                    if (!event.isRegistered(attendee.getEmail())) {
+                        unregisteredEvents.add(event);
+                    }
+                }
+
+                AttendeeEventAdapter adapter = new AttendeeEventAdapter(unregisteredEvents, false);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.filter(newText);
+                        return false;
+                    }
+                });
             }
             @Override
             public void onError(Exception e) {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
             }
         });
+
+
+
+
     }
 }

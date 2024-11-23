@@ -23,13 +23,16 @@ import project.group6.eams.utils.EventManager;
 
 public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdapter.ViewHolder> {
     private final ArrayList<Event> events;
+    private ArrayList<Event> eventsFiltered;
     private boolean isOnPastEventPage;
 
     private RecyclerView recyclerViewAttendee;
     Organizer organizer = new Organizer();
 
     public AttendeeEventAdapter (ArrayList<Event> events, boolean isOnPastEventPage) {
-        this.events = events;
+        this.events = events; // final, unchangable, to reset when filter is empty
+        eventsFiltered = new ArrayList<Event>(); // for filteration
+        eventsFiltered.addAll(events);
         this.isOnPastEventPage = isOnPastEventPage;
     }
 
@@ -66,7 +69,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
 
     @Override
     public void onBindViewHolder (@NonNull AttendeeEventAdapter.ViewHolder holder, int position) {
-        Event event = events.get(position);
+        Event event = eventsFiltered.get(position);
         holder.eventTitle.setText(event.getTitle());
         if (event.getCreator() != null){
             holder.creator.setText(event.getCreator().getEmail());
@@ -83,7 +86,23 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     }
     @Override
     public int getItemCount(){
-        return events.size();
+        return eventsFiltered.size();
+    }
+
+    public void filter (String query) {
+        ArrayList<Event> filteredList = new ArrayList<>();
+        if (query == null || query.trim().isEmpty()) {
+            filteredList.addAll(events);
+        } else {
+            for (Event event : events) {
+                if (event.getTitle().toLowerCase().contains(query.toLowerCase()) || event.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(event);
+                }
+            }
+        }
+        eventsFiltered.clear();
+        eventsFiltered.addAll(filteredList);
+        notifyDataSetChanged(); // updates adapter with new filtered data
     }
 
 }
