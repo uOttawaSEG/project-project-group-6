@@ -2,6 +2,9 @@ package project.group6.eams.users;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 
@@ -66,6 +69,31 @@ public class Attendee extends RegisterableUser {
                 Log.d("Database", "Unable to cancel event registration request");
             }
         });
+    }
+
+    /**
+     * Returns a boolean true if the event an attendee wants to register for conflicts with any of the events they have already
+     * registered for and false if there are no conflicts
+     * @param events the list of events that an attendee had already registered/requested
+     * @param toRegister the event that the attendee wants to register for
+     * @return a boolean specifying whether there are any conflicts
+     */
+    public boolean hasEventConflict(ArrayList<Event> events,Event toRegister){
+
+        Date newEvStartTime = toRegister.getStartTime();
+        Date newEvEndTime = toRegister.getEndTime();
+
+        for(Event i: events){
+            if(newEvStartTime.equals(i.getStartTime()))return true;
+
+            if(newEvStartTime.before(i.getEndTime()) && (newEvEndTime.after(i.getEndTime()) || newEvStartTime.after(i.getStartTime()))){
+                return true;
+
+            }
+        }
+        return false;
+
+
     }
 
 }
