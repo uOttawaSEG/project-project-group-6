@@ -110,18 +110,20 @@ public class Organizer extends RegisterableUser {
 
     public void deleteEvent(Event ev){
 
+        if(!ev.getAttendees().containsValue("approved")){
+            eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d("Database", "Successfully deleted " + ev.getTitle());
+                }
 
-        eventManager.removeEvent(ev.title, new EventManager.EventCallback() {
-        @Override
-        public void onSuccess() {
-            Log.d("Database", "Successfully deleted " + ev.getTitle());
-        }
+                @Override
+                public void onError(Exception e) {
+                    Log.e("Database","Could not delete" + ev.getTitle());
+                }
+            });
 
-        @Override
-        public void onError(Exception e) {
-            Log.e("Database","Could not delete" + ev.getTitle());
         }
-    });
 
     }
 

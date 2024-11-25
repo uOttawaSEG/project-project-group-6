@@ -55,7 +55,7 @@ public class Event{
     }
 
     public void removeAttendee(String ID) {
-        if (attendees.containsKey(ID)) {
+        if (isRegistered(ID)) {
             attendees.remove(ID);
         }
     }
