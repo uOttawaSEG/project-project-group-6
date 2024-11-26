@@ -95,7 +95,7 @@ public class AttendeePage extends AppCompatActivity {
                     }
                 }
 
-                AttendeeEventAdapter adapter = new AttendeeEventAdapter(unregisteredEvents, false);
+                AttendeeEventAdapter adapter = new AttendeeEventAdapter(unregisteredEvents);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 

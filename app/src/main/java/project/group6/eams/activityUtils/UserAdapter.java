@@ -67,7 +67,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.userEmail.setText(user.getEmail());
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
-        holder.userTime.setText(user.getRequestTime().toDate().toString());
+        if (user.getRequestTime() != null){
+            holder.userTime.setText(user.getRequestTime().toDate().toString());
+        }
         holder.userAddress.setText(user.getAddress());
         if (user.getUserType().equals("Organizer")) {
             holder.userOrganization.setText(((Organizer) user).getOrganizationName());

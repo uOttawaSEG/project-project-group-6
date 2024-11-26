@@ -17,6 +17,9 @@ import project.group6.eams.users.Attendee;
 import project.group6.eams.utils.Event;
 import project.group6.eams.users.Organizer;
 
+/**
+ * Adapter for the Organizer Page that shows the attendees that have requested to attend an event.
+ */
 public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequestAdapter.ViewHolder> {
     private final ArrayList<Attendee> attendees;
     //The even this list is attached to

@@ -66,7 +66,7 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<Event> eventList) {
                 Log.d("Events", eventList.toString());
-                AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList, false);
+                AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList);
                 requestedEvents.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

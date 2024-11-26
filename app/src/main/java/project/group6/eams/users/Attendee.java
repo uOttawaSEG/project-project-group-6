@@ -34,7 +34,7 @@ public class Attendee extends RegisterableUser {
      *
      * @param event the Event that the Attendee want to request to attend
      */
-    public void RequestToRegister(Event event){
+    public void requestToRegister(Event event){
         event.addAttendee(this.getEmail(),"requested");
 
         eventManager.updateEvent(event, new EventManager.EventCallback() {

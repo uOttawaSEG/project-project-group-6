@@ -18,22 +18,20 @@ import java.util.ArrayList;
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
+import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 
 public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdapter.ViewHolder> {
     private final ArrayList<Event> events;
     private ArrayList<Event> eventsFiltered;
-    private boolean isOnPastEventPage;
+    private Attendee attendee = (Attendee)AppInfo.getInstance().getCurrentUser();
 
-    private RecyclerView recyclerViewAttendee;
-    Organizer organizer = new Organizer();
 
-    public AttendeeEventAdapter (ArrayList<Event> events, boolean isOnPastEventPage) {
+    public AttendeeEventAdapter (ArrayList<Event> events) {
         this.events = events; // final, unchangable, to reset when filter is empty
         eventsFiltered = new ArrayList<Event>(); // for filteration
         eventsFiltered.addAll(events);
-        this.isOnPastEventPage = isOnPastEventPage;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +43,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         public TextView eventDescription;
         public Button requestToAttendButton;
         public Button delete;
+        public boolean requested;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,12 +77,21 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         holder.eventDescription.setText(event.getDescription());
         holder.startTime.setText(event.getStartTime().toString());
         holder.endTime.setText(event.getEndTime().toString());
-        holder.requestToAttendButton.setText("Request");
-        holder.delete.setText("temp");
-        /*request to attend holder.requestToAttendButton.setOnClickListener();*/
-        /* prolly remove holder.delete.setOnClickListener(v -> organizer.deleteEvent(event));*/
-
+        if (event.isRegistered(attendee.getEmail())){
+            holder.requestToAttendButton.setText("Cancel Request");
+            holder.requestToAttendButton.setOnClickListener(v -> {
+                attendee.cancelRegistration(event);
+                notifyItemChanged(position);
+            });
+        } else {
+            holder.requestToAttendButton.setText("Request");
+            holder.requestToAttendButton.setOnClickListener(v -> {
+                attendee.requestToRegister(event);
+                notifyItemChanged(position);
+            });
+        }
     }
+
     @Override
     public int getItemCount(){
         return eventsFiltered.size();
