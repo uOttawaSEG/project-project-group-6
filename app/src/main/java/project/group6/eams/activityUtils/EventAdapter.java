@@ -21,6 +21,7 @@ import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 import project.group6.eams.users.Organizer;
+import project.group6.eams.utils.InputUtils;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private final ArrayList<Event> events;
@@ -39,7 +40,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public TextView eventTitle;
         public TextView creator;
         public TextView startTime;
-        public TextView endTime;
         public TextView eventAddress;
         public TextView eventDescription;
         public Button attendee_list_button;
@@ -50,7 +50,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
             creator = itemView.findViewById(R.id.creator_eventlistlayout);
             startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
-            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
             eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
             eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
             attendee_list_button = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
@@ -75,10 +74,26 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         } else {holder.creator.setText("Unknown Creator");}
         holder.eventAddress.setText(event.getEventAddress());
         holder.eventDescription.setText(event.getDescription());
-        holder.startTime.setText(event.getStartTime().toString());
-        holder.endTime.setText(event.getEndTime().toString());
-        holder.attendee_list_button.setOnClickListener(v -> showAttendeeDialog(event));
-        holder.delete.setOnClickListener(v -> organizer.deleteEvent(event));
+        holder.startTime.setText(event.getStartTime().toString()+"-"+event.getEndTime().toString());
+        holder.attendee_list_button.setOnClickListener(v -> {
+            if (event.getAutomaticApproval()){
+                organizer.approveAllEventRequests(event);
+            }
+            showAttendeeDialog(event);
+        });
+
+        if (!InputUtils.dateHasPassed(event.getStartTime())){
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.delete.setOnClickListener(v -> {
+                organizer.deleteEvent(event);
+                events.remove(position);
+                notifyDataSetChanged();
+            });
+
+        } else {
+            holder.delete.setVisibility(View.GONE);
+        }
+
 
     }
     @Override
@@ -103,27 +118,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         dialogBuilder.setTitle(event.getTitle()+ " Attendees");
         AlertDialog b = dialogBuilder.create();
         b.show();
-
         acceptedButton.setOnClickListener(v -> {
             loadAttendees(event,"accepted");
-            if (event.getAutomaticApproval()){
-                organizer.approveAllEventRequests(event);
-            }
         });
         requestedButton.setOnClickListener(v -> {
             loadAttendees(event,"requested");
-            if (event.getAutomaticApproval()){
-                organizer.approveAllEventRequests(event);
-            }
         });
 
         rejectedButton.setOnClickListener(v -> {
             loadAttendees(event,"rejected");
-            if (event.getAutomaticApproval()){
-                organizer.approveAllEventRequests(event);
-            }
         });
-        acceptAll.setOnClickListener(v -> organizer.approveAllEventRequests(event));
+        acceptAll.setOnClickListener(v -> {
+            organizer.approveAllEventRequests(event);
+            notifyDataSetChanged();
+        });
+
 
     }
 

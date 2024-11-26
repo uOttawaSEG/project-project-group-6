@@ -63,4 +63,7 @@ public class Event{
     public boolean isRegistered(String ID) {
         return attendees.containsKey(ID);
     }
+    public String getAttendeeStatus(String ID){
+        return attendees.getOrDefault(ID, null);
+    }
 }

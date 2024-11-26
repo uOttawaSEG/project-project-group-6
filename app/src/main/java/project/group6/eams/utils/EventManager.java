@@ -145,8 +145,8 @@ public class EventManager {
                 Log.d("Database", eventList.toString());
                 for (DocumentSnapshot doc : eventList) {
                     Event event = eventWrapper(doc);
-                    Date endDate = event.getEndTime();
-                    if (InputUtils.dateHasPassed(endDate)) { // date has passed
+                    Date startDate = event.getStartTime();
+                    if (InputUtils.dateHasPassed(startDate)) { // date has passed
                         pastEvents.add(event);
                     }
                 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView userAddress;
         public Button accept_button;
         public Button reject_button;
-        public RecyclerView attendee_recycler_view;
+        public LinearLayout userlist_layout;
 
         public ViewHolder (@NonNull View itemView) {
             super(itemView);
@@ -49,7 +50,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userAddress = itemView.findViewById(R.id.userAddress_userlistlayout);
             accept_button = itemView.findViewById(R.id.accept_button_userlistlayout);
             reject_button = itemView.findViewById(R.id.reject_button_userlistlayout);
-            attendee_recycler_view = itemView.findViewById(R.id.attendee_recycler_view_event_attendees_organizer);
+            userlist_layout = itemView.findViewById(R.id.userlist_layout);
         }
     }
 
@@ -77,25 +78,26 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.userOrganization.setText("Attendee");
         }
 
-        holder.accept_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Administrator.approveRequest(user.getEmail());
-            }
+        holder.accept_button.setOnClickListener(v -> {
+            Administrator.approveRequest(user.getEmail());
+            users.remove(position);
+            notifyDataSetChanged();
         });
-        holder.reject_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Administrator.rejectRequest(user.getEmail());
-            }
+        holder.reject_button.setOnClickListener(v -> {
+            Administrator.rejectRequest(user.getEmail());
+            users.remove(position);
+            notifyDataSetChanged();
         });
-        holder.attendee_recycler_view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showUserInfo(user);
-                return true;
-            }
+        holder.userlist_layout.setOnLongClickListener(v->{
+            showUserInfo(user);
+            return true;
         });
+        if (user.getRejectionStatus()){
+            holder.reject_button.setVisibility(View.GONE);
+        }
+        if (!user.getRejectionStatus()){
+            holder.reject_button.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -105,12 +107,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public void showUserInfo(User user){
-
+        RegisterableUser rUser = (RegisterableUser)user;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.user_info_page, null);
         dialogBuilder.setView(dialogView);
 
+        TextView userEmail = dialogView.findViewById(R.id.userEmail_userlistlayout);
+        TextView userPhone = dialogView.findViewById(R.id.userPhone_userlistlayout);
+        TextView userName = dialogView.findViewById(R.id.userName_userlistlayout);
+        TextView userOrganization = dialogView.findViewById(R.id.userOrganization_userlistlayout);
+        TextView userAddress = dialogView.findViewById(R.id.userAddress_userlistlayout);
+        TextView userTime = dialogView.findViewById(R.id.userTime_userlistlayout);
+
+        userEmail.setText(rUser.getEmail());
+        userPhone.setText(rUser.getPhoneNumber());
+        userName.setText(rUser.getFirstname()+ " "+ rUser.getLastname());
+        if (user.getUserType().equals("Organizer")) {
+            userOrganization.setText(((Organizer)rUser).getOrganizationName());
+        } else {
+            userOrganization.setText("Attendee");
+        }
+        userAddress.setText(rUser.getAddress());
+        if (rUser.getRequestTime()!=null){
+            userTime.setText(rUser.getRequestTime().toDate().toString());
+        }
         dialogBuilder.setTitle("User Info");
         AlertDialog b = dialogBuilder.create();
         b.show();

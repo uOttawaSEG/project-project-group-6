@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class AdministratorPage extends AppCompatActivity {
     private Button rejected_button;
     private Button requested_button;
     private RecyclerView recyclerView;
+    private Context context;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class AdministratorPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        context = this;
         initViews();
         initListeners();
     }
@@ -88,7 +91,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
+                        UserAdapter adapter = new UserAdapter(usersList, context);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }

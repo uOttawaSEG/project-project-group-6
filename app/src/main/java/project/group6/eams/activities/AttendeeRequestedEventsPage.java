@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
         welcomeMessage = findViewById(R.id.welcomeText_requested_events_attendee);
         backButton = findViewById(R.id.back_button_requested_events_attendee);
         requestedEvents = findViewById(R.id.recycler_view_requested_events_attendee);
+        requestedEvents.setLayoutManager(new LinearLayoutManager(this));
     }
     private void initListeners(){
         title.setText(attendee.getEmail()+"'s Requested Events");
