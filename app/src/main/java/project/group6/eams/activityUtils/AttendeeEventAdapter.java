@@ -13,12 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
-
+import project.group6.eams.utils.EventManager;
 
 public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdapter.ViewHolder> {
     private final ArrayList<Event> events;
@@ -83,13 +85,32 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         } else {
             holder.requestToAttendButton.setText("Request");
             holder.requestToAttendButton.setOnClickListener(v -> {
-                attendee.requestToRegister(event);
-                eventsFiltered.remove(position);
-                if (event.getAutomaticApproval()){
-                    Organizer eventCreator = event.getCreator();
-                    eventCreator.approveAllEventRequests(event);
-                }
-                notifyDataSetChanged();
+                EventManager em = new EventManager("Events");
+                em.getRequestedEvents(attendee.getEmail(), new EventManager.EventCallbackList(){
+                    @Override
+                    public void onSuccess (ArrayList<Event> events) {
+                        if (!attendee.hasEventConflict(events,event)){
+                            attendee.requestToRegister(event);
+                            eventsFiltered.remove(holder.getAdapterPosition());
+                            if (event.getAutomaticApproval()){
+                                Organizer eventCreator = event.getCreator();
+                                eventCreator.approveAllEventRequests(event);
+                            }
+                            notifyDataSetChanged();
+                        } else {
+                            Log.d("Event","Event conflict detected");
+                            holder.requestToAttendButton.setText("Event Conflict");
+                            holder.requestToAttendButton.setBackgroundColor(Color.parseColor("#ee645f"));
+                            holder.requestToAttendButton.setBackgroundTintList(null);
+                            holder.requestToAttendButton.setOnClickListener(null);
+
+                        }
+                    }
+                    @Override
+                    public void onError (Exception e) {
+                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                    }
+                });
             });
         }
         String status = event.getAttendeeStatus(attendee.getEmail());
