@@ -76,11 +76,13 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
 
         holder.accept_button.setOnClickListener(v -> {
             organizer.approveEventRequest(event,user.getEmail());
+            attendees.remove(position);
             notifyDataSetChanged();
         });
 
         holder.reject_button.setOnClickListener(v -> {
             organizer.rejectEventRequest(event,user.getEmail());
+            attendees.remove(position);
             notifyDataSetChanged();
         });
 

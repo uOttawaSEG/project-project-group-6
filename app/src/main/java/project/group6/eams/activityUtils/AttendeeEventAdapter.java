@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
+import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 
@@ -84,6 +85,10 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
             holder.requestToAttendButton.setOnClickListener(v -> {
                 attendee.requestToRegister(event);
                 eventsFiltered.remove(position);
+                if (event.getAutomaticApproval()){
+                    Organizer eventCreator = event.getCreator();
+                    eventCreator.approveAllEventRequests(event);
+                }
                 notifyDataSetChanged();
             });
         }
