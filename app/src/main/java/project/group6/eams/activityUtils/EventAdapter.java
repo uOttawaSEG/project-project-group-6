@@ -1,6 +1,7 @@
 package project.group6.eams.activityUtils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private final Context context;
     private RecyclerView recyclerViewAttendee;
     private final Organizer organizer = (Organizer)AppInfo.getInstance().getCurrentUser();
+    private Button acceptAll;
+    private Button acceptedButton;
+    private Button rejectedButton;
+    private Button requestedButton;
 
     public EventAdapter (ArrayList<Event> events,boolean isOnPastEventPage, Context context) {
         this.events = events;
@@ -102,22 +107,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     public void showAttendeeDialog(Event event){
-        loadAttendees(event,"requested");
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.view_attendees_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        Button acceptedButton = dialogView.findViewById(R.id.attendee_accepted_button_event_attendees_organizer);
-        Button requestedButton = dialogView.findViewById(R.id.attendee_requested_button_event_attendees_organizer);
-        Button rejectedButton = dialogView.findViewById(R.id.attendee_rejected_button_event_attendees_organizer);
-        Button acceptAll = dialogView.findViewById(R.id.attendee_accept_all_button_event_attendees_organizer);
+        acceptedButton = dialogView.findViewById(R.id.attendee_accepted_button_event_attendees_organizer);
+        requestedButton = dialogView.findViewById(R.id.attendee_requested_button_event_attendees_organizer);
+        rejectedButton = dialogView.findViewById(R.id.attendee_rejected_button_event_attendees_organizer);
+        acceptAll = dialogView.findViewById(R.id.attendee_accept_all_button_event_attendees_organizer);
         recyclerViewAttendee = dialogView.findViewById(R.id.attendee_recycler_view_event_attendees_organizer);
         recyclerViewAttendee.setLayoutManager(new LinearLayoutManager(context));
         dialogBuilder.setTitle(event.getTitle()+ " Attendees");
         AlertDialog b = dialogBuilder.create();
+        loadAttendees(event,"requested");
         b.show();
+
         acceptedButton.setOnClickListener(v -> {
             loadAttendees(event,"accepted");
         });
@@ -140,15 +145,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         EventManager eventManager = new EventManager("Events");
         String eventID = event.getTitle();
         Log.d("Events", "Loading attendees for event: " + eventID + " with type: " + attendeeType);
-
+        acceptedButton.setBackgroundTintList(null);
+        requestedButton.setBackgroundTintList(null);
+        rejectedButton.setBackgroundTintList(null);
         switch (attendeeType) {
             case "accepted":
+                acceptedButton.setBackgroundColor(Color.parseColor("#7bc9c1")); //selected
+                requestedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                rejectedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
                 eventManager.getApprovedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Approved attendees: " + attendees.toString());
+                        acceptAll.setVisibility(View.VISIBLE);
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No approved attendees found.");
+                            acceptAll.setVisibility(View.VISIBLE);
+                            acceptAll.setText("None Approved");
+                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
+                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setOnClickListener(null);
+                        } else {
+                            acceptAll.setVisibility(View.GONE);
                         }
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
@@ -162,12 +180,29 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 });
                 break;
             case "rejected":
+                acceptedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                requestedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                rejectedButton.setBackgroundColor(Color.parseColor("#7bc9c1"));//selected
                 eventManager.getRejectedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Rejected attendees: " + attendees.toString());
+                        acceptAll.setVisibility(View.VISIBLE);
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No rejected attendees found.");
+                            acceptAll.setVisibility(View.VISIBLE);
+                            acceptAll.setText("No Rejects");
+                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
+                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setOnClickListener(null);
+                        } else {
+                            acceptAll.setText("Accept All");
+                            acceptAll.setBackgroundColor(Color.parseColor("#829647"));
+                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setOnClickListener(v -> {
+                                organizer.approveAllEventRequests(event);
+                                notifyDataSetChanged();
+                            });
                         }
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
@@ -181,12 +216,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 });
                 break;
             case "requested":
+                acceptedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                requestedButton.setBackgroundColor(Color.parseColor("#7bc9c1"));//selected
+                rejectedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
                 eventManager.getRequestedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Requested attendees: " + attendees.toString());
+                        acceptAll.setVisibility(View.VISIBLE);
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No requested attendees found.");
+                            acceptAll.setText("No Requests");
+                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
+                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setOnClickListener(null);
+                        } else {
+                            acceptAll.setText("Accept All");
+                            acceptAll.setBackgroundColor(Color.parseColor("#829647"));
+                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setOnClickListener(v -> {
+                                organizer.approveAllEventRequests(event);
+                                notifyDataSetChanged();
+                            });
                         }
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
