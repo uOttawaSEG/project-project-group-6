@@ -74,7 +74,7 @@ public class AdministratorPage extends AppCompatActivity {
                     @Override
                     public void onSuccess (ArrayList<User> usersList) {
                         Log.d("Users", usersList.toString());
-                        UserAdapter adapter = new UserAdapter(usersList, getApplicationContext());
+                        UserAdapter adapter = new UserAdapter(usersList, context);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }

@@ -150,7 +150,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No approved attendees found.");
                         }
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -169,7 +169,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No rejected attendees found.");
                         }
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -188,7 +188,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No requested attendees found.");
                         }
-                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer);
+                        AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
