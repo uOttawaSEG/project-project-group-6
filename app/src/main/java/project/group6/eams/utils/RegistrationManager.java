@@ -33,23 +33,23 @@ public class RegistrationManager {
                 if (!existingUserDoc.exists()) {
                     users.writeToReference(userEmail, user);
                     callback.onSuccess();
-                }
-                try {
-                    User existingUser = userMapper(existingUserDoc);
+                } else {
+                    try {
+                        User existingUser = userMapper(existingUserDoc);
 
-                    if (existingUser.getUserType().equals("Administrator")) {
-                        callback.onError(new ExistingUserException("User already in database"));
-                    } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
-                        callback.onError(new RejectedUserException("User has been rejected by Admin"));
-                    } else if (((RegisterableUser) existingUser).getApprovalStatus()) {
-                        callback.onError(new ExistingUserException("User already in database"));
-                    } else {
-                        callback.onError(new PendingUserException("Request waiting for admin " +
-                                "approval"));
-
+                        if (existingUser.getUserType().equals("Administrator")) {
+                            callback.onError(new ExistingUserException("User already in database"));
+                        } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
+                            callback.onError(new RejectedUserException("User has been rejected by Admin"));
+                        } else if (((RegisterableUser) existingUser).getApprovalStatus()) {
+                            callback.onError(new ExistingUserException("User already in database"));
+                        } else {
+                            callback.onError(new PendingUserException("Request waiting for admin " +
+                                    "approval"));
+                        }
+                    } catch (Exception e) {
+                        callback.onError(e);
                     }
-                } catch (Exception e) {
-                    callback.onError(e);
                 }
             });
         }
