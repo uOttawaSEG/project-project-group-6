@@ -93,9 +93,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         if (!InputUtils.dateHasPassed(event.getStartTime())){
             holder.delete.setVisibility(View.VISIBLE);
             holder.delete.setOnClickListener(v -> {
-                organizer.deleteEvent(event);
-                events.remove(position);
-                notifyDataSetChanged();
+                if(event.getAttendees().containsValue("approved")) {
+                    ActivityUtils.showInfoToast("Cannot delete, event contains approved attendee(s)",context,+1200);
+
+                }else{
+                    organizer.deleteEvent(event);
+                    events.remove(position);
+                    notifyDataSetChanged();
+                }
             });
 
         } else {
