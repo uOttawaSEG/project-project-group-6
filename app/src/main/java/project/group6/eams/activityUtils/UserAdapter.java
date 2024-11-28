@@ -33,9 +33,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView userEmail;
         public TextView userName;
         public TextView userPhone;
-        public TextView userOrganization;
-        public TextView userTime;
-        public TextView userAddress;
         public Button accept_button;
         public Button reject_button;
         public LinearLayout userlist_layout;
@@ -45,9 +42,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userEmail = itemView.findViewById(R.id.userEmail_userlistlayout);
             userName = itemView.findViewById(R.id.userName_userlistlayout);
             userPhone = itemView.findViewById(R.id.userPhone_userlistlayout);
-            userOrganization = itemView.findViewById(R.id.userOrganization_userlistlayout);
-            userTime = itemView.findViewById(R.id.userTime_userlistlayout);
-            userAddress = itemView.findViewById(R.id.userAddress_userlistlayout);
             accept_button = itemView.findViewById(R.id.accept_button_userlistlayout);
             reject_button = itemView.findViewById(R.id.reject_button_userlistlayout);
             userlist_layout = itemView.findViewById(R.id.userlist_layout);
@@ -68,15 +62,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.userEmail.setText(user.getEmail());
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
-        if (user.getRequestTime() != null){
-            holder.userTime.setText(user.getRequestTime().toDate().toString());
-        }
-        holder.userAddress.setText(user.getAddress());
-        if (user.getUserType().equals("Organizer")) {
-            holder.userOrganization.setText(((Organizer) user).getOrganizationName());
-        } else {
-            holder.userOrganization.setText("Attendee");
-        }
 
         holder.accept_button.setOnClickListener(v -> {
             Administrator.approveRequest(user.getEmail());
@@ -113,12 +98,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         View dialogView = inflater.inflate(R.layout.user_info_page, null);
         dialogBuilder.setView(dialogView);
 
-        TextView userEmail = dialogView.findViewById(R.id.userEmail_userlistlayout);
-        TextView userPhone = dialogView.findViewById(R.id.userPhone_userlistlayout);
-        TextView userName = dialogView.findViewById(R.id.userName_userlistlayout);
-        TextView userOrganization = dialogView.findViewById(R.id.userOrganization_userlistlayout);
-        TextView userAddress = dialogView.findViewById(R.id.userAddress_userlistlayout);
-        TextView userTime = dialogView.findViewById(R.id.userTime_userlistlayout);
+        TextView userEmail = dialogView.findViewById(R.id.userEmail_userInfoPage);
+        TextView userPhone = dialogView.findViewById(R.id.userPhone_userInfoPage);
+        TextView userName = dialogView.findViewById(R.id.userName_userInfoPage);
+        TextView userOrganization = dialogView.findViewById(R.id.userOrganization_userInfoPage);
+        TextView userAddress = dialogView.findViewById(R.id.userAddress_userInfoPage);
+        TextView userTime = dialogView.findViewById(R.id.userTime_userInfoPage);
 
         userEmail.setText(rUser.getEmail());
         userPhone.setText(rUser.getPhoneNumber());
