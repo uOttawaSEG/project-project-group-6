@@ -9,20 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
-import project.group6.eams.utils.EventManager;
-import project.group6.eams.utils.InputUtils;
+
 
 public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdapter.ViewHolder> {
     private final ArrayList<Event> events;
@@ -31,32 +29,32 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     private Context context;
 
 
-    public AttendeeEventAdapter (ArrayList<Event> events,Context context) {
+    public AttendeeEventAdapter (ArrayList<Event> events, Context context) {
         this.events = events; // final, unchangable, to reset when filter is empty
         eventsFiltered = new ArrayList<Event>(); // for filteration
         eventsFiltered.addAll(events);
-        this.context=context;
+        this.context = context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventTitle;
         public TextView creator;
         public TextView startTime;
-        public TextView eventAddress;
-        public TextView eventDescription;
+        public TextView endTime;
         public Button requestToAttendButton;
         public Button delete;
         public boolean requested;
+        public LinearLayout eventlist_layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
             creator = itemView.findViewById(R.id.creator_eventlistlayout);
             startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
-            eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
-            eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
+            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
             requestToAttendButton = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
             delete = itemView.findViewById(R.id.delete_event_eventlistlayout);
+            eventlist_layout = itemView.findViewById(R.id.eventlist_layout);
 
         }
     }
@@ -76,56 +74,25 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         if (event.getCreator() != null){
             holder.creator.setText(event.getCreator().getEmail());
         } else {holder.creator.setText("Unknown Creator");}
-        holder.eventAddress.setText(event.getEventAddress());
-        holder.eventDescription.setText(event.getDescription());
-        holder.startTime.setText(event.getStartTime().toString()+"-"+event.getEndTime().toString());
+        holder.startTime.setText(event.getStartTime().toString());
+        holder.endTime.setText(event.getEndTime().toString());
         if (event.isRegistered(attendee.getEmail())){
             holder.requestToAttendButton.setText("Cancel Request");
             holder.requestToAttendButton.setOnClickListener(v -> {
-                //Checks to see if the event is not within 24 hours and the attendee status is requested
-                //(i.e. the attendee has not been accepted or rejected
-                if (!(event.getStartTime().before(InputUtils.add(new Date(), Calendar.HOUR,24))) &&
-                        event.getAttendeeStatus(attendee.getEmail()).equals("requested")){
-                    attendee.cancelRegistration(event);
-                    eventsFiltered.remove(position);
-                    notifyDataSetChanged();
-                } else if (event.getAttendeeStatus(attendee.getEmail()).equals("rejected")){
-                    ActivityUtils.showFailedToast("Event has already been rejected",context,+900);
-                } else if (event.getAttendeeStatus(attendee.getEmail()).equals("approved")){
-                    ActivityUtils.showFailedToast("Event has already been approved",context,+900);
-                } else {
-                    ActivityUtils.showFailedToast("Event is within 24 hours", context,+900);
-                }
+                attendee.cancelRegistration(event);
+                eventsFiltered.remove(position);
+                notifyDataSetChanged();
             });
         } else {
             holder.requestToAttendButton.setText("Request");
             holder.requestToAttendButton.setOnClickListener(v -> {
-                EventManager em = new EventManager("Events");
-                em.getRequestedEvents(attendee.getEmail(), new EventManager.EventCallbackList(){
-                    @Override
-                    public void onSuccess (ArrayList<Event> events) {
-                        if (!attendee.hasEventConflict(events,event)){
-                            attendee.requestToRegister(event);
-                            eventsFiltered.remove(holder.getAdapterPosition());
-                            if (event.getAutomaticApproval()){
-                                Organizer eventCreator = event.getCreator();
-                                eventCreator.approveAllEventRequests(event);
-                            }
-                            notifyDataSetChanged();
-                        } else {
-                            Log.d("Event","Event conflict detected");
-                            holder.requestToAttendButton.setText("Event Conflict");
-                            holder.requestToAttendButton.setBackgroundColor(Color.parseColor("#ee645f"));
-                            holder.requestToAttendButton.setBackgroundTintList(null);
-                            holder.requestToAttendButton.setOnClickListener(null);
-
-                        }
-                    }
-                    @Override
-                    public void onError (Exception e) {
-                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
-                    }
-                });
+                attendee.requestToRegister(event);
+                eventsFiltered.remove(position);
+                if (event.getAutomaticApproval()){
+                    Organizer eventCreator = event.getCreator();
+                    eventCreator.approveAllEventRequests(event);
+                }
+                notifyDataSetChanged();
             });
         }
         String status = event.getAttendeeStatus(attendee.getEmail());
@@ -150,6 +117,10 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         } else {
             holder.delete.setVisibility(View.GONE);
         }
+        holder.eventlist_layout.setOnLongClickListener(v->{
+            showEventInfo(event);
+            return true;
+        });
 
     }
 
@@ -177,6 +148,34 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         eventsFiltered.clear();
         eventsFiltered.addAll(filteredList);
         notifyDataSetChanged(); // updates adapter with new filtered data
+    }
+
+    public void showEventInfo(Event event){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.event_info_page, null);
+        dialogBuilder.setView(dialogView);
+
+        TextView eventTitle = dialogView.findViewById(R.id.event_title_eventInfoPage);
+        TextView creator = dialogView.findViewById(R.id.creator_eventInfoPage);
+        TextView startTime = dialogView.findViewById(R.id.startTime_eventInfoPage);
+        TextView endTime = dialogView.findViewById(R.id.endTime_eventInfoPage);
+        TextView eventAddress = dialogView.findViewById(R.id.eventAddress_eventInfoPage);
+        TextView eventDescription = dialogView.findViewById(R.id.description_eventInfoPage);
+
+        eventTitle.setText(event.getTitle());
+        if (event.getCreator() != null){
+            creator.setText(event.getCreator().getEmail());
+        } else {creator.setText("Unknown Creator");}
+        eventAddress.setText(event.getEventAddress());
+        eventDescription.setText(event.getDescription());
+        startTime.setText(event.getStartTime().toString());
+        endTime.setText(event.getEndTime().toString());
+
+        dialogBuilder.setTitle("Event Info");
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
+import project.group6.eams.users.RegisterableUser;
+import project.group6.eams.users.User;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
@@ -35,6 +38,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private Button rejectedButton;
     private Button requestedButton;
 
+
     public EventAdapter (ArrayList<Event> events,boolean isOnPastEventPage, Context context) {
         this.events = events;
         this.context = context;
@@ -45,20 +49,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public TextView eventTitle;
         public TextView creator;
         public TextView startTime;
-        public TextView eventAddress;
-        public TextView eventDescription;
+        public TextView endTime;
         public Button attendee_list_button;
         public Button delete;
+        public LinearLayout eventlist_layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = itemView.findViewById(R.id.event_title_eventlistlayout);
             creator = itemView.findViewById(R.id.creator_eventlistlayout);
             startTime = itemView.findViewById(R.id.startTime_eventlistlayout);
-            eventAddress = itemView.findViewById(R.id.eventAddress_eventlistlayout);
-            eventDescription = itemView.findViewById(R.id.description_eventlistlayout);
+            endTime = itemView.findViewById(R.id.endTime_eventlistlayout);
             attendee_list_button = itemView.findViewById(R.id.attendee_list_button_eventlistlayout);
             delete = itemView.findViewById(R.id.delete_event_eventlistlayout);
+            eventlist_layout = itemView.findViewById(R.id.eventlist_layout);
         }
     }
 
@@ -77,9 +81,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         if (event.getCreator() != null){
             holder.creator.setText(event.getCreator().getEmail());
         } else {holder.creator.setText("Unknown Creator");}
-        holder.eventAddress.setText(event.getEventAddress());
-        holder.eventDescription.setText(event.getDescription());
-        holder.startTime.setText(event.getStartTime().toString()+"-"+event.getEndTime().toString());
+        holder.startTime.setText(event.getStartTime().toString());
+        holder.endTime.setText(event.getEndTime().toString());
         holder.attendee_list_button.setOnClickListener(v -> {
             if (event.getAutomaticApproval()){
                 organizer.approveAllEventRequests(event);
@@ -98,6 +101,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         } else {
             holder.delete.setVisibility(View.GONE);
         }
+        holder.eventlist_layout.setOnLongClickListener(v->{
+            showEventInfo(event);
+            return true;
+        });
 
 
     }
@@ -253,5 +260,32 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
     }
 
+    public void showEventInfo(Event event){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.event_info_page, null);
+        dialogBuilder.setView(dialogView);
+
+        TextView eventTitle = dialogView.findViewById(R.id.event_title_eventInfoPage);
+        TextView creator = dialogView.findViewById(R.id.creator_eventInfoPage);
+        TextView startTime = dialogView.findViewById(R.id.startTime_eventInfoPage);
+        TextView endTime = dialogView.findViewById(R.id.endTime_eventInfoPage);
+        TextView eventAddress = dialogView.findViewById(R.id.eventAddress_eventInfoPage);
+        TextView eventDescription = dialogView.findViewById(R.id.description_eventInfoPage);
+
+        eventTitle.setText(event.getTitle());
+        if (event.getCreator() != null){
+            creator.setText(event.getCreator().getEmail());
+        } else {creator.setText("Unknown Creator");}
+        eventAddress.setText(event.getEventAddress());
+        eventDescription.setText(event.getDescription());
+        startTime.setText(event.getStartTime().toString());
+        endTime.setText(event.getEndTime().toString());
+
+        dialogBuilder.setTitle("Event Info");
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+
+    }
 
 }
