@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.utils.RegistrationManager;
 import project.group6.eams.users.User;
 import project.group6.eams.activityUtils.UserAdapter;
@@ -57,8 +57,7 @@ public class AdministratorPage extends AppCompatActivity {
     private void initListeners () {
         loadUsers("requested");
         logOffButton3.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
-                    "page.", Toast.LENGTH_LONG).show();
+            ActivityUtils.showInfoToast("Logout successful. Redirecting to login page.",context,+1200);
             Intent intent = new Intent(AdministratorPage.this, LoginPage.class);
             startActivity(intent);
         });

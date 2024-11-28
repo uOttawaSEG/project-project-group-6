@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.activityUtils.AttendeeEventAdapter;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.utils.AppInfo;
@@ -32,6 +34,7 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
     private Button backButton;
     private RecyclerView requestedEvents;
     private Attendee attendee;
+    private Context context;
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        this.context =this;
         attendee = (Attendee)AppInfo.getInstance().getCurrentUser();
         initViews();
         initListeners();
@@ -58,7 +62,8 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
         title.setText(attendee.getEmail()+"'s Requested Events");
         welcomeMessage.setText("Welcome "+attendee.getFirstname()+"! You are logged in as an Attendee");
         backButton.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Redirecting to event list", Toast.LENGTH_LONG).show();
+            
+            ActivityUtils.showInfoToast("Redirecting to event list.",context,+1200);
             Intent intent = new Intent(AttendeeRequestedEventsPage.this, AttendeePage.class);
             startActivity(intent);
         });
@@ -68,7 +73,7 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<Event> eventList) {
                 Log.d("Events", eventList.toString());
-                AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList);
+                AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList,context);
                 requestedEvents.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

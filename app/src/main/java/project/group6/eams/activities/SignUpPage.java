@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ import android.widget.CheckBox;
 import com.google.firebase.Timestamp;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
@@ -63,6 +65,7 @@ public class SignUpPage extends AppCompatActivity {
     private String inputPasswordAgain;
 
     private RegisterableUser toAdd;
+    private Context context;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class SignUpPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        this.context = this;
         //Binding UI Elements & Assigning to listeners
         initViews();
         initListeners();
@@ -120,128 +123,114 @@ public class SignUpPage extends AppCompatActivity {
         password2.addTextChangedListener(textWatcher);
 
         //Checkbox that toggles Organizer input
-        organizerCheckbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                checkboxIsChecked = ((CheckBox) v).isChecked();
-                if (checkboxIsChecked) {
-                    organization.setVisibility(EditText.VISIBLE);
-                } else {
-                    organization.setVisibility(EditText.GONE);
-                }
+        organizerCheckbox.setOnClickListener(v ->{
+            checkboxIsChecked = ((CheckBox) v).isChecked();
+            if (checkboxIsChecked) {
+                organization.setVisibility(EditText.VISIBLE);
+            } else {
+                organization.setVisibility(EditText.GONE);
             }
         });
 
         // Back button pressed, return to login page.
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) { // returns to LogIn page
-                Intent intent = new Intent(SignUpPage.this, LoginPage.class);
-                startActivity(intent);
-            }
+        backButton.setOnClickListener(v->{ // returns to LogIn page
+            Intent intent = new Intent(SignUpPage.this, LoginPage.class);
+            startActivity(intent);
         });
 
         // Submit button pressed, validates all inputs and then adds user to the database
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                EditText[] editTexts = {firstName, lastName, email, phoneNumber, street, city,
-                        province, postalCode, organization, password, password2};
-                clearErrors(editTexts);
+        submitButton.setOnClickListener(v->{
+            EditText[] editTexts = {firstName, lastName, email, phoneNumber, street, city,
+                    province, postalCode, organization, password, password2};
+            clearErrors(editTexts);
 
-                boolean allValidInputs = true;
-                if (!InputUtils.isValidName(inputFirstName)) {
-                    allValidInputs = false;
-                    firstName.setError("First Name must be alphabetic characters only.");
-                    Log.d("Input","First Name is invalid");
-                }
-                if (!InputUtils.isValidName(inputLastName)) {
-                    allValidInputs = false;
-                    lastName.setError("Last Name must be alphabetic characters only.");
-                }
-                if (!InputUtils.isValidEmail(inputEmail)) {
-                    allValidInputs = false;
-                    email.setError("Invalid email format. Correct Format: \n[Example@mail.com]");
-                }
-                if (!InputUtils.isValidPhoneNumber(inputPhoneNumber)) {
-                    allValidInputs = false;
-                    phoneNumber.setError("Invalid phone number. Format: \n[123-456-7890]");
-                }
-
-                if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility() == View.VISIBLE) {
-                    allValidInputs = false;
-                    organization.setError("Must include organization name.");
-                }
-                if (!InputUtils.isValidStreet(inputStreet)) {
-                    allValidInputs = false;
-                    street.setError("Invalid Street Address. Format: \n[#### StreetName Suffix]");
-                }
-                if (!InputUtils.isValidName(inputCity)) {
-                    allValidInputs = false;
-                    city.setError("Invalid City Name.\nMust be alphabetic characters only.");
-                }
-                if (!InputUtils.isValidName(inputProvince)) {
-                    allValidInputs = false;
-                    province.setError("Invalid Province Name.\nMust be alphabetic characters only" +
-                            ".");
-                }
-                if (!InputUtils.isValidPostalCode(inputPostalCode)) {
-                    allValidInputs = false;
-                    postalCode.setError("Must be a Canadian postal code of format:\n[A1A 1A1]");
-                }
-                address = InputUtils.addressCreator(inputStreet, inputCity, inputProvince,
-                        inputPostalCode);
-                String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
-                if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with
-                    // the password
-                    allValidInputs = false;
-                    password.setError(passwordInvalidReason);
-                } else if (!InputUtils.verifyPassword(inputPassword, inputPasswordAgain)) {
-                    allValidInputs = false;
-                    password2.setError("Password must match previous input.");
-                }
-
-                // only runs once all inputs are valid
-                if (allValidInputs) {
-                    if (checkboxIsChecked) {
-                        toAdd = new Organizer(inputEmail, inputPassword, inputFirstName,
-                                inputLastName, inputPhoneNumber, address, inputOrganization);
-                    } else {
-                        toAdd = new Attendee(inputEmail, inputPassword, inputFirstName,
-                                inputLastName, inputPhoneNumber, address);
-                    }
-                    toAdd.setRequestTime(Timestamp.now());
-                    RegistrationManager registrationManager = new RegistrationManager("Users");
-                    registrationManager.addUser(toAdd,
-                            new RegistrationManager.RegistrationCallback() {
-                        public void onSuccess (User user) {}
-                        @Override
-                        public void onSuccess () {
-                            Toast.makeText(getApplicationContext(), "Sign Up Successful! Please " +
-                                    "wait for admins to approve your request.",
-                                    Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignUpPage.this, LoginPage.class);
-                            startActivity(intent);
-                        }
-                        @Override
-                        public void onError (Exception e) {
-                            if (e instanceof RejectedUserException) {
-                                email.setError("Email has been rejected by Admin");
-                            } else if (e instanceof PendingUserException) {
-                                email.setError("Email is currently waiting to be processed by the" +
-                                        " Admin");
-                            } else if (e instanceof ExistingUserException) {
-                                email.setError("Email already in use.");
-                            } else {
-                                Toast.makeText(getApplicationContext(), "DATABASE ERROR.",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }
-
+            boolean allValidInputs = true;
+            if (!InputUtils.isValidName(inputFirstName)) {
+                allValidInputs = false;
+                firstName.setError("First Name must be alphabetic characters only.");
+                Log.d("Input","First Name is invalid");
+            }
+            if (!InputUtils.isValidName(inputLastName)) {
+                allValidInputs = false;
+                lastName.setError("Last Name must be alphabetic characters only.");
+            }
+            if (!InputUtils.isValidEmail(inputEmail)) {
+                allValidInputs = false;
+                email.setError("Invalid email format. Correct Format: \n[Example@mail.com]");
+            }
+            if (!InputUtils.isValidPhoneNumber(inputPhoneNumber)) {
+                allValidInputs = false;
+                phoneNumber.setError("Invalid phone number. Format: \n[123-456-7890]");
             }
 
+            if (TextUtils.isEmpty(inputOrganization) && organization.getVisibility() == View.VISIBLE) {
+                allValidInputs = false;
+                organization.setError("Must include organization name.");
+            }
+            if (!InputUtils.isValidStreet(inputStreet)) {
+                allValidInputs = false;
+                street.setError("Invalid Street Address. Format: \n[#### StreetName Suffix]");
+            }
+            if (!InputUtils.isValidName(inputCity)) {
+                allValidInputs = false;
+                city.setError("Invalid City Name.\nMust be alphabetic characters only.");
+            }
+            if (!InputUtils.isValidName(inputProvince)) {
+                allValidInputs = false;
+                province.setError("Invalid Province Name.\nMust be alphabetic characters only" +
+                        ".");
+            }
+            if (!InputUtils.isValidPostalCode(inputPostalCode)) {
+                allValidInputs = false;
+                postalCode.setError("Must be a Canadian postal code of format:\n[A1A 1A1]");
+            }
+            address = InputUtils.addressCreator(inputStreet, inputCity, inputProvince,
+                    inputPostalCode);
+            String passwordInvalidReason = InputUtils.passwordChecker(inputPassword);
+            if (!passwordInvalidReason.isEmpty()) { // means there is something wrong with
+                // the password
+                allValidInputs = false;
+                password.setError(passwordInvalidReason);
+            } else if (!InputUtils.verifyPassword(inputPassword, inputPasswordAgain)) {
+                allValidInputs = false;
+                password2.setError("Password must match previous input.");
+            }
+
+            // only runs once all inputs are valid
+            if (allValidInputs) {
+                if (checkboxIsChecked) {
+                    toAdd = new Organizer(inputEmail, inputPassword, inputFirstName,
+                            inputLastName, inputPhoneNumber, address, inputOrganization);
+                } else {
+                    toAdd = new Attendee(inputEmail, inputPassword, inputFirstName,
+                            inputLastName, inputPhoneNumber, address);
+                }
+                toAdd.setRequestTime(Timestamp.now());
+                RegistrationManager registrationManager = new RegistrationManager("Users");
+                registrationManager.addUser(toAdd,
+                        new RegistrationManager.RegistrationCallback() {
+                    public void onSuccess (User user) {}
+                    @Override
+                    public void onSuccess () {
+                        ActivityUtils.showInfoToast("Sign Up Successful! Please wait for admins to approve your request.", context,+1200);
+                        Intent intent = new Intent(SignUpPage.this, LoginPage.class);
+                        startActivity(intent);
+                    }
+                    @Override
+                    public void onError (Exception e) {
+                        if (e instanceof RejectedUserException) {
+                            email.setError("Email has been rejected by Admin");
+                        } else if (e instanceof PendingUserException) {
+                            email.setError("Email is currently waiting to be processed by the" +
+                                    " Admin");
+                        } else if (e instanceof ExistingUserException) {
+                            email.setError("Email already in use.");
+                        } else {
+                            ActivityUtils.showFailedToast("DATABASE ERROR",context,-600);
+                        }
+                    }
+                });
+            }
         });
 
     }

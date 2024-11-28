@@ -55,7 +55,7 @@ public class LoginPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        context =this;
+        context = this;
         //Binding UI Elements & Assigning to listeners
         initViews();
         initListeners();
@@ -148,20 +148,19 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onError (Exception e) {
                 if (e instanceof RejectedUserException) {
-                    ActivityUtils.showToast("User has been rejected by the Admin, please contact (613) 111-1111 for more information",context);
+                    ActivityUtils.showFailedToast("User has been rejected by the Admin, please contact (613) 111-1111 for more information",context,-600);
                 } else if (e instanceof PendingUserException) {
-                    ActivityUtils.showToast("Your registration has not been approved yet by the administrator. " +
-                            "Please try again another time.",context);
+                    ActivityUtils.showFailedToast("Your registration has not been approved yet by the administrator. " +
+                            "Please try again another time.",context,-600);
                     editTextTextEmailAddress.setError("Email is currently waiting to be "+
                      "processed by the Admin");
                 } else if (e instanceof ExistingUserException) {
-                    ActivityUtils.showToast("Email does not exist. Please sign up.",context);
+                    ActivityUtils.showFailedToast("Email does not exist. Please sign up.",context,-600);
                 } else {
                     if (e.getMessage() != null) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        ActivityUtils.showFailedToast(e.getMessage(),context,-600);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                        ActivityUtils.showFailedToast("Failed",context,-600);
                     }
                 }
             }

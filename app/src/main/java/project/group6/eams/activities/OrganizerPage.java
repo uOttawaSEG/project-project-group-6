@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.activityUtils.EventAdapter;
 
 import project.group6.eams.users.Organizer;
@@ -71,8 +72,7 @@ public class OrganizerPage extends AppCompatActivity {
         loadEvents("upcomingEvents");
 
         logOffButton2.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
-                    "page.", Toast.LENGTH_LONG).show();
+            ActivityUtils.showInfoToast("Logout successful. Redirecting to login page.",context,+1200);
             Intent intent = new Intent(OrganizerPage.this, LoginPage.class);
             startActivity(intent);
         });
@@ -126,5 +126,4 @@ public class OrganizerPage extends AppCompatActivity {
                 break;
         }
     }
-
 }

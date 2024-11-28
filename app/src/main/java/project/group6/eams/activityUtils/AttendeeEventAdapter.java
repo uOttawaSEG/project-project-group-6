@@ -28,12 +28,14 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     private final ArrayList<Event> events;
     private ArrayList<Event> eventsFiltered;
     private Attendee attendee = (Attendee)AppInfo.getInstance().getCurrentUser();
+    private Context context;
 
 
-    public AttendeeEventAdapter (ArrayList<Event> events) {
+    public AttendeeEventAdapter (ArrayList<Event> events,Context context) {
         this.events = events; // final, unchangable, to reset when filter is empty
         eventsFiltered = new ArrayList<Event>(); // for filteration
         eventsFiltered.addAll(events);
+        this.context=context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -88,11 +90,11 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
                     eventsFiltered.remove(position);
                     notifyDataSetChanged();
                 } else if (event.getAttendeeStatus(attendee.getEmail()).equals("rejected")){
-                    ActivityUtils.showToast("Event has already been rejected",holder.itemView.getContext());
+                    ActivityUtils.showFailedToast("Event has already been rejected",context,+900);
                 } else if (event.getAttendeeStatus(attendee.getEmail()).equals("approved")){
-                    ActivityUtils.showToast("Event has already been approved",holder.itemView.getContext());
+                    ActivityUtils.showFailedToast("Event has already been approved",context,+900);
                 } else {
-                    ActivityUtils.showToast("Event is within 24 hours", holder.itemView.getContext());
+                    ActivityUtils.showFailedToast("Event is within 24 hours", context,+900);
                 }
             });
         } else {

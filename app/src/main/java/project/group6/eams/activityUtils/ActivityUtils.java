@@ -14,6 +14,8 @@ import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 public class ActivityUtils {
 
+    private static Toast toast;
+
     /**
      * Shows toast that appears for different User related Exceptions
      * <p>
@@ -22,17 +24,32 @@ public class ActivityUtils {
      *
      * @param e is the Exception type that determines the message shown.
      */
-    public static void showToast (String e, Context context) {
+    public static void showFailedToast (String e, Context context, int position) {
         View layout = LayoutInflater.from(context).inflate(R.layout.custom_toast,
                 (ViewGroup) ((Activity)context).findViewById(R.id.customizedToastLayout));
-
         TextView text = (TextView) layout.findViewById(R.id.customEmailToastText);
 
+        if (toast != null) toast.cancel(); //cancel any previous toasts
         text.setText(e);
-        Toast emailToast = new Toast(context);
-        emailToast.setGravity(Gravity.CENTER_VERTICAL, 0, -600);
-        emailToast.setDuration(Toast.LENGTH_LONG);
-        emailToast.setView(layout);
-        emailToast.show();
+
+        toast = new Toast(context);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, position);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+    }
+    public static void showInfoToast (String e, Context context, int position) {
+        View layout = LayoutInflater.from(context).inflate(R.layout.info_toast,
+                (ViewGroup) ((Activity)context).findViewById(R.id.infoToastLayout));
+        TextView text = (TextView) layout.findViewById(R.id.infoToastText);
+
+        if (toast != null) toast.cancel(); //cancel any previous toasts
+        text.setText(e);
+
+        toast = new Toast(context);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, position);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }

@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.activityUtils.AttendeeEventAdapter;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
@@ -34,6 +36,7 @@ public class AttendeePage extends AppCompatActivity {
     private SearchView searchView;
     private RecyclerView recyclerView;
     private Button viewRequestedEventsButton;
+    private Context context;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class AttendeePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        this.context=this;
         AppInfo appInfo = AppInfo.getInstance();
         attendee = (Attendee) appInfo.getCurrentUser();
         initViews();
@@ -58,29 +62,20 @@ public class AttendeePage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         viewRequestedEventsButton = findViewById(R.id.view_requested_events_button_attendeepage);
         searchView = findViewById(R.id.searchView_attendee);
-
-
     }
+
     private void initListeners () {
-        logOffButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Toast.makeText(getApplicationContext(), "Logout successful. Redirecting to login " +
-                        "page.", Toast.LENGTH_LONG).show();
+        logOffButton.setOnClickListener(v ->{
+                ActivityUtils.showInfoToast("Logout successful. Redirecting to login page.",context,+1200);
                 Intent intent = new Intent(AttendeePage.this, LoginPage.class);
                 startActivity(intent);
-
-            }
         });
-        viewRequestedEventsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Toast.makeText(getApplicationContext(), "Redirecting to requested events page.",
-                        Toast.LENGTH_LONG).show();
+        viewRequestedEventsButton.setOnClickListener(v->{
+                ActivityUtils.showInfoToast("Redirecting to requested events page.",context,+1200);
                 Intent intent = new Intent(AttendeePage.this, AttendeeRequestedEventsPage.class);
                 startActivity(intent);
-            }
         });
+
         EventManager eventManager = new EventManager("Events");
         eventManager.getUpcomingEvents("Attendee", new EventManager.EventCallbackList() {
             @Override
@@ -95,7 +90,7 @@ public class AttendeePage extends AppCompatActivity {
                     }
                 }
 
-                AttendeeEventAdapter adapter = new AttendeeEventAdapter(unregisteredEvents);
+                AttendeeEventAdapter adapter = new AttendeeEventAdapter(unregisteredEvents,context);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 

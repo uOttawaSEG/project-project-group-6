@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signup_page"
     android:layout_width="match_parent"
-    android:background="@color/back2"
+    android:background="@drawable/appbackground"
     android:layout_height="match_parent"
     tools:context=".activities.SignUpPage">
 
@@ -16,7 +16,14 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:text="@string/sign_up_text"
+        android:shadowColor="@color/back1"
+        android:shadowDy="10"
+        android:shadowRadius="1"
         android:textSize="50sp"
+        android:background="@drawable/back_rounded"
+        android:paddingHorizontal="110dp"
+        android:paddingVertical="5dp"
+        android:elevation="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -26,9 +33,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@color/back1"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="15dp"
+        android:elevation="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/back_rounded"
         app:layout_constraintTop_toBottomOf="@+id/signUpText_signup_page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +49,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <EditText
                 android:id="@+id/enterFirstName_signup_page"
@@ -224,15 +234,13 @@
             android:layout_width="130dp"
             android:layout_height="50dp"
             android:height="50dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:text="@string/back_button"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/submitButton_signup_page"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
@@ -240,15 +248,13 @@
             style="@style/button.Style"
             android:layout_width="130dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="5dp"
             android:text="@string/submit_button"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/backButton_signup_page"
-            app:layout_constraintTop_toBottomOf="@+id/signUpScroll"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.0" />
     </LinearLayout>
 
