@@ -6,6 +6,7 @@
     android:orientation="horizontal"
     android:background="@drawable/edittextborder"
     android:layout_margin="10dp"
+    android:id="@+id/user_info_page"
     android:padding="8dp">
 
     <!-- User Info Section -->
@@ -22,7 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/userEmail_userlistlayout"
+                android:id="@+id/userEmail_userInfoPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -37,7 +38,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/userPhone_userlistlayout"
+                android:id="@+id/userPhone_userInfoPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -53,7 +54,7 @@
             android:layout_marginTop="4dp">
 
             <TextView
-                android:id="@+id/userName_userlistlayout"
+                android:id="@+id/userName_userInfoPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -68,7 +69,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/userOrganization_userlistlayout"
+                android:id="@+id/userOrganization_userInfoPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/capriola_regular"
@@ -78,7 +79,7 @@
 
         <!-- Address -->
         <TextView
-            android:id="@+id/userAddress_userlistlayout"
+            android:id="@+id/userAddress_userInfoPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -88,7 +89,7 @@
 
         <!-- Time -->
         <TextView
-            android:id="@+id/userTime_userlistlayout"
+            android:id="@+id/userTime_userInfoPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
