@@ -7,7 +7,8 @@
     android:background="@drawable/edittextborder"
     android:layout_margin="10dp"
     android:id="@+id/userlist_layout"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:elevation="10dp">
 
     <!-- User Info Section -->
     <LinearLayout
@@ -103,7 +104,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="end|center_vertical">
+        android:gravity="end|center_vertical"
+        android:clipToPadding="false"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/accept_button_userlistlayout"
@@ -112,7 +115,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp"
             android:text="@string/accept"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="0dp"/>
 
         <Button
             android:id="@+id/reject_button_userlistlayout"
@@ -122,7 +126,8 @@
             android:layout_marginTop="6dp"
             android:paddingHorizontal="16dp"
             android:text="@string/reject"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="0dp"/>
     </LinearLayout>
 
 </LinearLayout>

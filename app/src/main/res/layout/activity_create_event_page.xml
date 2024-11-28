@@ -5,7 +5,7 @@
     android:id="@+id/create_event_page_organizer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back2"
+    android:background="@drawable/appbackground4"
     tools:context=".activities.CreateEventPage">
 
     <LinearLayout
@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:clipToPadding="false"
+        android:paddingVertical="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,8 +29,12 @@
 
         <TextView
             android:id="@+id/textView2_create_event_organizer"
-            android:layout_width="350dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:elevation="10dp"
+            android:background="@drawable/back_rounded"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/capriola_regular"
             android:text="@string/please_complete_the_following_information_regarding_your_event_then_press_quot_create_event_quot"
@@ -37,10 +43,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:background="@color/back1"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginVertical="5dp"
+        style="@style/scroll.Style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,14 +132,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:clipToPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enterEventCityEditText_create_event_organizer">
 
             <EditText
                 android:id="@+id/enterEventProvinceEditText_create_event_organizer"
                 style="@style/EditText.Style"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.5"
                 android:autofillHints="postalAddress"
                 android:layout_marginVertical="10dp"
                 android:ems="10"
@@ -142,7 +151,8 @@
             <EditText
                 android:id="@+id/enterEventPostalEditText_create_event_organizer"
                 style="@style/EditText.Style"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:autofillHints="postalCode"
                 android:layout_marginVertical="10dp"
@@ -186,6 +196,7 @@
             android:text="@string/check_the_box_for_automatic_approval_of_event_attendee_requests"
             app:layout_constraintBottom_toTopOf="@+id/createEventButton_create_event_organizer"
             android:fontFamily="@font/capriola_regular"
+            android:buttonTint="@color/colour2"
             app:layout_constraintTop_toBottomOf="@+id/end_dateEditText_create_event_organizer"
             app:layout_constraintStart_toStartOf="parent" />
 

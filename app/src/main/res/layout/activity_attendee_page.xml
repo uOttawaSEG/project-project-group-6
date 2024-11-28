@@ -5,7 +5,7 @@
     android:id="@+id/attendee_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back2"
+    android:background="@drawable/appbackground3"
     tools:context=".activities.AttendeePage">
 
     <LinearLayout
@@ -17,14 +17,16 @@
             android:id="@+id/searchView_attendee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </SearchView>
 
         <ScrollView
+            android:id="@+id/scrollview_attendee"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/back1"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            style="@style/scroll.Style"
             app:layout_constraintTop_toBottomOf="@+id/searchView_attendee"
             app:layout_constraintBottom_toTopOf="@id/linearLayout3_attendee"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,26 +35,37 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_attendee"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:clipToPadding="false"/>
         </ScrollView>
+
+        <TextView
+            android:id="@+id/welcomeText_attendee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_rounded"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/capriola_regular"
+            android:textAlignment="center"
+            android:elevation="10dp"
+            android:text="@string/welcome_message_attendee"
+            app:layout_constraintTop_toBottomOf="@+id/scrollview_attendee"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
             android:id="@+id/linearLayout3_attendee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:paddingHorizontal="20dp"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/welcomeText_attendee"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/capriola_regular"
-                android:text="@string/welcome_message_attendee" />
 
             <Button
                 android:id="@+id/logOffButton_attendee"

@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     android:background="@drawable/edittextborder"
     android:layout_margin="10dp"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:elevation="10dp">
 
     <!-- Left Column: Event Details -->
     <LinearLayout
@@ -84,7 +85,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="end"
-        android:layout_marginStart="8dp">
+        android:layout_marginStart="8dp"
+        android:clipToPadding="false"
+        android:padding="5dp">
 
         <!-- Attendee List Button -->
         <Button
@@ -94,7 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View Attendees"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="0dp"/>
 
         <!-- Delete Event Button -->
         <Button
@@ -105,7 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Delete"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="0dp"/>
     </LinearLayout>
 
 </LinearLayout>
