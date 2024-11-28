@@ -226,7 +226,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backButton_signup_page"
             style="@style/button.Style"
             android:layout_width="130dp"
@@ -241,7 +241,7 @@
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submitButton_signup_page"
             style="@style/button.Style"
             android:layout_width="130dp"

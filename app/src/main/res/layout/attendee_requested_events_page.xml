@@ -70,7 +70,7 @@
                 android:padding="10dp"
                 android:fontFamily="@font/capriola_regular"
                 android:text="@string/welcome_message_attendee" />
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/back_button_requested_events_attendee"
                 style="@style/button.Style"
                 android:layout_width="0dp"

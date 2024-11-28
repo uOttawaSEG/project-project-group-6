@@ -8,13 +8,12 @@
         <item name="android:textColorHint">@color/colour2</item>
         <item name="android:elevation">10dp</item>
     </style>
-    <style name="button.Style" parent="@style/Widget.AppCompat.Button.Borderless">
-        <item name="backgroundTint">@color/colour2</item>
+    <style name="button.Style" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/back_rounded_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/capriola_regular</item>
-        <item name="android:background">@drawable/edittextborder</item>
-        <item name="android:elevation">10dp</item>
 
+        <item name="android:elevation">10dp</item>
     </style>
     <style name="scroll.Style" parent="@style/Base.Theme.EventAttendanceManagementSystem">
         <item name="android:requiresFadingEdge">vertical</item>

@@ -14,7 +14,7 @@
         android:clipToPadding="false"
         android:padding="10dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/attendee_accepted_button_event_attendees_organizer"
             style="@style/button.Style"
             android:layout_margin="3dp"
@@ -29,7 +29,7 @@
             android:padding="0dp"
             android:text="Accepted" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/attendee_requested_button_event_attendees_organizer"
             style="@style/button.Style"
             android:layout_margin="3dp"
@@ -44,7 +44,7 @@
             android:padding="0dp"
             android:text="Requested" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/attendee_rejected_button_event_attendees_organizer"
             style="@style/button.Style"
             android:layout_margin="3dp"
@@ -70,7 +70,7 @@
         android:layout_margin="10dp"
         android:clipToPadding="false"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/attendee_accept_all_button_event_attendees_organizer"
         style="@style/button.Style"
         android:layout_margin="10dp"

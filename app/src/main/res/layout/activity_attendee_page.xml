@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logOffButton_attendee"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -75,14 +75,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/logout" />
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/view_requested_events_button_attendeepage"
                 style="@style/button.Style"
                 android:layout_width="0dp"
-                android:layout_margin="5dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1.2"
-                android:text="@string/requested_events"/>
+                android:text="@string/requested_events" />
         </LinearLayout>
     </LinearLayout>
 

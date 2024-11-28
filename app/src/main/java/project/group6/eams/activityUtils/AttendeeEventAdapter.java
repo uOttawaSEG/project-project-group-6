@@ -118,8 +118,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
                         } else {
                             Log.d("Event", "Event conflict detected");
                             holder.requestToAttendButton.setText("Event Conflict");
-                            holder.requestToAttendButton.setBackgroundColor(Color.parseColor("#ee645f"));
-                            holder.requestToAttendButton.setBackgroundTintList(null);
+                            holder.requestToAttendButton.setBackgroundResource(R.drawable.back_rounded_bad);
                             holder.requestToAttendButton.setOnClickListener(null);
                         }
                     }
@@ -137,16 +136,13 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
             holder.delete.setText(event.getAttendeeStatus(attendee.getEmail()));
             switch (status){
                 case "approved":
-                    holder.delete.setBackgroundColor(Color.parseColor("#829647"));
-                    holder.delete.setBackgroundTintList(null);
+                    holder.delete.setBackgroundResource(R.drawable.back_rounded_good);
                     break;
                 case "requested":
-                    holder.delete.setBackgroundColor(Color.parseColor("#dea22c"));
-                    holder.delete.setBackgroundTintList(null);
+                    holder.delete.setBackgroundResource(R.drawable.back_rounded_medium);
                     break;
                 case "rejected":
-                    holder.delete.setBackgroundColor(Color.parseColor("#ee645f"));
-                    holder.delete.setBackgroundTintList(null);
+                    holder.delete.setBackgroundResource(R.drawable.back_rounded_bad);
                     break;
             }
 

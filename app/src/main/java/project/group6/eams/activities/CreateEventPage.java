@@ -32,6 +32,7 @@ import java.util.Map;
 
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.ActivityUtils;
+import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
 import project.group6.eams.utils.InputUtils;
@@ -62,7 +63,6 @@ public class CreateEventPage extends AppCompatActivity {
     private String address;
     private boolean autoApproval;
 
-    private String orgEmail;
     private Organizer organizer;
 
     private Date startDate;
@@ -82,19 +82,10 @@ public class CreateEventPage extends AppCompatActivity {
             return insets;
         });
         Intent intent = getIntent();
-        orgEmail = intent.getStringExtra("email");
 
         RegistrationManager users = new RegistrationManager("Users");
 
-        users.checkForUser(orgEmail, new RegistrationManager.RegistrationCallback() {
-            public void onSuccess() {}
-            public void onSuccess(User user) {
-                organizer = (Organizer) user;
-            }
-            public void onError(Exception e) {
-                Log.e("Database", "Failed to get user");
-            }
-        });
+        organizer = (Organizer)AppInfo.getInstance().getCurrentUser();
         this.context = this;
         initViews();
         initListeners();
@@ -138,7 +129,6 @@ public class CreateEventPage extends AppCompatActivity {
         //Returns to OrganizerPage if pressed.
         backButton.setOnClickListener(v-> {// returns to Organizer page
             Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-            intent.putExtra("email", orgEmail);
             startActivity(intent);
         });
 
@@ -202,7 +192,6 @@ public class CreateEventPage extends AppCompatActivity {
                     public void onSuccess() {
                         ActivityUtils.showInfoToast("Event successfully created.",context,+1200);
                         Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-                        intent.putExtra("email", orgEmail);
                         startActivity(intent);
                     }
 

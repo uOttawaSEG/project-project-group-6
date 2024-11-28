@@ -38,7 +38,7 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/createEvent_button_organizer_page"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -58,7 +58,7 @@
             android:paddingHorizontal="20dp"
             android:clipToPadding="false">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/past_events_organizer_page"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:text="Past Events" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/upcoming_events_organizer_page"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -118,7 +118,7 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logOffButton_organizer_page"
                 style="@style/button.Style"
                 android:layout_width="0dp"

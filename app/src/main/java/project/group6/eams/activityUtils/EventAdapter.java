@@ -157,14 +157,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         EventManager eventManager = new EventManager("Events");
         String eventID = event.getTitle();
         Log.d("Events", "Loading attendees for event: " + eventID + " with type: " + attendeeType);
-        acceptedButton.setBackgroundTintList(null);
-        requestedButton.setBackgroundTintList(null);
-        rejectedButton.setBackgroundTintList(null);
         switch (attendeeType) {
             case "accepted":
-                acceptedButton.setBackgroundColor(Color.parseColor("#7bc9c1")); //selected
-                requestedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
-                rejectedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                acceptedButton.setBackgroundResource(R.drawable.back_rounded_button_selected);
+                requestedButton.setBackgroundResource(R.drawable.back_rounded_button);
+                rejectedButton.setBackgroundResource(R.drawable.back_rounded_button);
                 eventManager.getApprovedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
@@ -174,8 +171,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                             Log.d("Events", "No approved attendees found.");
                             acceptAll.setVisibility(View.VISIBLE);
                             acceptAll.setText("None Approved");
-                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
-                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
                             acceptAll.setOnClickListener(null);
                         } else {
                             acceptAll.setVisibility(View.GONE);
@@ -192,9 +188,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 });
                 break;
             case "rejected":
-                acceptedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
-                requestedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
-                rejectedButton.setBackgroundColor(Color.parseColor("#7bc9c1"));//selected
+                rejectedButton.setBackgroundResource(R.drawable.back_rounded_button_selected);
+                requestedButton.setBackgroundResource(R.drawable.back_rounded_button);
+                acceptedButton.setBackgroundResource(R.drawable.back_rounded_button);
                 eventManager.getRejectedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
@@ -204,13 +200,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                             Log.d("Events", "No rejected attendees found.");
                             acceptAll.setVisibility(View.VISIBLE);
                             acceptAll.setText("No Rejects");
-                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
-                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
                             acceptAll.setOnClickListener(null);
                         } else {
                             acceptAll.setText("Accept All");
-                            acceptAll.setBackgroundColor(Color.parseColor("#829647"));
-                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
                             acceptAll.setOnClickListener(v -> {
                                 organizer.approveAllEventRequests(event);
                                 notifyDataSetChanged();
@@ -228,9 +222,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 });
                 break;
             case "requested":
-                acceptedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
-                requestedButton.setBackgroundColor(Color.parseColor("#7bc9c1"));//selected
-                rejectedButton.setBackgroundColor(Color.parseColor("#f3cc91"));
+                requestedButton.setBackgroundResource(R.drawable.back_rounded_button_selected);
+                acceptedButton.setBackgroundResource(R.drawable.back_rounded_button);
+                rejectedButton.setBackgroundResource(R.drawable.back_rounded_button);
                 eventManager.getRequestedAttendees(eventID, new EventManager.AttendeeCallbackList() {
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
@@ -239,13 +233,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         if (attendees.isEmpty()) {
                             Log.d("Events", "No requested attendees found.");
                             acceptAll.setText("No Requests");
-                            acceptAll.setBackgroundColor(Color.parseColor("#ee645f"));
-                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
                             acceptAll.setOnClickListener(null);
                         } else {
                             acceptAll.setText("Accept All");
-                            acceptAll.setBackgroundColor(Color.parseColor("#829647"));
-                            acceptAll.setBackgroundTintList(null);
+                            acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
                             acceptAll.setOnClickListener(v -> {
                                 organizer.approveAllEventRequests(event);
                                 notifyDataSetChanged();

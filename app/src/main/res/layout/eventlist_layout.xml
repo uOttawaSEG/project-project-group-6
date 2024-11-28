@@ -55,7 +55,7 @@
             android:gravity="bottom|center_vertical">
 
             <!-- Attendee List Button -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/attendee_list_button_eventlistlayout"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -72,7 +72,7 @@
                 android:elevation="0dp"/>
 
             <!-- Delete Event Button -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/delete_event_eventlistlayout"
                 style="@style/button.Style"
                 android:layout_width="0dp"

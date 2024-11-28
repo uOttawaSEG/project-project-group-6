@@ -57,7 +57,7 @@
             android:clipToPadding="false"
             android:gravity="bottom|center_vertical">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/accept_button_userlistlayout"
                 style="@style/button.Style"
                 android:layout_width="0dp"
@@ -73,7 +73,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:textSize="12sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/reject_button_userlistlayout"
                 style="@style/button.Style"
                 android:layout_width="0dp"
