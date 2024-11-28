@@ -21,6 +21,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="1"
+            android:autoSizeMaxTextSize="15sp"
+            android:autoSizeMinTextSize="4dp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:padding="0dp"
             android:text="Accepted" />
 
@@ -31,6 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="1"
+            android:autoSizeMaxTextSize="15sp"
+            android:autoSizeMinTextSize="4dp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:padding="0dp"
             android:text="Requested" />
 
@@ -41,6 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="1"
+            android:autoSizeMaxTextSize="15sp"
+            android:autoSizeMinTextSize="4dp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:padding="0dp"
             android:text="Rejected" />
     </LinearLayout>

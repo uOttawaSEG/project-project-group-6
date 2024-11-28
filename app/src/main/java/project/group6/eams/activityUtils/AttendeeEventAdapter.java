@@ -15,11 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+
 import project.group6.eams.R;
 import project.group6.eams.users.Attendee;
 import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
+import project.group6.eams.utils.EventManager;
+import project.group6.eams.utils.InputUtils;
 
 
 public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdapter.ViewHolder> {
@@ -79,20 +85,50 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         if (event.isRegistered(attendee.getEmail())){
             holder.requestToAttendButton.setText("Cancel Request");
             holder.requestToAttendButton.setOnClickListener(v -> {
-                attendee.cancelRegistration(event);
-                eventsFiltered.remove(position);
-                notifyDataSetChanged();
+                //Checks to see if the event is not within 24 hours and the attendee status is requested
+                //(i.e. the attendee has not been accepted or rejected
+                if (!(event.getStartTime().before(InputUtils.add(new Date(), Calendar.HOUR, 24))) &&
+                        event.getAttendeeStatus(attendee.getEmail()).equals("requested")) {
+                    attendee.cancelRegistration(event);
+                    eventsFiltered.remove(position);
+                    notifyDataSetChanged();
+                } else if (event.getAttendeeStatus(attendee.getEmail()).equals("rejected")) {
+                    ActivityUtils.showFailedToast("Event has already been rejected", context, +900);
+                } else if (event.getAttendeeStatus(attendee.getEmail()).equals("approved")) {
+                    ActivityUtils.showFailedToast("Event has already been approved", context, +900);
+                } else {
+                    ActivityUtils.showFailedToast("Event is within 24 hours", context, +900);
+                }
             });
         } else {
             holder.requestToAttendButton.setText("Request");
             holder.requestToAttendButton.setOnClickListener(v -> {
-                attendee.requestToRegister(event);
-                eventsFiltered.remove(position);
-                if (event.getAutomaticApproval()){
-                    Organizer eventCreator = event.getCreator();
-                    eventCreator.approveAllEventRequests(event);
-                }
-                notifyDataSetChanged();
+                EventManager em = new EventManager("Events");
+                em.getRequestedEvents(attendee.getEmail(), new EventManager.EventCallbackList() {
+                    @Override
+                    public void onSuccess(ArrayList<Event> events) {
+                        if (!attendee.hasEventConflict(events, event)) {
+                            attendee.requestToRegister(event);
+                            eventsFiltered.remove(holder.getAdapterPosition());
+                            if (event.getAutomaticApproval()) {
+                                Organizer eventCreator = event.getCreator();
+                                eventCreator.approveAllEventRequests(event);
+                            }
+                            notifyDataSetChanged();
+                        } else {
+                            Log.d("Event", "Event conflict detected");
+                            holder.requestToAttendButton.setText("Event Conflict");
+                            holder.requestToAttendButton.setBackgroundColor(Color.parseColor("#ee645f"));
+                            holder.requestToAttendButton.setBackgroundTintList(null);
+                            holder.requestToAttendButton.setOnClickListener(null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("Database", Objects.requireNonNull(e.getMessage()));
+                    }
+                });
             });
         }
         String status = event.getAttendeeStatus(attendee.getEmail());
