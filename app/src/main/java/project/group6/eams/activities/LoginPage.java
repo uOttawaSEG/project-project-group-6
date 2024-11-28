@@ -1,5 +1,6 @@
 package project.group6.eams.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import project.group6.eams.R;
+import project.group6.eams.activityUtils.ActivityUtils;
 import project.group6.eams.execptions.ExistingUserException;
 import project.group6.eams.execptions.PendingUserException;
 import project.group6.eams.execptions.RejectedUserException;
@@ -41,6 +43,7 @@ public class LoginPage extends AppCompatActivity {
     private EditText editTextTextPassword;
     private String inputEmailAddress;
     private String inputPassword;
+    private Context context;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class LoginPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        context =this;
         //Binding UI Elements & Assigning to listeners
         initViews();
         initListeners();
@@ -145,13 +148,14 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onError (Exception e) {
                 if (e instanceof RejectedUserException) {
-                    showToast(e);
+                    ActivityUtils.showToast("User has been rejected by the Admin, please contact (613) 111-1111 for more information",context);
                 } else if (e instanceof PendingUserException) {
-                    showToast(e);
-                    //editTextTextEmailAddress.setError("Email is currently waiting to be
-                    // processed by the Admin");
+                    ActivityUtils.showToast("Your registration has not been approved yet by the administrator. " +
+                            "Please try again another time.",context);
+                    editTextTextEmailAddress.setError("Email is currently waiting to be "+
+                     "processed by the Admin");
                 } else if (e instanceof ExistingUserException) {
-                    showToast(e);
+                    ActivityUtils.showToast("Email does not exist. Please sign up.",context);
                 } else {
                     if (e.getMessage() != null) {
                         Toast.makeText(getApplicationContext(), e.getMessage(),
@@ -159,40 +163,9 @@ public class LoginPage extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
                     }
-
                 }
-
             }
         });
-    }
-
-    /**
-     * Shows toast that appears for different User related Exceptions
-     * <p>
-     * Resource used to help learn how to make custom toasts:
-     * <a href="https://additionalsheet.com/android-studio-custom-toast>...</a>
-     *
-     * @param e is the Exception type that determines the message shown.
-     */
-    private void showToast (Exception e) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.custom_toast,
-                (ViewGroup) findViewById(R.id.customizedToastLayout));
-
-        TextView text = (TextView) layout.findViewById(R.id.customEmailToastText);
-
-        if (e instanceof PendingUserException) {
-            text.setText("Your registration has not been approved yet by the administrator. " +
-                    "Please try again another time.");
-        } else if (e instanceof ExistingUserException) {
-            text.setText("Email does not exist. Please sign up.");
-        }
-        Toast emailToast = new Toast(getApplicationContext());
-        emailToast.setGravity(Gravity.CENTER_VERTICAL, 0, -600);
-        emailToast.setDuration(Toast.LENGTH_LONG);
-        emailToast.setView(layout);
-        emailToast.show();
-
     }
     /**
      * Waiting for editText fields to change and updating variables

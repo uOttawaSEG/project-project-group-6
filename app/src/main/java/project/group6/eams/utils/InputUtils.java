@@ -3,7 +3,9 @@ package project.group6.eams.utils;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class InputUtils {
 
@@ -230,6 +232,26 @@ public class InputUtils {
      */
     public static boolean isValidEventRuntime(Date startDate, Date endDate) {
         return startDate.before(endDate);
+    }
+
+    /**
+     * Adds to a date returning a new object.
+     * The original {@link Date} is unchanged.
+     * Taken from apache.org library
+     * <a href="https://commons.apache.org/proper/commons-lang/jacoco/org.apache.commons.lang3.time/DateUtils.java.html">...</a>
+     *
+     * @param date  the date, not null
+     * @param calendarField  the calendar field to add to
+     * @param amount  the amount to add, may be negative
+     * @return the new {@link Date} with the amount added
+     * @throws NullPointerException if the date is null
+     */
+    public static Date add(final Date date, final int calendarField, final int amount){
+        Objects.requireNonNull(date, "date");
+        final Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(calendarField, amount);
+        return c.getTime();
     }
 
 }
