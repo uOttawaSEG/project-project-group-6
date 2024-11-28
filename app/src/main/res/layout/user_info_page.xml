@@ -17,71 +17,39 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- Email and Phone Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/userEmail_userInfoPage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/userEmail_userInfoPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text="Email"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text=" | "
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/userPhone_userInfoPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text="userPhone"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <!-- Name and Organization Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:fontFamily="@font/capriola_regular"
+            android:text="Email"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/userPhone_userInfoPage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
+            android:fontFamily="@font/capriola_regular"
+            android:text="userPhone"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/userName_userInfoPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text="userName"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text=" | "
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/userOrganization_userInfoPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/capriola_regular"
-                android:text="userOrganization"
-                android:textSize="12sp" />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/userName_userInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/capriola_regular"
+            android:text="userName"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/userOrganization_userInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/capriola_regular"
+            android:text="userOrganization"
+            android:textSize="12sp" />
         <!-- Address -->
         <TextView
             android:id="@+id/userAddress_userInfoPage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/capriola_regular"
@@ -91,7 +59,7 @@
         <!-- Time -->
         <TextView
             android:id="@+id/userTime_userInfoPage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/capriola_regular"

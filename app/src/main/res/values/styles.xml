@@ -22,5 +22,9 @@
         <item name="android:elevation">5dp</item>
         <item name="android:background">@drawable/back_rounded</item>
     </style>
+    <style name="dialogtheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:elevation">10dp</item>
+    </style>
 
 </resources>

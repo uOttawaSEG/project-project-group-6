@@ -58,7 +58,7 @@ public class RegistrationManager {
     public void checkForUser (String email, RegistrationCallback callback) {
         if (email != null) {
             users.readFromReference(email.toLowerCase().replaceAll(" ", ""), existingUserDoc -> {
-                if (!existingUserDoc.exists()) {
+                if (existingUserDoc.getData()==null) {
                     callback.onError(new ExistingUserException("User not in database"));
                 }
                 try {
