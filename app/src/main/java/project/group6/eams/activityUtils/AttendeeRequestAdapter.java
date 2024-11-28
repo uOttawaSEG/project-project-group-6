@@ -21,6 +21,7 @@ import project.group6.eams.users.RegisterableUser;
 import project.group6.eams.users.User;
 import project.group6.eams.utils.Event;
 import project.group6.eams.users.Organizer;
+import project.group6.eams.utils.InputUtils;
 
 /**
  * Adapter for the Organizer Page that shows the attendees that have requested to attend an event.
@@ -73,7 +74,16 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
         holder.userEmail.setText(user.getEmail());
         holder.userName.setText((user.getFirstname() + " " + user.getLastname()));
         holder.userPhone.setText(user.getPhoneNumber());
-
+        if(event.getAttendeeStatus(attendees.get(position).getEmail()).equals("approved") || InputUtils.dateHasPassed(event.getStartTime())){
+            holder.accept_button.setVisibility(View.GONE);
+            holder.reject_button.setVisibility(View.GONE);
+        } else if (event.getAttendeeStatus(attendees.get(position).getEmail()).equals("requested")){
+            holder.reject_button.setVisibility(View.VISIBLE);
+            holder.accept_button.setVisibility(View.VISIBLE);
+        } else if (event.getAttendeeStatus(attendees.get(position).getEmail()).equals("rejected")){
+            holder.reject_button.setVisibility(View.GONE);
+            holder.accept_button.setVisibility(View.VISIBLE);
+        }
         holder.accept_button.setOnClickListener(v -> {
             organizer.approveEventRequest(event,user.getEmail());
             attendees.remove(position);

@@ -145,12 +145,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         rejectedButton.setOnClickListener(v -> {
             loadAttendees(event,"rejected");
         });
-        acceptAll.setOnClickListener(v -> {
-            organizer.approveAllEventRequests(event);
-            notifyDataSetChanged();
-        });
-
-
+        if (InputUtils.dateHasPassed(event.getStartTime())){
+            acceptAll.setVisibility(View.GONE);
+        } else if (!InputUtils.dateHasPassed(event.getStartTime())){
+            acceptAll.setVisibility(View.VISIBLE);
+            acceptAll.setOnClickListener(v -> {
+                organizer.approveAllEventRequests(event);
+                notifyDataSetChanged();
+            });
+        }
     }
 
     private void loadAttendees(Event event, String attendeeType) {
@@ -166,16 +169,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Approved attendees: " + attendees.toString());
-                        acceptAll.setVisibility(View.VISIBLE);
-                        if (attendees.isEmpty()) {
-                            Log.d("Events", "No approved attendees found.");
-                            acceptAll.setVisibility(View.VISIBLE);
-                            acceptAll.setText("None Approved");
-                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
-                            acceptAll.setOnClickListener(null);
-                        } else {
+                        if (InputUtils.dateHasPassed(event.getStartTime())){
                             acceptAll.setVisibility(View.GONE);
+                        } else {
+                            if (attendees.isEmpty()) {
+                                Log.d("Events", "No approved attendees found.");
+                                acceptAll.setVisibility(View.VISIBLE);
+                                acceptAll.setText("None Approved");
+                                acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
+                                acceptAll.setOnClickListener(null);
+                            } else {
+                                acceptAll.setVisibility(View.GONE);
+                            }
                         }
+
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -195,20 +202,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Rejected attendees: " + attendees.toString());
-                        acceptAll.setVisibility(View.VISIBLE);
-                        if (attendees.isEmpty()) {
-                            Log.d("Events", "No rejected attendees found.");
-                            acceptAll.setVisibility(View.VISIBLE);
-                            acceptAll.setText("No Rejects");
-                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
-                            acceptAll.setOnClickListener(null);
+                        if (InputUtils.dateHasPassed(event.getStartTime())){
+                            acceptAll.setVisibility(View.GONE);
                         } else {
-                            acceptAll.setText("Accept All");
-                            acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
-                            acceptAll.setOnClickListener(v -> {
-                                organizer.approveAllEventRequests(event);
-                                notifyDataSetChanged();
-                            });
+                            if (attendees.isEmpty()) {
+                                Log.d("Events", "No rejected attendees found.");
+                                acceptAll.setVisibility(View.VISIBLE);
+                                acceptAll.setText("No Rejects");
+                                acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
+                                acceptAll.setOnClickListener(null);
+                            } else {
+                                acceptAll.setVisibility(View.VISIBLE);
+                                acceptAll.setText("Accept All");
+                                acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
+                                acceptAll.setOnClickListener(v -> {
+                                    organizer.approveAllEventRequests(event);
+                                    notifyDataSetChanged();
+                                });
+                            }
                         }
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);
@@ -229,19 +240,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     @Override
                     public void onSuccess(ArrayList<Attendee> attendees) {
                         Log.d("Events", "Requested attendees: " + attendees.toString());
-                        acceptAll.setVisibility(View.VISIBLE);
-                        if (attendees.isEmpty()) {
-                            Log.d("Events", "No requested attendees found.");
-                            acceptAll.setText("No Requests");
-                            acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
-                            acceptAll.setOnClickListener(null);
+                        if (InputUtils.dateHasPassed(event.getStartTime())){
+                            acceptAll.setVisibility(View.GONE);
                         } else {
-                            acceptAll.setText("Accept All");
-                            acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
-                            acceptAll.setOnClickListener(v -> {
-                                organizer.approveAllEventRequests(event);
-                                notifyDataSetChanged();
-                            });
+                            if (attendees.isEmpty()) {
+                                Log.d("Events", "No requested attendees found.");
+                                acceptAll.setVisibility(View.VISIBLE);
+                                acceptAll.setText("No Requests");
+                                acceptAll.setBackgroundResource(R.drawable.back_rounded_bad);
+                                acceptAll.setOnClickListener(null);
+                            } else {
+                                acceptAll.setVisibility(View.VISIBLE);
+                                acceptAll.setText("Accept All");
+                                acceptAll.setBackgroundResource(R.drawable.back_rounded_button);
+                                acceptAll.setOnClickListener(v -> {
+                                    organizer.approveAllEventRequests(event);
+                                    notifyDataSetChanged();
+                                });
+                            }
                         }
                         AttendeeRequestAdapter adapter = new AttendeeRequestAdapter(attendees, event, organizer, context);
                         recyclerViewAttendee.setAdapter(adapter);

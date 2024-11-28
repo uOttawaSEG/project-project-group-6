@@ -101,14 +101,7 @@ public class EventManager {
 
         }
     }
-
-    /**
-     * Gets all events that have yet to occur from Database
-     *
-     * @param organizationName is the name of the organization whos upcoming events are to be found
-     * @param callback         allows for exception handling
-     */
-    public void getUpcomingEvents(String organizationName, EventCallbackList callback) {
+    public void getUpcomingEvents(EventCallbackList callback) {
         ArrayList<Event> upcomingEvents = new ArrayList<>();
 
         events.readAllFromReference(eventList -> {
@@ -118,6 +111,37 @@ public class EventManager {
                     Event event = eventWrapper(doc);
                     Date startDate = event.getStartTime();
                     if (!InputUtils.dateHasPassed(startDate)) { // date has not passed
+                        upcomingEvents.add(event);
+                    }
+                }
+                callback.onSuccess(upcomingEvents);
+
+            } catch (Exception e) {
+                callback.onError(e);
+                Log.e("Database", Objects.requireNonNull(e.getMessage()));
+            }
+
+
+        });
+    }
+
+    /**
+     * Gets all events that have yet to occur from Database
+     *
+     * @param organizationName is the name of the organization whos upcoming events are to be found
+     * @param callback         allows for exception handling
+     */
+    public void getUpcomingEvents(String organizationName, EventCallbackList callback) {
+        ArrayList<Event> upcomingEvents = new ArrayList<>();
+        events.readAllFromReference(eventList -> {
+            try {
+                Log.d("Database", eventList.toString());
+                for (DocumentSnapshot doc : eventList) {
+                    Event event = eventWrapper(doc);
+                    Date startDate = event.getStartTime();
+                    // date has not passed & the creator organization matches
+                    if (event.getCreator() == null){}
+                    else if (!InputUtils.dateHasPassed(startDate) && event.getCreator().getOrganizationName().equals(organizationName)) {
                         upcomingEvents.add(event);
                     }
                 }
@@ -146,7 +170,8 @@ public class EventManager {
                 for (DocumentSnapshot doc : eventList) {
                     Event event = eventWrapper(doc);
                     Date startDate = event.getStartTime();
-                    if (InputUtils.dateHasPassed(startDate)) { // date has passed
+                    if (event.getCreator() == null){}
+                    else if (InputUtils.dateHasPassed(startDate)&& event.getCreator().getOrganizationName().equals(organizationName)) { // date has passed
                         pastEvents.add(event);
                     }
                 }

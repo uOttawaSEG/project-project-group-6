@@ -77,7 +77,7 @@ public class AttendeePage extends AppCompatActivity {
         });
 
         EventManager eventManager = new EventManager("Events");
-        eventManager.getUpcomingEvents("Attendee", new EventManager.EventCallbackList() {
+        eventManager.getUpcomingEvents(new EventManager.EventCallbackList() {
             @Override
             public void onSuccess(ArrayList<Event> eventList) {
                 Log.d("Events", eventList.toString());
