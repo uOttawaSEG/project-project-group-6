@@ -3,10 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark">#071108</color>
-    <color name="colour1">#03B4F4</color>
+    <color name="colour1">#4973b0</color>
     <color name="colour2">#7BB7C9</color>
-    <color name="back1">#d3e3e2</color>
-    <color name="back2">#f3cc91</color>
+    <color name="back1">#aad7ca</color>
+    <color name="back2">#e3efd7</color>
     <color name="green">#829647</color>
     <color name="yellow">#dea22c</color>
     <color name="red">#ee645f</color>

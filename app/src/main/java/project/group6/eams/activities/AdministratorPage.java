@@ -51,6 +51,8 @@ public class AdministratorPage extends AppCompatActivity {
         requested_button = findViewById(R.id.requested_button_administrator);
         recyclerView = findViewById(R.id.recycler_view_administrator);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        requested_button.setBackgroundResource(R.drawable.back_rounded_button_selected);
+        rejected_button.setBackgroundResource(R.drawable.back_rounded_button);
 
     }
 
@@ -61,8 +63,16 @@ public class AdministratorPage extends AppCompatActivity {
             Intent intent = new Intent(AdministratorPage.this, LoginPage.class);
             startActivity(intent);
         });
-        requested_button.setOnClickListener(v -> loadUsers("requested"));
-        rejected_button.setOnClickListener(v -> loadUsers("rejected"));
+        requested_button.setOnClickListener(v -> {
+            requested_button.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            rejected_button.setBackgroundResource(R.drawable.back_rounded_button);
+            loadUsers("requested");
+        });
+        rejected_button.setOnClickListener(v -> {
+            rejected_button.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            requested_button.setBackgroundResource(R.drawable.back_rounded_button);
+            loadUsers("rejected");
+        });
 
     }
     private void loadUsers(String userStatuses){

@@ -66,6 +66,8 @@ public class OrganizerPage extends AppCompatActivity {
         upcomingEvents = findViewById(R.id.upcoming_events_organizer_page);
         recyclerView = findViewById(R.id.event_recycler_view_organizer_page);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+        pastEvents.setBackgroundResource(R.drawable.back_rounded_button);
     }
 
     private void initListeners() {
@@ -81,9 +83,17 @@ public class OrganizerPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        pastEvents.setOnClickListener(v -> loadEvents("pastEvents"));
+        pastEvents.setOnClickListener(v -> {
+            pastEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button);
+            loadEvents("pastEvents");
+        });
 
-        upcomingEvents.setOnClickListener(v -> loadEvents("upcomingEvents"));
+        upcomingEvents.setOnClickListener(v -> {
+            upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            pastEvents.setBackgroundResource(R.drawable.back_rounded_button);
+            loadEvents("upcomingEvents");
+        });
 
     }
 

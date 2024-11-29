@@ -70,6 +70,7 @@ public class LoginPage extends AppCompatActivity {
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress_login_page);
         editTextTextPassword = findViewById(R.id.editTextTextPassword_login_page);
         signUpButton = findViewById(R.id.signUpButton_login_page);
+
     }
 
     /**
@@ -78,18 +79,12 @@ public class LoginPage extends AppCompatActivity {
     private void initListeners () {
         editTextTextEmailAddress.addTextChangedListener(textWatcher);
         editTextTextPassword.addTextChangedListener(textWatcher);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                handleLogin();
-            }
+        loginButton.setOnClickListener(v-> {
+            handleLogin();
         });
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                Intent intent = new Intent(LoginPage.this, SignUpPage.class);
-                startActivity(intent);
-            }
+        signUpButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginPage.this, SignUpPage.class);
+            startActivity(intent);
         });
     }
 

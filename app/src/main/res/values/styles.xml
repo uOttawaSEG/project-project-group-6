@@ -9,7 +9,7 @@
         <item name="android:elevation">10dp</item>
     </style>
     <style name="button.Style" parent="@style/Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/back_rounded_button</item>
+        <item name="android:background">@drawable/select_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/capriola_regular</item>
 
