@@ -114,6 +114,11 @@
                 android:elevation="10dp"
                 android:padding="10dp"
                 android:fontFamily="@font/amarante_regular"
+                android:maxLines="3"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeMinTextSize="4dp"
+                android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
                 android:text="@string/welcome_message_organizer"
                 android:textAlignment="center"
                 android:textSize="20sp" />

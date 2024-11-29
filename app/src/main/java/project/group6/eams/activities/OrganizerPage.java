@@ -37,6 +37,7 @@ public class OrganizerPage extends AppCompatActivity {
     private TextView displayOrg;
     private RecyclerView recyclerView;
     private Context context;
+    private TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class OrganizerPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
         pastEvents.setBackgroundResource(R.drawable.back_rounded_button);
+        welcomeText = findViewById(R.id.welcomeText_organizer);
+        welcomeText.setText("Welcome! You are logged in as an Organizer.\n Company: "+organizer.getOrganizationName());
     }
 
     private void initListeners() {
