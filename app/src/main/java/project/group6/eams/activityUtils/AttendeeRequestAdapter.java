@@ -108,7 +108,7 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
 
     public void showUserInfo(User user){
         RegisterableUser rUser = (RegisterableUser)user;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context,R.style.dialogtheme);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.user_info_page, null);
         dialogBuilder.setView(dialogView);
@@ -120,17 +120,17 @@ public class AttendeeRequestAdapter extends RecyclerView.Adapter<AttendeeRequest
         TextView userAddress = dialogView.findViewById(R.id.userAddress_userInfoPage);
         TextView userTime = dialogView.findViewById(R.id.userTime_userInfoPage);
 
-        userEmail.setText(rUser.getEmail());
-        userPhone.setText(rUser.getPhoneNumber());
-        userName.setText(rUser.getFirstname()+ " "+ rUser.getLastname());
+        userEmail.setText("Email: "+rUser.getEmail());
+        userPhone.setText("Phone Number: "+rUser.getPhoneNumber());
+        userName.setText("Name: "+rUser.getFirstname()+ " "+ rUser.getLastname());
         if (user.getUserType().equals("Organizer")) {
-            userOrganization.setText(((Organizer)rUser).getOrganizationName());
+            userOrganization.setText("Organization: "+((Organizer)rUser).getOrganizationName());
         } else {
             userOrganization.setText("Attendee");
         }
-        userAddress.setText(rUser.getAddress());
+        userAddress.setText("Address: "+rUser.getAddress());
         if (rUser.getRequestTime()!=null){
-            userTime.setText(rUser.getRequestTime().toDate().toString());
+            userTime.setText("Request Time: "+rUser.getRequestTime().toDate().toString());
         }
         dialogBuilder.setTitle("User Info");
         AlertDialog b = dialogBuilder.create();

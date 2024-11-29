@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/edittextborder"
     android:layout_margin="10dp"
     android:padding="8dp"
-    android:elevation="10dp"
     android:id="@+id/user_info_page" >
 
     <!-- User Info Section -->
@@ -23,14 +21,13 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/capriola_regular"
             android:text="Email"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/userPhone_userInfoPage"
+            android:textSize="12sp" />
+        <View
+            android:id="@+id/divider_userinfo_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/capriola_regular"
-            android:text="userPhone"
-            android:textSize="15sp" />
+            android:layout_height="2dp"
+            android:layout_marginVertical="2dp"
+            android:background="?android:attr/listDivider" />
 
         <TextView
             android:id="@+id/userName_userInfoPage"
@@ -39,6 +36,30 @@
             android:fontFamily="@font/capriola_regular"
             android:text="userName"
             android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/userPhone_userInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/capriola_regular"
+            android:text="userPhone"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/divider_userinfo_2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginVertical="2dp"
+            android:background="?android:attr/listDivider" />
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/userAddress_userInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/capriola_regular"
+            android:text="Address"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/userOrganization_userInfoPage"
             android:layout_width="match_parent"
@@ -46,22 +67,17 @@
             android:fontFamily="@font/capriola_regular"
             android:text="userOrganization"
             android:textSize="12sp" />
-        <!-- Address -->
-        <TextView
-            android:id="@+id/userAddress_userInfoPage"
+        <View
+            android:id="@+id/divider_userinfo_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/capriola_regular"
-            android:text="Address"
-            android:textSize="12sp" />
-
+            android:layout_height="2dp"
+            android:layout_marginVertical="2dp"
+            android:background="?android:attr/listDivider" />
         <!-- Time -->
         <TextView
             android:id="@+id/userTime_userInfoPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:fontFamily="@font/capriola_regular"
             android:text="Time"
             android:textSize="12sp" />
