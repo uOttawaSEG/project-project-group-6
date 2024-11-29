@@ -17,7 +17,7 @@
     </style>
     <style name="scroll.Style" parent="@style/Base.Theme.EventAttendanceManagementSystem">
         <item name="android:requiresFadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">15dp</item>
+        <item name="android:fadingEdgeLength">25dp</item>
         <item name="android:elevation">5dp</item>
         <item name="android:background">@drawable/back_rounded</item>
     </style>

@@ -69,7 +69,14 @@
         android:paddingVertical="20dp"
         android:clipToPadding="false"
         tools:layout_editor_absoluteY="1dp">
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logOffButton_administrator"
+            style="@style/button.Style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/logout"
+            app:layout_constraintStart_toStartOf="parent" />
         <TextView
             android:id="@+id/welcome_text_administrator"
             android:layout_width="0dp"
@@ -86,14 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/logOffButton_administrator"
-            style="@style/button.Style"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/logout"
-            app:layout_constraintStart_toStartOf="parent" />
+
     </LinearLayout>
 
 
