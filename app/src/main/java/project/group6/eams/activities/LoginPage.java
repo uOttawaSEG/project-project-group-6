@@ -1,7 +1,10 @@
 package project.group6.eams.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -59,6 +62,8 @@ public class LoginPage extends AppCompatActivity {
         //Binding UI Elements & Assigning to listeners
         initViews();
         initListeners();
+        createNotificationChannel();
+
 
     }
 
@@ -165,6 +170,24 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Notification channel for event reminders.
+     */
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "EventNotifications";
+            String description = "Sends reminders for event start times";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("event_reminders", name, importance);
+            channel.setDescription(description);
+
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
     /**
      * Waiting for editText fields to change and updating variables

@@ -1,5 +1,7 @@
 package project.group6.eams.activities;
 
+import static project.group6.eams.utils.InputUtils.dateHasPassed;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +18,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.ActivityUtils;
@@ -27,6 +33,7 @@ import project.group6.eams.users.Attendee;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
+import project.group6.eams.utils.EventNotificationWorker;
 
 public class AttendeeRequestedEventsPage extends AppCompatActivity {
     private TextView title;
@@ -73,6 +80,9 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<Event> eventList) {
                 Log.d("Events", eventList.toString());
+
+                createWorkers(eventList); // for notifications
+
                 AttendeeEventAdapter adapter = new AttendeeEventAdapter(eventList,context);
                 requestedEvents.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -82,5 +92,51 @@ public class AttendeeRequestedEventsPage extends AppCompatActivity {
                 Log.e("Database", Objects.requireNonNull(e.getMessage()));
             }
         });
+    }
+
+    /**
+     * Creates workers for approved events
+     */
+    private void createWorkers(ArrayList<Event> eventList) {
+        for (Event event : eventList) {
+            if (!dateHasPassed(event.getStartTime()) && event.getAttendees().get(attendee.getEmail()).equals("approved")) {
+                setEventNotificationWorker(event.getTitle(), attendee.getEmail(),event.getStartTime().getTime());
+            }
+        }
+    }
+
+    /**
+     * method that sets worker to create reminders for each event
+     *
+     * @param eventName name of event
+     * @param startTime long of startTime
+     */
+    private void setEventNotificationWorker(String eventName, String user, long startTime) {
+        long currentTime = System.currentTimeMillis();
+        long timeUntilNotification = startTime - currentTime - ( 24 * 60 * 60 * 1000 );
+
+        if (timeUntilNotification < 0) { // less than 24 hours until event
+            timeUntilNotification = 0;
+        }
+        // add data that will be passed to Worker to set reminder within 24 hours
+        Data eventInfo = new Data.Builder().putString("eventName", eventName).putLong("startTime", startTime).build();
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(EventNotificationWorker.class)
+                .setInputData(eventInfo)
+                .addTag(eventName+user) // to check if worker has already been made
+                .setInitialDelay(timeUntilNotification, TimeUnit.MILLISECONDS) // Set the delay
+                .build(); // worker made that will send out notification within 24 hours
+
+        WorkManager.getInstance(this)  // this is to check if a worker has alr been made since this is called upon whenever the page is opened.
+                .getWorkInfosByTagLiveData(eventName+user) // event name is tag
+                .observe(this, work -> {
+                    if (work.isEmpty()) { // empty list, worker has not been made for the event
+                        WorkManager.getInstance(this).enqueue(workRequest); // EventNotificationWorker should be made?
+                        Log.i("EventNotificationWorker", "Worker made for event: " + eventName);
+                    } else {
+                        Log.i("EventNotificationWorker", "Worker already made for event: " + eventName);
+                    }
+                });
+
     }
 }

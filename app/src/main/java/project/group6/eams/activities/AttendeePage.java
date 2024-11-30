@@ -16,9 +16,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import project.group6.eams.R;
 import project.group6.eams.activityUtils.ActivityUtils;
@@ -28,6 +31,7 @@ import project.group6.eams.users.Organizer;
 import project.group6.eams.utils.AppInfo;
 import project.group6.eams.utils.Event;
 import project.group6.eams.utils.EventManager;
+import project.group6.eams.utils.EventNotificationWorker;
 
 public class AttendeePage extends AppCompatActivity {
 
@@ -53,6 +57,7 @@ public class AttendeePage extends AppCompatActivity {
         attendee = (Attendee) appInfo.getCurrentUser();
         initViews();
         initListeners();
+
 
     }
 
@@ -116,6 +121,9 @@ public class AttendeePage extends AppCompatActivity {
 
 
 
-
     }
+
+
+
+
 }

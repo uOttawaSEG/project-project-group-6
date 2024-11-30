@@ -51,5 +51,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     testImplementation("org.robolectric:robolectric:4.13")
     testImplementation("org.mockito:mockito-core:2.1.0")
+    implementation("androidx.work:work-runtime:2.9.1")
+    implementation("com.google.guava:guava:31.1-android")
 
 }
