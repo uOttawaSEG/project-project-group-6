@@ -105,17 +105,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         TextView userAddress = dialogView.findViewById(R.id.userAddress_userInfoPage);
         TextView userTime = dialogView.findViewById(R.id.userTime_userInfoPage);
 
-        userEmail.setText(rUser.getEmail());
-        userPhone.setText(rUser.getPhoneNumber());
-        userName.setText(rUser.getFirstname()+ " "+ rUser.getLastname());
+        userEmail.setText("Email: " +rUser.getEmail());
+        userPhone.setText("Phone Number: " +rUser.getPhoneNumber());
+        userName.setText("Name: "+rUser.getFirstname()+ " "+ rUser.getLastname());
         if (user.getUserType().equals("Organizer")) {
-            userOrganization.setText(((Organizer)rUser).getOrganizationName());
+            userOrganization.setText("Organization: "+((Organizer)rUser).getOrganizationName());
         } else {
             userOrganization.setText("Attendee");
         }
-        userAddress.setText(rUser.getAddress());
+        userAddress.setText("Address: "+rUser.getAddress());
         if (rUser.getRequestTime()!=null){
-            userTime.setText(rUser.getRequestTime().toDate().toString());
+            userTime.setText("Request Time: "+rUser.getRequestTime().toDate());
         }
         dialogBuilder.setTitle("User Info");
         AlertDialog b = dialogBuilder.create();

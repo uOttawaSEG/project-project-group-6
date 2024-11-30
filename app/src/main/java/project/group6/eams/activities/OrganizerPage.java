@@ -37,6 +37,7 @@ public class OrganizerPage extends AppCompatActivity {
     private TextView displayOrg;
     private RecyclerView recyclerView;
     private Context context;
+    private TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,10 @@ public class OrganizerPage extends AppCompatActivity {
         upcomingEvents = findViewById(R.id.upcoming_events_organizer_page);
         recyclerView = findViewById(R.id.event_recycler_view_organizer_page);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+        pastEvents.setBackgroundResource(R.drawable.back_rounded_button);
+        welcomeText = findViewById(R.id.welcomeText_organizer);
+        welcomeText.setText("Welcome! You are logged in as an Organizer.\n Company: "+organizer.getOrganizationName());
     }
 
     private void initListeners() {
@@ -81,9 +86,17 @@ public class OrganizerPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        pastEvents.setOnClickListener(v -> loadEvents("pastEvents"));
+        pastEvents.setOnClickListener(v -> {
+            pastEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button);
+            loadEvents("pastEvents");
+        });
 
-        upcomingEvents.setOnClickListener(v -> loadEvents("upcomingEvents"));
+        upcomingEvents.setOnClickListener(v -> {
+            upcomingEvents.setBackgroundResource(R.drawable.back_rounded_button_selected);
+            pastEvents.setBackgroundResource(R.drawable.back_rounded_button);
+            loadEvents("upcomingEvents");
+        });
 
     }
 

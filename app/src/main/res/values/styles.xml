@@ -9,7 +9,7 @@
         <item name="android:elevation">10dp</item>
     </style>
     <style name="button.Style" parent="@style/Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/back_rounded_button</item>
+        <item name="android:background">@drawable/select_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/capriola_regular</item>
 
@@ -17,13 +17,14 @@
     </style>
     <style name="scroll.Style" parent="@style/Base.Theme.EventAttendanceManagementSystem">
         <item name="android:requiresFadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">15dp</item>
+        <item name="android:fadingEdgeLength">25dp</item>
         <item name="android:elevation">5dp</item>
         <item name="android:background">@drawable/back_rounded</item>
     </style>
     <style name="dialogtheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/transparent</item>
         <item name="android:elevation">10dp</item>
+        <item name="android:windowBackground">@drawable/edittextborder</item>
+        <item name="android:background">@null</item>
     </style>
     <style name="nowrap" parent="Theme.AppCompat">
         <item name="android:maxLines">1</item>

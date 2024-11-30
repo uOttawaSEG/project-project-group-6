@@ -183,7 +183,7 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
     }
 
     public void showEventInfo(Event event){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context,R.style.dialogtheme);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.event_info_page, null);
         dialogBuilder.setView(dialogView);
@@ -195,14 +195,14 @@ public class AttendeeEventAdapter extends RecyclerView.Adapter<AttendeeEventAdap
         TextView eventAddress = dialogView.findViewById(R.id.eventAddress_eventInfoPage);
         TextView eventDescription = dialogView.findViewById(R.id.description_eventInfoPage);
 
-        eventTitle.setText(event.getTitle());
+        eventTitle.setText("Title: "+event.getTitle());
         if (event.getCreator() != null){
-            creator.setText(event.getCreator().getEmail());
-        } else {creator.setText("Unknown Creator");}
-        eventAddress.setText(event.getEventAddress());
-        eventDescription.setText(event.getDescription());
-        startTime.setText(event.getStartTime().toString());
-        endTime.setText(event.getEndTime().toString());
+            creator.setText("Creator: "+event.getCreator().getEmail());
+        } else {creator.setText("Creator: Unknown");}
+        eventAddress.setText("Address: "+event.getEventAddress());
+        eventDescription.setText("Description: "+event.getDescription());
+        startTime.setText("Start Time: "+event.getStartTime().toString());
+        endTime.setText("End Time: "+event.getEndTime().toString());
 
         dialogBuilder.setTitle("Event Info");
         AlertDialog b = dialogBuilder.create();

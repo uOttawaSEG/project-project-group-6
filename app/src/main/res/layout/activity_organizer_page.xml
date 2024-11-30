@@ -104,7 +104,14 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="20dp"
             android:clipToPadding="false">
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logOffButton_organizer_page"
+                style="@style/button.Style"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/logout" />
             <TextView
                 android:id="@+id/welcomeText_organizer"
                 android:layout_width="0dp"
@@ -114,18 +121,16 @@
                 android:elevation="10dp"
                 android:padding="10dp"
                 android:fontFamily="@font/amarante_regular"
+                android:maxLines="3"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeMinTextSize="4dp"
+                android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
                 android:text="@string/welcome_message_organizer"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/logOffButton_organizer_page"
-                style="@style/button.Style"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="5dp"
-                android:text="@string/logout" />
+
         </LinearLayout>
 
     </LinearLayout>
