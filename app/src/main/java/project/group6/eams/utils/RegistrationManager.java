@@ -57,31 +57,34 @@ public class RegistrationManager {
 
     public void checkForUser (String email, RegistrationCallback callback) {
         if (email != null) {
-            users.readFromReference(email.toLowerCase().replaceAll(" ", ""), existingUserDoc -> {
-                if (existingUserDoc.getData()==null) {
-                    callback.onError(new ExistingUserException("User not in database"));
-                }
-                try {
-                    User existingUser = userMapper(existingUserDoc);
-                    if (existingUser.getUserType().equals("Administrator")) {
-                        callback.onSuccess(existingUser);
-                    } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
-                        callback.onError(new RejectedUserException("User has been rejected by Admin"));
-                    } else if (!((RegisterableUser) existingUser).getApprovalStatus()) {
-                        callback.onError(new PendingUserException("Request waiting for admin " +
-                                "approval"));
-                    } else {
-                        callback.onSuccess(existingUser);
+            String formatedEmail = email.toLowerCase().replaceAll(" ", "");
+            if (!formatedEmail.isEmpty()){
+                users.readFromReference(formatedEmail, existingUserDoc -> {
+                    if (existingUserDoc.getData()==null) {
+                        callback.onError(new ExistingUserException("User not in database"));
                     }
-                } catch (Exception e) {
-                    if (e.getMessage() != null) {
-                        Log.e("Database", e.getMessage());
-                    } else {
-                        Log.e("Database", "emptyMessage");
+                    try {
+                        User existingUser = userMapper(existingUserDoc);
+                        if (existingUser.getUserType().equals("Administrator")) {
+                            callback.onSuccess(existingUser);
+                        } else if (((RegisterableUser) existingUser).getRejectionStatus()) {
+                            callback.onError(new RejectedUserException("User has been rejected by Admin"));
+                        } else if (!((RegisterableUser) existingUser).getApprovalStatus()) {
+                            callback.onError(new PendingUserException("Request waiting for admin " +
+                                    "approval"));
+                        } else {
+                            callback.onSuccess(existingUser);
+                        }
+                    } catch (Exception e) {
+                        if (e.getMessage() != null) {
+                            Log.e("Database", e.getMessage());
+                        } else {
+                            Log.e("Database", "User not in database");
+                        }
+                        callback.onError(new ExistingUserException("User not in database"));
                     }
-                    callback.onError(e);
-                }
-            });
+                });
+            }
         }
     }
 
