@@ -171,7 +171,14 @@ public class CreateEventPage extends AppCompatActivity {
             if (startDate == null) {
                 allValidInputs = false;
                 start_date.setError("Please select start date/time");
-            } else if (endDate != null && startDate != null) {
+            }
+            if(startDate!= null && startDate.before(new Date())){
+                start_date.setError("Invalid Start time");
+
+
+            }
+            if (endDate != null && startDate != null) {
+
 
                 if (!InputUtils.isValidEventRuntime(startDate, endDate)) {
 
